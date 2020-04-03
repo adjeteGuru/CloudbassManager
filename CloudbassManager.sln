@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29418.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudbassManager", "CloudbassManager\CloudbassManager.csproj", "{EFE7774E-BB38-46D0-BDCD-AE57C166BA46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloudbass.Database", "Cloudbass.Database\Cloudbass.Database.csproj", "{4DAF2A0D-D9F3-4112-8DFC-A5629F13F70E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloudbass.Types", "Cloudbass.Types\Cloudbass.Types.csproj", "{8FA1D579-3DE0-4F57-A226-4713D79BA73D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloudbass.DataAccess", "Cloudbass.DataAccess\Cloudbass.DataAccess.csproj", "{353ED544-FA75-4054-A513-77C4CE2A25F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloudbass.Utilities", "Cloudbass.Utilities\Cloudbass.Utilities.csproj", "{54DA9AFB-6AC0-4345-B4BC-83C0550873BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EFE7774E-BB38-46D0-BDCD-AE57C166BA46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFE7774E-BB38-46D0-BDCD-AE57C166BA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFE7774E-BB38-46D0-BDCD-AE57C166BA46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFE7774E-BB38-46D0-BDCD-AE57C166BA46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DAF2A0D-D9F3-4112-8DFC-A5629F13F70E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DAF2A0D-D9F3-4112-8DFC-A5629F13F70E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DAF2A0D-D9F3-4112-8DFC-A5629F13F70E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DAF2A0D-D9F3-4112-8DFC-A5629F13F70E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FA1D579-3DE0-4F57-A226-4713D79BA73D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FA1D579-3DE0-4F57-A226-4713D79BA73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FA1D579-3DE0-4F57-A226-4713D79BA73D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FA1D579-3DE0-4F57-A226-4713D79BA73D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{353ED544-FA75-4054-A513-77C4CE2A25F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{353ED544-FA75-4054-A513-77C4CE2A25F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{353ED544-FA75-4054-A513-77C4CE2A25F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{353ED544-FA75-4054-A513-77C4CE2A25F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54DA9AFB-6AC0-4345-B4BC-83C0550873BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54DA9AFB-6AC0-4345-B4BC-83C0550873BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54DA9AFB-6AC0-4345-B4BC-83C0550873BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54DA9AFB-6AC0-4345-B4BC-83C0550873BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2CCAB4C7-29D0-4836-B98D-0698CA2FA042}
+	EndGlobalSection
+EndGlobal
