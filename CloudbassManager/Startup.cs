@@ -5,9 +5,6 @@ using Cloudbass.Database;
 using Cloudbass.Types;
 using CloudbassManager.Queries;
 using CloudbassManager.Schema;
-//using GraphiQl;
-
-//using GraphQL;
 using GraphQL.Types;
 using HotChocolate;
 using HotChocolate.AspNetCore;
@@ -72,7 +69,6 @@ namespace CloudbassManager
                         }
                     };
                 });
-            //ConfigureAuthenticationServices(services);
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddControllers();
@@ -86,11 +82,11 @@ namespace CloudbassManager
 
             services.AddDbContext<CloudbassContext>(options =>
                options.UseSqlServer(Configuration["ConnectionStrings:CloudbassDb"]));
-
+            services.AddSingleton<UserType>();
 
             //when registering as transient a new instance will be provided to every service 
 
-            services.AddTransient<IUserRepository, UserRepository>();
+
             // services.AddScoped<IUserRepository, UserRepository>();
 
             // Add GraphQL Services
@@ -114,20 +110,21 @@ namespace CloudbassManager
 
             //This adds the GraphQL schema and the execution engine to the dependency injection.
 
-            services.AddGraphQL(sp => SchemaBuilder.New()
-              .AddServices(sp)
-               .AddAuthorizeDirectiveType()
-              .AddQueryType<QueryType>()
-                 .Create());
+            services
+                .AddDataLoaderRegistry()
+                // .AddInMemorySubscriptions()
+                .AddGraphQL(sp =>
+                    SchemaBuilder.New()
+                        .AddServices(sp)
 
-
-            //  services.AddDbContext<CloudbassContext>(options =>
-            //options.UseSqlite(Configuration.GetConnectionString("CloudbassContext")));
+                        .AddAuthorizeDirectiveType()
+                        .AddType<UserQuery>()
+                        .AddType<UserType>()
+                        .AddQueryType<QueryType>()
+                        .Create());
 
             //to register IDocument as singleton
             // services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
-
-            services.AddSingleton<UserType>();
 
             // this enables you to use DataLoader in your resolvers.
             services.AddDataLoaderRegistry();
@@ -172,7 +169,7 @@ namespace CloudbassManager
 
             app
                 .UseWebSockets()
-                .UseGraphQL(/*"/graphql"*/)
+                .UseGraphQL()
                 .UsePlayground()
                 .UseVoyager();
 
