@@ -3,13 +3,15 @@ using Cloudbass.DataAccess.Repositories;
 using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Types;
+using CloudbassManager.Mutations;
 using CloudbassManager.Queries;
 using CloudbassManager.Schema;
+using CloudbassManager.Subscriptions;
 using GraphQL.Types;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Voyager;
-using HotChocolate.Execution;
+
 using HotChocolate.Execution.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -112,7 +114,7 @@ namespace CloudbassManager
 
             services
                 .AddDataLoaderRegistry()
-                // .AddInMemorySubscriptions()
+                .AddInMemorySubscriptions()
                 .AddGraphQL(sp =>
                     SchemaBuilder.New()
                         .AddServices(sp)
@@ -121,7 +123,14 @@ namespace CloudbassManager
                         .AddType<UserQuery>()
                         .AddType<UserType>()
                         .AddQueryType<QueryType>()
-                        .Create());
+                        .AddMutationType(d => d.Name("Mutation"))
+                        .AddType<LoginMutation>()
+                        .AddType<UserMutations>()
+                        .AddSubscriptionType(d => d.Name("Subscription"))
+                        .AddType<UserSubscriptions>()
+                        .AddAuthorizeDirectiveType()
+                        .Create(),
+                         new QueryExecutionOptions { ForceSerialExecution = true });
 
             //to register IDocument as singleton
             // services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
@@ -167,10 +176,12 @@ namespace CloudbassManager
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
+
+            //add the GraphQL middleware to the pipeline so the server can serve GraphQL requests
             app
                 .UseWebSockets()
-                .UseGraphQL()
-                .UsePlayground()
+                .UseGraphQL("/graphql")
+                .UsePlayground("/playground")
                 .UseVoyager();
 
             db.EnsureSeedData();
