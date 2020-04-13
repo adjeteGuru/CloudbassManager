@@ -86,43 +86,19 @@ namespace CloudbassManager
                options.UseSqlServer(Configuration["ConnectionStrings:CloudbassDb"]));
             services.AddSingleton<UserType>();
 
-            //when registering as transient a new instance will be provided to every service 
-
-
-            // services.AddScoped<IUserRepository, UserRepository>();
-
-            // Add GraphQL Services
-            //services
-            //    .AddDataLoaderRegistry()
-            //   // .AddInMemorySubscriptions()
-            //    .AddGraphQL(sp =>
-            //        SchemaBuilder.New()
-            //            .AddServices(sp)
-            //            .AddQueryType(d => d.Name("Query"))
-            //            .AddType<UserQuery>()
-            //            //.AddMutationType(d => d.Name("Mutation"))
-            //            //.AddType<LoginMutation>()
-            //            //.AddType<UserMutations>()
-            //            //.AddSubscriptionType(d => d.Name("Subscription"))
-            //            //.AddType<UserSubcriptions>()
-            //            .AddAuthorizeDirectiveType()
-            //            .Create(),
-            //        new QueryExecutionOptions { ForceSerialExecution = true });
-
-
-            //This adds the GraphQL schema and the execution engine to the dependency injection.
-
+            //This adds the GraphQL schema and the execution engine to the dependency injection 
+            //which is Registering services / repositories
             services
+                // this enables you to use DataLoader in your resolvers.
                 .AddDataLoaderRegistry()
                 .AddInMemorySubscriptions()
                 .AddGraphQL(sp =>
                     SchemaBuilder.New()
                         .AddServices(sp)
-
-                        .AddAuthorizeDirectiveType()
+                        .AddQueryType(d => d.Name("Query"))
                         .AddType<UserQuery>()
                         .AddType<UserType>()
-                        .AddQueryType<QueryType>()
+                        //.AddQueryType<QueryType>()
                         .AddMutationType(d => d.Name("Mutation"))
                         .AddType<LoginMutation>()
                         .AddType<UserMutations>()
@@ -130,20 +106,13 @@ namespace CloudbassManager
                         .AddType<UserSubscriptions>()
                         .AddAuthorizeDirectiveType()
                         .Create(),
-                         new QueryExecutionOptions { ForceSerialExecution = true });
+                    // Registering schema types and so on                   
+                    new QueryExecutionOptions { ForceSerialExecution = true });
+
 
             //to register IDocument as singleton
             // services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
 
-            // this enables you to use DataLoader in your resolvers.
-            services.AddDataLoaderRegistry();
-
-            //// Add GraphQL Services
-            //services.AddGraphQLSchema(SchemaBuilder.New()
-            //    // enable for authorization support
-            //    //.AddAuthorizeDirectiveType()
-            //    .AddQueryType<UserQuery>()
-            //   .ModifyOptions(o => o.RemoveUnreachableTypes = true));
 
             //var sp = services.BuildServiceProvider();
             //services.AddSingleton<ISchema>(new CloudbassSchema(new FuncDependencyResolver(type => sp.GetService(type))));
@@ -153,13 +122,13 @@ namespace CloudbassManager
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CloudbassContext db)
         {// IServiceProvider provider
-            //var applicationServices = app.ApplicationServices;
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+         //var applicationServices = app.ApplicationServices;
+         //if (env.IsDevelopment())
+         //{
+         //    app.UseDeveloperExceptionPage();
+         //}
 
-
+            app.UseAuthentication();
             //this function in order to open an app in GraphQL(api request helper such as postman)
             //app.UseGraphiQl();
 
@@ -180,8 +149,8 @@ namespace CloudbassManager
             //add the GraphQL middleware to the pipeline so the server can serve GraphQL requests
             app
                 .UseWebSockets()
-                .UseGraphQL("/graphql")
-                .UsePlayground("/playground")
+                .UseGraphQL(/*"/graphql"*/)
+                .UsePlayground(/*"/playground"*/)
                 .UseVoyager();
 
             db.EnsureSeedData();

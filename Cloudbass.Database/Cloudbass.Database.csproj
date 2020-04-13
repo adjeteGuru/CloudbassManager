@@ -7,12 +7,15 @@
   <ItemGroup>
     <PackageReference Include="graphiql" Version="1.2.0" />
     <PackageReference Include="GraphQL" Version="2.4.0" />
-    <PackageReference Include="HotChocolate" Version="10.3.6" />
-    <PackageReference Include="HotChocolate.AspNetCore" Version="10.3.6" />
-    <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.3.6" />
-    <PackageReference Include="HotChocolate.AspNetCore.Voyager" Version="10.3.6" />
+    <PackageReference Include="HotChocolate" Version="10.4.0" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="10.4.0" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="10.4.0" />
+    <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.4.0" />
+    <PackageReference Include="HotChocolate.AspNetCore.Voyager" Version="10.4.0" />
     <PackageReference Include="HotChocolate.Subscriptions" Version="10.4.1" />
     <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="10.4.1" />
+    <PackageReference Include="HotChocolate.Types.Filters" Version="10.4.0" />
+    <PackageReference Include="HotChocolate.Types.Sorting" Version="10.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />

@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace CloudbassManager.Queries
 {
-    public class Query
-    {
-        public Query()
+    //public class Query
+    //{
+    //    public Query()
 
-        {
+    //    {
 
-        }
-        
-
-        public async Task<IReadOnlyList<User>> GetUsers([Service] CloudbassContext dbContext)
-        {
-            return await dbContext.Users.ToListAsync();
+    //    }
 
 
-        }
-    }
+    //    public async Task<IReadOnlyList<User>> GetUsers([Service] CloudbassContext dbContext)
+    //    {
+    //        return await dbContext.Users.ToListAsync();
+
+
+    //    }
+    //}
 }

@@ -4,6 +4,7 @@ using Cloudbass.Types.Input;
 using Cloudbass.Types.Payload;
 using HotChocolate;
 using HotChocolate.Execution;
+using HotChocolate.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -17,6 +18,7 @@ using System.Threading.Tasks;
 
 namespace CloudbassManager.Mutations
 {
+    [ExtendObjectType(Name = "Mutation")]
     public class LoginMutation
     {
 

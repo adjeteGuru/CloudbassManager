@@ -21,7 +21,7 @@ namespace Cloudbass.Types
                .Ignore();
 
             descriptor.Field(u => u.Email)
-                .Type<NonNullType<StringType>>();
+                .Type<StringType>();
 
             descriptor.Field(u => u.TokenVersion)
                .Type<NonNullType<StringType>>();

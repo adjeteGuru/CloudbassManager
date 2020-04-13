@@ -11,7 +11,7 @@ namespace CloudbassManager.Subscriptions
     [ExtendObjectType(Name = "Subscription")]
     public class UserSubscriptions
     {
-        //[SubscribeAndResolve]
+        [SubscribeAndResolve]
         public async Task<IAsyncEnumerable<User>> OnCreateUser(
            [Service]ITopicEventReceiver eventReceiver) =>
            await eventReceiver.SubscribeAsync<string, User>("CreateUser");

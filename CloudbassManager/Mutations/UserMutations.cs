@@ -1,9 +1,11 @@
 ﻿using Cloudbass.Database;
+using Cloudbass.Database.Models;
 using Cloudbass.Types.Input;
 using Cloudbass.Types.Payload;
 using HotChocolate;
 using HotChocolate.Execution;
 using HotChocolate.Subscriptions;
+using HotChocolate.Types;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -13,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace CloudbassManager.Mutations
 {
+    [ExtendObjectType(Name = "Mutation")]
     public class UserMutations
     {
         /// <summary>
@@ -21,7 +24,7 @@ namespace CloudbassManager.Mutations
         public async Task<CreateUserPayload> CreateUser(
             CreateUserInput input,
             [Service] CloudbassContext db,
-            [Service]ITopicEventSender eventSender, string username)
+            [Service]ITopicEventSender eventSender/*, string username*/)
         {
             // var nameCheck = db.Users.Where(x => x.Name == username).SingleOrDefault();
 
@@ -50,32 +53,32 @@ namespace CloudbassManager.Mutations
             using var sha = SHA512.Create();
             byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(input.Password + salt));
 
-            //var user = new User
+            var user = new User
+            {
+                Name = input.Name,
+                Password = Convert.ToBase64String(hash),
+                Salt = salt
+            };
+
+
+
+            ////create a variable to check if username exist in the db or is new entry
+            ////var user = db.Users.FirstOrDefaultAsync(x => x.Name == username);
+            //var user = db.Users.Where(x => x.Name == username).FirstOrDefault();
+            //if (!string.IsNullOrEmpty(input.Name))
             //{
-            //    Name = input.Name,
-            //    Password = Convert.ToBase64String(hash),
-            //    Salt = salt
-            //};
-
-
-
-            //create a variable to check if username exist in the db or is new entry
-            //var user = db.Users.FirstOrDefaultAsync(x => x.Name == username);
-            var user = db.Users.Where(x => x.Name == username).FirstOrDefault();
-            if (!string.IsNullOrEmpty(input.Name))
-            {
-                user.Name = input.Name;
-                user.Password = Convert.ToBase64String(hash);
-                user.Salt = salt;
-            }
-            else
-            {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage("Name chosen is already Exist.")
-                        .SetCode("NAME_EXIST")
-                        .Build());
-            }
+            //    user.Name = input.Name;
+            //    user.Password = Convert.ToBase64String(hash);
+            //    user.Salt = salt;
+            //}
+            //else
+            //{
+            //    throw new QueryException(
+            //        ErrorBuilder.New()
+            //            .SetMessage("Name chosen is already Exist.")
+            //            .SetCode("NAME_EXIST")
+            //            .Build());
+            //}
 
 
             if (!string.IsNullOrEmpty(input.Email))

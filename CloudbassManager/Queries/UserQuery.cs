@@ -4,6 +4,7 @@ using Cloudbass.Database.Models;
 using GraphQL.Types;
 using HotChocolate;
 using HotChocolate.AspNetCore.Authorization;
+using HotChocolate.Types;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,14 @@ using System.Threading.Tasks;
 
 namespace CloudbassManager.Queries
 {
+    [ExtendObjectType(Name = "Query")]
     public class UserQuery
     {
-        public UserQuery()
-        {
 
-        }
+        //public UserQuery()
+        //{
+
+        //}
 
         ///// <summary>
         ///// Gets all users.
