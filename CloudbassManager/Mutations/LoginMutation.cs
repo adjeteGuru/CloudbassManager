@@ -26,6 +26,10 @@ namespace CloudbassManager.Mutations
           LoginInput input,
           [Service] CloudbassContext db)
         {
+            //// Initialise the contact that is going to be returned
+            //User user = null;
+
+
             if (string.IsNullOrEmpty(input.Name))
             {
                 throw new QueryException(
@@ -44,7 +48,9 @@ namespace CloudbassManager.Mutations
                         .Build());
             }
 
-            User? user = await db.Users.FirstOrDefaultAsync(t => t.Name == input.Name);
+            User user = await db.Users.FirstOrDefaultAsync(t => t.Name == input.Name);
+
+
 
             if (user is null)
             {

@@ -149,8 +149,8 @@ namespace CloudbassManager
             //add the GraphQL middleware to the pipeline so the server can serve GraphQL requests
             app
                 .UseWebSockets()
-                .UseGraphQL(/*"/graphql"*/)
-                .UsePlayground(/*"/playground"*/)
+                .UseGraphQL()
+                .UsePlayground()
                 .UseVoyager();
 
             db.EnsureSeedData();

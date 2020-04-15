@@ -10,7 +10,7 @@ namespace Cloudbass.Database.Models
         public int UserId { get; set; }
         public string MutationName { get; set; }
         public int MutatedId { get; set; }
-        public string Info { get; set; }
+        public string Information { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }
