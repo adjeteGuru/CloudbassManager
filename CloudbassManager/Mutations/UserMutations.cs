@@ -27,7 +27,8 @@ namespace CloudbassManager.Mutations
             [Service] CloudbassContext db,
             [Service]ITopicEventSender eventSender)
         {
-            var name = await db.Users.FirstOrDefaultAsync(t => t.Name == input.Name);
+            //create a variable for dupication name check
+            var nameCheck = await db.Users.FirstOrDefaultAsync(t => t.Name == input.Name);
 
 
             if (string.IsNullOrEmpty(input.Name))
@@ -40,7 +41,7 @@ namespace CloudbassManager.Mutations
             }
 
             //check dupication of the new entry
-            if (name != null)
+            if (nameCheck != null)
             {
 
                 throw new QueryException(
@@ -74,6 +75,18 @@ namespace CloudbassManager.Mutations
                 Salt = salt
             };
 
+            //create a variable for exiting email check
+            var emailCheck = await db.Users.FirstOrDefaultAsync(x => x.Email == input.Email);
+
+            //check dupication of the new entry
+            if (emailCheck != null)
+            {
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage(input.Email + " is already been taken! Please chose different email.")
+                        .SetCode("EMAIL_EXIST")
+                        .Build());
+            }
 
             if (!string.IsNullOrEmpty(input.Email))
             {
@@ -114,6 +127,7 @@ namespace CloudbassManager.Mutations
                         .Build());
             }
 
+
             if (!string.IsNullOrEmpty(input.Name))
             {
                 user.Name = input.Name;
@@ -127,9 +141,23 @@ namespace CloudbassManager.Mutations
                 user.Password = Convert.ToBase64String(hash);
             }
 
+
             if (!string.IsNullOrEmpty(input.Email))
             {
                 user.Email = input.Email;
+
+                //create a variable for exiting email check
+                var updatedEmailCheck = await db.Users.FirstOrDefaultAsync(x => x.Email == input.Email);
+
+                //check dupication of the new entry
+                if (updatedEmailCheck != null)
+                {
+                    throw new QueryException(
+                        ErrorBuilder.New()
+                            .SetMessage(input.Email + " is already been taken! Please chose different email.")
+                            .SetCode("EMAIL_EXIST")
+                            .Build());
+                }
             }
 
             if (input.Active.HasValue)

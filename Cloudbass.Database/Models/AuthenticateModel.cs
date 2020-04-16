@@ -5,19 +5,31 @@ using System.Text;
 
 namespace Cloudbass.Database.Models
 {
-    public class AuthenticateModel
+    public class AuthenticateModel : User
 
     {
+        private string name;
 
-        [Required]
+        public string GetName()
+        {
+            return name;
+        }
 
-        public string Name { get; set; }
+        public void SetName(string value)
+        {
+            name = value;
+        }
 
+        private string password;
 
+        public string GetPassword()
+        {
+            return password;
+        }
 
-        [Required]
-
-        public string Password { get; set; }
-
+        public void SetPassword(string value)
+        {
+            password = value;
+        }
     }
 }
