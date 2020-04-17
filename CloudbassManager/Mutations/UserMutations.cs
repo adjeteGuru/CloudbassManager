@@ -6,6 +6,7 @@ using HotChocolate;
 using HotChocolate.Execution;
 using HotChocolate.Subscriptions;
 using HotChocolate.Types;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -24,9 +25,10 @@ namespace CloudbassManager.Mutations
         public async Task<CreateUserPayload> CreateUser(
             CreateUserInput input,
             [Service] CloudbassContext db,
-            [Service]ITopicEventSender eventSender/*, string username*/)
+            [Service]ITopicEventSender eventSender)
         {
-            // var nameCheck = db.Users.Where(x => x.Name == username).SingleOrDefault();
+            //create a variable for dupication name check
+            var nameCheck = await db.Users.FirstOrDefaultAsync(t => t.Name == input.Name);
 
 
             if (string.IsNullOrEmpty(input.Name))
@@ -37,6 +39,18 @@ namespace CloudbassManager.Mutations
                         .SetCode("NAME_EMPTY")
                         .Build());
             }
+
+            //check dupication of the new entry
+            if (nameCheck != null)
+            {
+
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage(input.Name + " Exist already in the database! Please chose different name.")
+                        .SetCode("NAME_EXIST")
+                        .Build());
+            }
+
 
 
             if (string.IsNullOrEmpty(input.Password))
@@ -53,33 +67,26 @@ namespace CloudbassManager.Mutations
             using var sha = SHA512.Create();
             byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(input.Password + salt));
 
-            var user = new User
+
+            var user = new User()
             {
                 Name = input.Name,
                 Password = Convert.ToBase64String(hash),
                 Salt = salt
             };
 
+            //create a variable for exiting email check
+            var emailCheck = await db.Users.FirstOrDefaultAsync(x => x.Email == input.Email);
 
-
-            ////create a variable to check if username exist in the db or is new entry
-            ////var user = db.Users.FirstOrDefaultAsync(x => x.Name == username);
-            //var user = db.Users.Where(x => x.Name == username).FirstOrDefault();
-            //if (!string.IsNullOrEmpty(input.Name))
-            //{
-            //    user.Name = input.Name;
-            //    user.Password = Convert.ToBase64String(hash);
-            //    user.Salt = salt;
-            //}
-            //else
-            //{
-            //    throw new QueryException(
-            //        ErrorBuilder.New()
-            //            .SetMessage("Name chosen is already Exist.")
-            //            .SetCode("NAME_EXIST")
-            //            .Build());
-            //}
-
+            //check dupication of the new entry
+            if (emailCheck != null)
+            {
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage(input.Email + " is already been taken! Please chose different email.")
+                        .SetCode("EMAIL_EXIST")
+                        .Build());
+            }
 
             if (!string.IsNullOrEmpty(input.Email))
             {
@@ -120,6 +127,7 @@ namespace CloudbassManager.Mutations
                         .Build());
             }
 
+
             if (!string.IsNullOrEmpty(input.Name))
             {
                 user.Name = input.Name;
@@ -133,9 +141,23 @@ namespace CloudbassManager.Mutations
                 user.Password = Convert.ToBase64String(hash);
             }
 
+
             if (!string.IsNullOrEmpty(input.Email))
             {
                 user.Email = input.Email;
+
+                //create a variable for exiting email check
+                var updatedEmailCheck = await db.Users.FirstOrDefaultAsync(x => x.Email == input.Email);
+
+                //check dupication of the new entry
+                if (updatedEmailCheck != null)
+                {
+                    throw new QueryException(
+                        ErrorBuilder.New()
+                            .SetMessage(input.Email + " is already been taken! Please chose different email.")
+                            .SetCode("EMAIL_EXIST")
+                            .Build());
+                }
             }
 
             if (input.Active.HasValue)
@@ -148,10 +170,13 @@ namespace CloudbassManager.Mutations
 
             await db.SaveChangesAsync();
 
+            // 
             Serilog.Log
-                .ForContext("MutationName", "updateUser")
-                .ForContext("MutationId", id)
-                .Information("{input}", JsonConvert.SerializeObject(input));
+                .ForContext("MutationName", "UpdateUser")
+                .ForContext("MutatedId", id)
+                .ForContext("UserId", user.Name)
+                .Information("{input}",
+                             JsonConvert.SerializeObject(input));
 
             return new UpdateUserPayload(user);
         }

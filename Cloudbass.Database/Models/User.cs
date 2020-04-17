@@ -12,7 +12,7 @@ namespace Cloudbass.Database.Models
         //USE THIS TO RESOLVE DEFAULT VALUE ISUES
         public User()
         {
-            Active = true; // Default Value false
+            Active = true; // Default Value true
             TokenVersion = 0; // Default Value 0
         }
 
@@ -44,7 +44,7 @@ namespace Cloudbass.Database.Models
         [GraphQLIgnore]
         public string Salt { get; set; }
 
-        //public ICollection<Log> Logs { get; set; }
+        // public ICollection<Log> Logs { get; set; }
 
 
     }

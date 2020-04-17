@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cloudbass.Database.Migrations
 {
     [DbContext(typeof(CloudbassContext))]
-    [Migration("20200403200111_CreateInitial")]
-    partial class CreateInitial
+    [Migration("20200417201718_LogPropertyChange")]
+    partial class LogPropertyChange
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

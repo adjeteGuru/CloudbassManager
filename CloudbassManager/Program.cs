@@ -27,12 +27,17 @@ namespace CloudbassManager
 
         public static void Main(string[] args)
         {
-            // this tells the program to use Serilog as the logger and to read the configuration 
+            // this tells the program to use Serilog as the logger and to read 
+            //the configuration 
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration)
+                //.MinimumLevel.Debug()
                 .CreateLogger();
+            //test
+            //Log.Information("this is just a test");
 
-            //this is to surface errors from Serilog if we have problem getting the log to write to SQL server
+            //this is to surface errors from Serilog if we have problem 
+            //getting the log to write to SQL server
             Serilog.Debugging.SelfLog.Enable(msg =>
             {
                 Debug.Print(msg);

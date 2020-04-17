@@ -1,10 +1,10 @@
-﻿using Cloudbass.Utilities;
+﻿
+using Cloudbass.Utilities;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 
 namespace CloudbassManager.Controllers
@@ -14,7 +14,7 @@ namespace CloudbassManager.Controllers
     {
         private readonly ISchema _schema;
         private readonly IDocumentExecuter _documentExecuter;
-       
+
         //create a constructor and assign a variable to instantiate them
         public GraphQLController(ISchema schema,
             IDocumentExecuter documentExecuter)
@@ -22,7 +22,7 @@ namespace CloudbassManager.Controllers
             _schema = schema;
             _documentExecuter = documentExecuter;
         }
-    
+
 
 
         [HttpPost]
@@ -56,5 +56,6 @@ namespace CloudbassManager.Controllers
             //pass the result as a parameter
             return Ok(result);
         }
+
     }
 }

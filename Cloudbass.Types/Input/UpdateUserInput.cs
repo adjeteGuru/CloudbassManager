@@ -7,9 +7,9 @@ namespace Cloudbass.Types.Input
     public class UpdateUserInput
     {
         public UpdateUserInput(
-            string? name,
-            string? email,
-            string? password,
+            string name,
+            string email,
+            string password,
             bool? active)
         {
             Name = name;
@@ -18,11 +18,11 @@ namespace Cloudbass.Types.Input
             Active = active;
         }
 
-        public string? Name { get; }
+        public string Name { get; }
 
-        public string? Email { get; }
+        public string Email { get; }
 
-        public string? Password { get; }
+        public string Password { get; }
 
         public bool? Active { get; }
 
