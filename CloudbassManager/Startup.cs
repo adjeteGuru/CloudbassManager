@@ -5,25 +5,18 @@ using Cloudbass.Database;
 using Cloudbass.Types;
 using CloudbassManager.Mutations;
 using CloudbassManager.Queries;
-using CloudbassManager.Schema;
 using CloudbassManager.Subscriptions;
-using GraphQL.Types;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Voyager;
-
 using HotChocolate.Execution.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -76,12 +69,10 @@ namespace CloudbassManager
             services.AddControllers();
             services.AddCors();
 
-            // this register the logger with the dependency injection 
-
+            // this register the logger with the dependency injection
             services.AddLogging();
 
             //db connection strings
-
             services.AddDbContext<CloudbassContext>(options =>
                options.UseSqlServer(Configuration["ConnectionStrings:CloudbassDb"]));
             services.AddSingleton<UserType>();
@@ -98,7 +89,6 @@ namespace CloudbassManager
                         .AddQueryType(d => d.Name("Query"))
                         .AddType<UserQuery>()
                         .AddType<UserType>()
-                        //.AddQueryType<QueryType>()
                         .AddMutationType(d => d.Name("Mutation"))
                         .AddType<LoginMutation>()
                         .AddType<UserMutations>()
@@ -109,13 +99,6 @@ namespace CloudbassManager
                     // Registering schema types and so on                   
                     new QueryExecutionOptions { ForceSerialExecution = true });
 
-
-            //to register IDocument as singleton
-            // services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
-
-
-            //var sp = services.BuildServiceProvider();
-            //services.AddSingleton<ISchema>(new CloudbassSchema(new FuncDependencyResolver(type => sp.GetService(type))));
 
         }
 
@@ -128,9 +111,9 @@ namespace CloudbassManager
          //    app.UseDeveloperExceptionPage();
          //}
 
+
             app.UseAuthentication();
-            //this function in order to open an app in GraphQL(api request helper such as postman)
-            //app.UseGraphiQl();
+
 
             app.UseHttpsRedirection();
 

@@ -44,7 +44,7 @@ namespace Cloudbass.Database.Models
         [GraphQLIgnore]
         public string Salt { get; set; }
 
-        public ICollection<Log> Logs { get; set; }
+        // public ICollection<Log> Logs { get; set; }
 
 
     }
