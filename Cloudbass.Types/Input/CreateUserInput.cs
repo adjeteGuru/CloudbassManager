@@ -8,7 +8,7 @@ namespace Cloudbass.Types.Input
     {
         public CreateUserInput(
             string name,
-            string? email,
+            string email,
             string password,
             bool? active)
         {
@@ -20,7 +20,7 @@ namespace Cloudbass.Types.Input
 
         public string Name { get; }
 
-        public string? Email { get; }
+        public string Email { get; }
 
         public string Password { get; }
 

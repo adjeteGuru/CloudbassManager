@@ -19,6 +19,8 @@ namespace Cloudbass.DataAccess.Repositories
         //which is a standard injection into constructor
         private readonly CloudbassContext _dbContext;
         private readonly AppSettings _appSettings;
+
+        //constructor to allow dependency injection of context & appSettings
         public UserRepository(IOptions<AppSettings> appSettings, CloudbassContext dbContext)
 
         {
@@ -27,9 +29,10 @@ namespace Cloudbass.DataAccess.Repositories
 
         }
 
+        //implement function Authenticate set in the base class user interface
         public User Authenticate(string name, string password)
         {
-
+            //create a user instance and perform a quick search from db to match up exisiting name & pswd
             var user = _dbContext.Users.SingleOrDefault(x => x.Name == name && x.Password == password);
 
             // return null if user not found
@@ -37,7 +40,8 @@ namespace Cloudbass.DataAccess.Repositories
             if (user == null)
 
                 return null;
-            // authentication successful so generate jwt token
+
+            // then create new user authentication will be successful so generate jwt token
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -67,10 +71,10 @@ namespace Cloudbass.DataAccess.Repositories
 
         }
 
-        //this implement the interface member Repository.GetAll()
+        //this implement the interface member Repository User GetAll()
         public IEnumerable<User> GetAll()
         {
-            // return _dbContext.Users;
+            //list Users;
             return _dbContext.Users.WithoutPasswords();
         }
 

@@ -171,9 +171,11 @@ namespace CloudbassManager.Mutations
             await db.SaveChangesAsync();
 
             Serilog.Log
-                .ForContext("MutationName", "updateUser")
+                .ForContext("MutationName", "UpdateUser")
                 .ForContext("MutatedId", id)
-                .Information("{input}", JsonConvert.SerializeObject(input));
+                .ForContext("UserId", user.Id)
+                .Information("{input}",
+                             JsonConvert.SerializeObject(input));
 
             return new UpdateUserPayload(user);
         }
