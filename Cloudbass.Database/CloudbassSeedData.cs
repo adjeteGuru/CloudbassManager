@@ -11,7 +11,7 @@ namespace Cloudbass.Database
     {
         public static void EnsureSeedData(this CloudbassContext db)
         {
-            if (!db.Users.Any())
+            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any())
             {
                 string salt = Guid.NewGuid().ToString("N");
 
@@ -30,6 +30,76 @@ namespace Cloudbass.Database
 
                 db.Users.AddRange(users);
                 db.SaveChanges();
+
+
+                var clients = new List<Client>
+                {
+                    new Client
+                    {
+                        Name = "ITV",
+                        ToContact = "Alexander Cooper",
+                        Email = "alexander@gmail.com",
+                        Address = "PO Box 12 london",
+                        Tel = "02051122345"
+                    },
+                    new Client
+                    {
+                        Name = "BBC",
+                        ToContact = "Dave Cooper",
+                        Email = "dave@gmail.com",
+                        Address = "PO Box 12 nottingham",
+                        Tel = "01151122345" ,
+
+                                Jobs= new List<Job>
+                                {
+                                    new Job
+                                    {
+                                         Text = "SPL",
+                                        Description = "friendly",
+                                        Location = "Scotland celtic park",
+                                        Coordinator = "Dixon",
+                                        CreatedAt = DateTime.Parse("2020-04-18"),
+                                        StartDate = DateTime.Parse("2020-05-10"),
+                                        EndDate = DateTime.Parse("2020-05-13"),
+
+                                        CommercialLead = "Francis Akai",
+
+                                    },
+
+                                    new Job
+                                    {
+                                         Text = "MUTV",
+                                        Description = "Accademy football",
+                                        Location = "Old traford",
+                                        Coordinator = "James",
+                                        CreatedAt = DateTime.Parse("2020-04-18"),
+                                        StartDate = DateTime.Parse("2020-06-10"),
+                                        EndDate = DateTime.Parse("2020-06-12"),
+
+                                        CommercialLead = "Luke Davies",
+
+                                        //Schedules= new List<Schedule>
+                                        //{
+
+                                        //     new Schedule
+                                        //     {
+                                        //         Text="SPL-Travel",
+                                        //         StartDate=DateTime.Parse("2020-03-11"),
+                                        //         EndDate=DateTime.Parse("2020-03-11"),
+                                        //         SchType = SchType.TrucksTravel
+                                        //     }
+
+                                        //}
+
+
+                                    }
+                                }
+                    }
+                };
+
+                db.Clients.AddRange(clients);
+                db.SaveChanges();
+
             }
 
         }

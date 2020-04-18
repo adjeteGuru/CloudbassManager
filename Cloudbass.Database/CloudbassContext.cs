@@ -18,7 +18,8 @@ namespace Cloudbass.Database
         }
 
         public DbSet<User> Users { get; set; }
-        //public DbSet<Log> Logs { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<Client> Clients { get; set; }
 
         public override int SaveChanges()
         {
