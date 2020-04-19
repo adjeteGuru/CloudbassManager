@@ -43,8 +43,4 @@
     <ProjectReference Include="..\Cloudbass.Utilities\Cloudbass.Utilities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Schema\" />
-  </ItemGroup>
-
 </Project>

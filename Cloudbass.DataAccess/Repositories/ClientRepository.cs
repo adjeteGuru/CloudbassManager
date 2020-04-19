@@ -10,7 +10,7 @@ namespace Cloudbass.DataAccess.Repositories
 {
     public class ClientRepository : IClientRepository
     {
-        private CloudbassContext _db;
+        private readonly CloudbassContext _db;
         public ClientRepository(CloudbassContext db)
         {
             _db = db;

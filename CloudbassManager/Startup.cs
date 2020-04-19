@@ -65,7 +65,10 @@ namespace CloudbassManager
                     };
                 });
 
+            //this allows to instanciate a new object of the repository to be provided to
+            //every services or controller
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IClientRepository, ClientRepository>();
             services.AddControllers();
             services.AddCors();
 
@@ -76,6 +79,7 @@ namespace CloudbassManager
             services.AddDbContext<CloudbassContext>(options =>
                options.UseSqlServer(Configuration["ConnectionStrings:CloudbassDb"]));
             services.AddSingleton<UserType>();
+            services.AddSingleton<ClientType>();
 
             //This adds the GraphQL schema and the execution engine to the dependency injection 
             //which is Registering services / repositories
@@ -89,6 +93,8 @@ namespace CloudbassManager
                         .AddQueryType(d => d.Name("Query"))
                         .AddType<UserQuery>()
                         .AddType<UserType>()
+                        .AddType<ClientQuery>()
+                        .AddType<ClientType>()
                         .AddMutationType(d => d.Name("Mutation"))
                         .AddType<LoginMutation>()
                         .AddType<UserMutations>()
@@ -96,6 +102,7 @@ namespace CloudbassManager
                         .AddType<UserSubscriptions>()
                         .AddAuthorizeDirectiveType()
                         .Create(),
+
                     // Registering schema types and so on                   
                     new QueryExecutionOptions { ForceSerialExecution = true });
 
