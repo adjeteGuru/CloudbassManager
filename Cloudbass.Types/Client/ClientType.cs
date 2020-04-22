@@ -2,6 +2,7 @@
 using Cloudbass.DataAccess.Repositories;
 
 using Cloudbass.Database.Models;
+using Cloudbass.Utilities.Resolvers;
 using HotChocolate.Types;
 
 
@@ -20,13 +21,12 @@ namespace Cloudbass.Types
             descriptor.Field(x => x.Tel).Type<NonNullType<StringType>>();
             descriptor.Field(x => x.Email).Type<NonNullType<StringType>>();
             descriptor.Field(x => x.ToContact).Type<NonNullType<StringType>>();
-
+            descriptor.Field<JobResolvers>(t => t.GetJobs(default, default));
             //
-            descriptor.Field<JobRepository>(x => x.GetJobsForClient(default, default))
-                .Type<ClientType>()
-                //.Type<StringType>()
-                .Argument("clientId", x => x.Type<NonNullType<IntType>>())
-                .Name("jobs");
+            //descriptor.Field<JobRepository>(x => x.GetJobsForClient(default, default))
+            //    .Type<ClientType>()
+            //    .Argument("clientId", x => x.Type<NonNullType<IntType>>())
+            //    .Name("jobs");
         }
     }
 }

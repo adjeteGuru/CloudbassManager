@@ -11,10 +11,15 @@ namespace CloudbassManager.Queries
     [ExtendObjectType(Name = "Query")]
     public class ClientQuery
     {
+        public ClientQuery()
+        {
+
+        }
         /// <summary>
         /// Gets all clients.
         /// </summary>
 
+        [UseFiltering]
         public IQueryable<Client> GetClients([Service] CloudbassContext db) =>
 
             db.Clients;
