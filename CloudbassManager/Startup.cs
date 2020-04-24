@@ -3,6 +3,7 @@ using Cloudbass.DataAccess.Repositories;
 using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Types;
+using Cloudbass.Types.Jobs;
 using CloudbassManager.Mutations;
 using CloudbassManager.Queries;
 using CloudbassManager.Subscriptions;
@@ -81,7 +82,7 @@ namespace CloudbassManager
                options.UseSqlServer(Configuration["ConnectionStrings:CloudbassDb"]));
             services.AddSingleton<UserType>();
             services.AddSingleton<ClientType>();
-            //services.AddSingleton<JobType>();
+            services.AddSingleton<JobType>();
 
             //This adds the GraphQL schema and the execution engine to the dependency injection 
             //which is Registering services / repositories
@@ -101,6 +102,7 @@ namespace CloudbassManager
                         .AddMutationType(d => d.Name("Mutation"))
                         .AddType<LoginMutation>()
                         .AddType<UserMutations>()
+                        .AddType<JobRepository>()
                         .AddSubscriptionType(d => d.Name("Subscription"))
                         .AddType<UserSubscriptions>()
                         .AddAuthorizeDirectiveType()

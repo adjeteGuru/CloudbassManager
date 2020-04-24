@@ -20,6 +20,8 @@ namespace Cloudbass.Types.Jobs
             descriptor.Field(x => x.Paid).Type<NonNullType<BooleanType>>();
             descriptor.Field(x => x.CommercialLead).Type<NonNullType<StringType>>();
             descriptor.Field(x => x.Status).Type<NonNullType<EnumType>>();
+
+            //able to get the information of clients when we make a query about jobs
             descriptor.Field<ClientResolvers>(t => t.GetClient(default, default));
 
             //descriptor.Field<JobRepository>(x => x.GetJobsForClient(default, default))

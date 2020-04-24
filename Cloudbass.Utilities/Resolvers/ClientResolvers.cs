@@ -9,6 +9,8 @@ using System.Text;
 
 namespace Cloudbass.Utilities.Resolvers
 {
+    //collaborators that we can associate with the fields of schema (type)
+    //will take care of recovering data from these fields
     public class ClientResolvers
     {
         private readonly CloudbassContext _db;

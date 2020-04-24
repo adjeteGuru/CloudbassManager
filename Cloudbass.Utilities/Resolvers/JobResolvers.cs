@@ -12,7 +12,6 @@ namespace Cloudbass.Utilities.Resolvers
     public class JobResolvers
     {
         private readonly CloudbassContext _db;
-        //private readonly IClientRepository clientRepository _db;
         public JobResolvers([Service] CloudbassContext db)
         {
             _db = db;

@@ -9,5 +9,6 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     {
         IEnumerable<Client> GetClients();
         Client GetClient(int id);
+
     }
 }

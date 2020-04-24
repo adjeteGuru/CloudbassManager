@@ -7,8 +7,12 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public interface IJobRepository
     {
-        IEnumerable<Job> GetJobsForClient(int clientId);
-        IEnumerable<Job> GetJobsForClient(int clientId, int lastJob);
+        IEnumerable<Job> GetJobs();
+        //IEnumerable<Job> GetJobsForClient(int clientId);
+        //IEnumerable<Job> GetJobsForClient(int clientId, int lastJob);
+
+        Job Create(CreateJobInput inputJob);
+        Job Delete(DeleteJobInput inputJob);
 
     }
 }
