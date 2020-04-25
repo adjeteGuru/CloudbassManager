@@ -17,23 +17,23 @@ namespace Cloudbass.DataAccess.Repositories
             _db = db;
         }
 
-        public Job Create(CreateJobInput inputJob/*, [Service] CloudbassContext db*/)
+        public Job Create(CreateJobInput input/*, [Service] CloudbassContext db*/)
         {
             var job = new Job
             {
-                Text = inputJob.Text,
+                Text = input.Text,
 
-                Description = inputJob.Description,
-                Location = inputJob.Location,
-                CreatedAt = inputJob.CreatedAt,
-                StartDate = inputJob.StartDate,
-                EndDate = inputJob.EndDate,
-                TXDate = inputJob.TXDate,
-                Paid = inputJob.Paid,
-                Coordinator = inputJob.Coordinator,
-                CommercialLead = inputJob.CommercialLead,
-                ClientId = inputJob.ClientId,
-                Status = inputJob.Status
+                Description = input.Description,
+                Location = input.Location,
+                CreatedAt = input.CreatedAt,
+                StartDate = input.StartDate,
+                EndDate = input.EndDate,
+                TXDate = input.TXDate,
+                Paid = input.Paid,
+                Coordinator = input.Coordinator,
+                CommercialLead = input.CommercialLead,
+                ClientId = input.ClientId,
+                Status = input.Status
 
             };
 

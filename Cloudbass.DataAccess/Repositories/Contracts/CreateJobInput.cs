@@ -3,41 +3,15 @@ using System;
 
 namespace Cloudbass.DataAccess.Repositories.Contracts
 {
-    //public class CreateJobInput
-    //{
-    //}
     public class CreateJobInput
     {
-        //private string text;
-
-        //private string description;
-
-        //private string location;
-
-        //private DateTime? createdAt;
-
-        //private DateTime? startDate;
-
-        //private DateTime? tXDate;
-
-        //private DateTime? endDate;
-        //private bool paid;
-
-        //private string coordinator;
-
-        //private string commercialLead;
-
-        //private int clientId;
-
-        //private Status status;
-
         public CreateJobInput(string text, string description, string location, DateTime? createdAt, DateTime? startDate, DateTime? tXDate,
             DateTime? endDate, bool paid, string coordinator, string commercialLead, int clientId, Status status)
         {
             Text = text;
             Description = description;
             Location = location;
-            CreatedAt = createdAt;
+            CreatedAt = DateTime.UtcNow;
             StartDate = startDate;
             EndDate = endDate;
             TXDate = tXDate;
@@ -46,7 +20,6 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
             CommercialLead = commercialLead;
             ClientId = clientId;
             Status = status;
-
 
         }
         public string Text { get; set; }
