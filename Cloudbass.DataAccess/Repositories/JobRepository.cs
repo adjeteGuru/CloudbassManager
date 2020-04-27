@@ -1,6 +1,7 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
+using Cloudbass.Utilities.CustomException;
 using HotChocolate;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Cloudbass.DataAccess.Repositories
             _db = db;
         }
 
-        public Job Create(CreateJobInput input/*, [Service] CloudbassContext db*/)
+        public Job Create(CreateJobInput input)
         {
             var job = new Job
             {
@@ -38,7 +39,7 @@ namespace Cloudbass.DataAccess.Repositories
             };
 
             _db.Jobs.Add(job);
-            _db.SaveChanges();
+            //_db.SaveChanges();
             return new Job();
 
         }
@@ -46,7 +47,16 @@ namespace Cloudbass.DataAccess.Repositories
 
         public Job Delete(DeleteJobInput inputJob)
         {
-            throw new NotImplementedException();
+            var jobToDelete = _db.Jobs.Single(x => x.ClientId == inputJob.Id);
+
+            if (jobToDelete == null)
+            {
+                throw new JobNotFoundException() { JobId = inputJob.Id };
+            }
+
+
+            _db.Jobs.Remove(jobToDelete);
+            return jobToDelete;
         }
 
         //public Job DeleteJob(DeleteJobInput inputJob)

@@ -41,5 +41,10 @@ namespace CloudbassManager.Mutations
             return new CreateJobPayload(job);
 
         }
+
+        //public Job DeleteJob(DeleteJobInput inputJob, [Service] CloudbassContext db)
+        //{
+        //    return db.Jobs.Remove();
+        //}
     }
 }
