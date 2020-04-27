@@ -1,7 +1,9 @@
-﻿namespace Cloudbass.DataAccess.Repositories.Contracts
+﻿using System;
+
+namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public class DeleteJobInput
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

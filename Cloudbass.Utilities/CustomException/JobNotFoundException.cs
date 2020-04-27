@@ -6,6 +6,6 @@ namespace Cloudbass.Utilities.CustomException
 {
     public class JobNotFoundException : Exception
     {
-        public int JobId { get; set; }
+        public Guid JobId { get; set; }
     }
 }

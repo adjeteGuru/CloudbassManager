@@ -11,8 +11,8 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
         //IEnumerable<Job> GetJobsForClient(int clientId);
         //IEnumerable<Job> GetJobsForClient(int clientId, int lastJob);
 
-        Job Create(CreateJobInput inputJob);
-        Job Delete(DeleteJobInput inputJob);
+        Job Create(CreateJobInput input);
+        Job Delete(DeleteJobInput input);
 
     }
 }

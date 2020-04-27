@@ -15,36 +15,47 @@ namespace CloudbassManager.Mutations
     [ExtendObjectType(Name = "Mutation")]
     public class JobMutations
     {
-        public async Task<CreateJobPayload> CreateJob(CreateJobInput inputJob, [Service] CloudbassContext db, [Service] ITopicEventSender eventSender)
+        private readonly IJobRepository _jobRepository;
+        public JobMutations(IJobRepository jobRepository)
         {
-            var job = new Job
-            {
-                Text = inputJob.Text,
-
-                Description = inputJob.Description,
-                Location = inputJob.Location,
-                CreatedAt = inputJob.CreatedAt,
-                StartDate = inputJob.StartDate,
-                EndDate = inputJob.EndDate,
-                TXDate = inputJob.TXDate,
-                Paid = inputJob.Paid,
-                Coordinator = inputJob.Coordinator,
-                CommercialLead = inputJob.CommercialLead,
-                ClientId = inputJob.ClientId,
-                Status = inputJob.Status
-
-            };
-
-            db.Jobs.Add(job);
-            await db.SaveChangesAsync();
-            await eventSender.SendAsync("CreateJob", job);
-            return new CreateJobPayload(job);
-
+            _jobRepository = jobRepository;
         }
 
-        //public Job DeleteJob(DeleteJobInput inputJob, [Service] CloudbassContext db)
+        //public async Task<CreateJobPayload> CreateJob(CreateJobInput inputJob, [Service] CloudbassContext db, [Service] ITopicEventSender eventSender)
         //{
-        //    return db.Jobs.Remove();
+        //    var job = new Job
+        //    {
+        //        Text = inputJob.Text,
+
+        //        Description = inputJob.Description,
+        //        Location = inputJob.Location,
+        //        CreatedAt = inputJob.CreatedAt,
+        //        StartDate = inputJob.StartDate,
+        //        EndDate = inputJob.EndDate,
+        //        TXDate = inputJob.TXDate,
+        //        Paid = inputJob.Paid,
+        //        Coordinator = inputJob.Coordinator,
+        //        CommercialLead = inputJob.CommercialLead,
+        //        ClientId = inputJob.ClientId,
+        //        Status = inputJob.Status
+
+        //    };
+
+        //    db.Jobs.Add(job);
+        //    await db.SaveChangesAsync();
+        //    await eventSender.SendAsync("CreateJob", job);
+        //    return new CreateJobPayload(job);
+
         //}
+        public Job CreateJob(CreateJobInput input)
+        {
+            return _jobRepository.Create(input);
+        }
+
+        public Job DeleteJob(DeleteJobInput input)
+        {
+            return _jobRepository.Delete(input);
+
+        }
     }
 }

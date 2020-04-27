@@ -40,19 +40,19 @@ namespace Cloudbass.DataAccess.Repositories
 
             _db.Jobs.Add(job);
             //_db.SaveChanges();
-            return new Job();
+            return job; /*new Job();*/
 
         }
 
 
-        public Job Delete(DeleteJobInput inputJob)
+        public Job Delete(DeleteJobInput input)
         {
-            var jobToDelete = _db.Jobs.Single(x => x.ClientId == inputJob.Id);
+            var jobToDelete = _db.Jobs.FirstOrDefault(x => x.Id == input.Id);
 
             if (jobToDelete == null)
-            {
-                throw new JobNotFoundException() { JobId = inputJob.Id };
-            }
+                //{
+                throw new JobNotFoundException() { JobId = input.Id };
+            //}
 
 
             _db.Jobs.Remove(jobToDelete);

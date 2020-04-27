@@ -4,6 +4,7 @@ using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Types;
 using Cloudbass.Types.Jobs;
+using Cloudbass.Utilities.Filters;
 using CloudbassManager.Mutations;
 using CloudbassManager.Queries;
 using CloudbassManager.Subscriptions;
@@ -83,6 +84,9 @@ namespace CloudbassManager
             services.AddSingleton<UserType>();
             services.AddSingleton<ClientType>();
             services.AddSingleton<JobType>();
+
+            //this is to record the job not found exception
+            services.AddErrorFilter<JobNotFoundExceptionFilter>();
 
             //This adds the GraphQL schema and the execution engine to the dependency injection 
             //which is Registering services / repositories
