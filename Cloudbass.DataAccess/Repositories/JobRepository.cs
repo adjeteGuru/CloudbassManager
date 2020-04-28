@@ -46,7 +46,7 @@ namespace Cloudbass.DataAccess.Repositories
 
 
         public Job Delete(DeleteJobInput input)
-        {
+        {//create a variable and check if input id match id field from the db
             var jobToDelete = _db.Jobs.FirstOrDefault(x => x.Id == input.Id);
 
             if (jobToDelete == null)
@@ -65,9 +65,14 @@ namespace Cloudbass.DataAccess.Repositories
 
         //}
 
-        public IEnumerable<Job> GetJobs()
+        //public IEnumerable<Job> GetJobs()
+        //{
+        //    return _db.Jobs;
+        //}
+
+        IQueryable<Job> IJobRepository.GetAll()
         {
-            return _db.Jobs;
+            return _db.Jobs.AsQueryable();
         }
 
         //public IEnumerable<Job> GetJobsForClient(int clientId)
