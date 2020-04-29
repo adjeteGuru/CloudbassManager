@@ -73,6 +73,7 @@ namespace Cloudbass.DataAccess.Repositories
 
 
             _db.Jobs.Remove(jobToDelete);
+            _db.SaveChanges();
             return jobToDelete;
             // return new Job();
         }

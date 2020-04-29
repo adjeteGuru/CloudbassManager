@@ -34,8 +34,6 @@ namespace Cloudbass.Types
             descriptor.Field(u => u.Salt)
                 .Type<NonNullType<StringType>>();
 
-
-
         }
 
     }

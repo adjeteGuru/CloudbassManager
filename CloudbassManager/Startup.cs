@@ -98,10 +98,8 @@ namespace CloudbassManager
                     SchemaBuilder.New()
                         .AddServices(sp)
                         .AddQueryType(d => d.Name("Query"))
-                        .AddType<UserQuery>()
-                       //.AddType<UserType>()                     
-                       .AddType<Query>()
-                        //.AddType<ClientQuery>()
+                        .AddType<UserQuery>()                                         
+                        .AddType<Query>()                      
 
                         .AddMutationType(d => d.Name("Mutation"))
                         .AddType<LoginMutation>()
@@ -114,7 +112,6 @@ namespace CloudbassManager
 
                     // Registering schema types and so on                   
                     new QueryExecutionOptions { ForceSerialExecution = true });
-
 
         }
 
