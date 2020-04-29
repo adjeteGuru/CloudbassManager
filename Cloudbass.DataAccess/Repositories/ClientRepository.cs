@@ -20,24 +20,24 @@ namespace Cloudbass.DataAccess.Repositories
             return _db.Clients.SingleOrDefault(x => x.Id == id);
         }
 
-        public IEnumerable<Client> GetClients()
+        public IQueryable<Client> GetAll()
         {
             return _db.Clients;
         }
 
 
         //
-        public IEnumerable<object> Search(string text)
-        {
-            IEnumerable<Client> filteredClients = _db.Clients
-               .Where(t => t.Name.Contains(text,
-                   StringComparison.OrdinalIgnoreCase));
+        //public IEnumerable<object> Search(string text)
+        //{
+        //    IEnumerable<Client> filteredClients = _db.Clients
+        //       .Where(t => t.Name.Contains(text,
+        //           StringComparison.OrdinalIgnoreCase));
 
-            foreach (Client client in filteredClients)
-            {
-                yield return client;
-            }
+        //    foreach (Client client in filteredClients)
+        //    {
+        //        yield return client;
+        //    }
 
-        }
+        //}
     }
 }

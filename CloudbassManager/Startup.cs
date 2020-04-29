@@ -3,6 +3,8 @@ using Cloudbass.DataAccess.Repositories;
 using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Types;
+using Cloudbass.Types.Jobs;
+using Cloudbass.Utilities.Filters;
 using CloudbassManager.Mutations;
 using CloudbassManager.Queries;
 using CloudbassManager.Subscriptions;
@@ -81,7 +83,10 @@ namespace CloudbassManager
                options.UseSqlServer(Configuration["ConnectionStrings:CloudbassDb"]));
             services.AddSingleton<UserType>();
             services.AddSingleton<ClientType>();
-            //services.AddSingleton<JobType>();
+            services.AddSingleton<JobType>();
+
+            //this is to record the job not found exception
+            services.AddErrorFilter<JobNotFoundExceptionFilter>();
 
             //This adds the GraphQL schema and the execution engine to the dependency injection 
             //which is Registering services / repositories
@@ -93,14 +98,13 @@ namespace CloudbassManager
                     SchemaBuilder.New()
                         .AddServices(sp)
                         .AddQueryType(d => d.Name("Query"))
-                        .AddType<UserQuery>()
-                        .AddType<UserType>()
-                        .AddType<ClientQuery>()
-                        .AddType<ClientType>()
-                           .AddType<JobQuery>()
+                        .AddType<UserQuery>()                                         
+                        .AddType<Query>()                      
+
                         .AddMutationType(d => d.Name("Mutation"))
                         .AddType<LoginMutation>()
                         .AddType<UserMutations>()
+                        .AddType<JobMutations>()
                         .AddSubscriptionType(d => d.Name("Subscription"))
                         .AddType<UserSubscriptions>()
                         .AddAuthorizeDirectiveType()
@@ -108,7 +112,6 @@ namespace CloudbassManager
 
                     // Registering schema types and so on                   
                     new QueryExecutionOptions { ForceSerialExecution = true });
-
 
         }
 
