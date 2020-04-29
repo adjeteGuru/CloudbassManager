@@ -3,6 +3,7 @@ using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using Cloudbass.Utilities.CustomException;
 using HotChocolate;
+using HotChocolate.Execution;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,18 @@ namespace Cloudbass.DataAccess.Repositories
         //this create an object and assigned inputs data to store into job db as new record
         public Job Create(CreateJobInput input)
         {
+            //Duplication job check
+            var checkDuplication = _db.Jobs.FirstOrDefault(x => x.StartDate == input.StartDate && x.Text == input.Text);
+
+            if (checkDuplication != null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("There is existing Job Name found in the database scheduled on same Date " + input.StartDate)
+                       .SetCode("NAME_EXIST")
+                       .Build());
+            }
+
             var job = new Job
             {
                 Text = input.Text,
@@ -75,29 +88,14 @@ namespace Cloudbass.DataAccess.Repositories
             _db.Jobs.Remove(jobToDelete);
             _db.SaveChanges();
             return jobToDelete;
-            // return new Job();
         }
 
-        //public Job DeleteJob(DeleteJobInput inputJob)
-        //{
-        //    return _db.Jobs.Remove(inputJob);
-
-        //}
-
-        //public IEnumerable<Job> GetJobs()
-        //{
-        //    return _db.Jobs;
-        //}
 
         IQueryable<Job> IJobRepository.GetAll()
         {
             return _db.Jobs.AsQueryable();
         }
 
-        //public IEnumerable<Job> GetJobsForClient(int clientId)
-        //{
-        //    return _db.Jobs.Where(x => x.ClientId == clientId);
-        //}
 
         //public IEnumerable<Job> GetJobsForClient(int clientId, int lastJob)
         //{
@@ -108,20 +106,6 @@ namespace Cloudbass.DataAccess.Repositories
         //         .Take(lastJob);
         //}
 
-
-        //
-        //public IEnumerable<object> Search(string text)
-        //{
-        //    IEnumerable<Job> filteredJobs = _db.Jobs
-        //       .Where(t => t.Text.Contains(text,
-        //           StringComparison.OrdinalIgnoreCase));
-
-        //    foreach (Job job in filteredJobs)
-        //    {
-        //        yield return job;
-        //    }
-
-        //}
 
     }
 }
