@@ -18,6 +18,7 @@ namespace Cloudbass.DataAccess.Repositories
             _db = db;
         }
 
+        //this create an object and assigned inputs data to store into job db as new record
         public Job Create(CreateJobInput input)
         {
             var job = new Job
@@ -39,24 +40,41 @@ namespace Cloudbass.DataAccess.Repositories
             };
 
             _db.Jobs.Add(job);
-            //_db.SaveChanges();
-            return job; /*new Job();*/
+            _db.SaveChanges();
+            return job;
 
         }
 
 
+        //public Job Delete(DeleteJobInput input)
+        //{
+        //    //create a variable and check if input id match id field from the db
+        //    var jobToDelete = _db.Jobs.FirstOrDefault(x => x.Id == input.Id);
+
+        //    if (jobToDelete == null)
+        //        //{
+        //        throw new JobNotFoundException() { JobId = input.Id };
+        //    //}
+
+
+        //    _db.Jobs.Remove(jobToDelete);
+        //    return jobToDelete;
+        //}
+
         public Job Delete(DeleteJobInput input)
-        {//create a variable and check if input id match id field from the db
+        {
+            //create a variable and check if input id match id field from the db
             var jobToDelete = _db.Jobs.FirstOrDefault(x => x.Id == input.Id);
 
             if (jobToDelete == null)
-                //{
+            {
                 throw new JobNotFoundException() { JobId = input.Id };
-            //}
+            }
 
 
             _db.Jobs.Remove(jobToDelete);
             return jobToDelete;
+            // return new Job();
         }
 
         //public Job DeleteJob(DeleteJobInput inputJob)

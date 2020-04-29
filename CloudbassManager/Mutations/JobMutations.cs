@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CloudbassManager.Mutations
 {
-    //[ExtendObjectType(Name = "Mutation")]
+    [ExtendObjectType(Name = "Mutation")]
     public class JobMutations
     {
         private readonly IJobRepository _jobRepository;

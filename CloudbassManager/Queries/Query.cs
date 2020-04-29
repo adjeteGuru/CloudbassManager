@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace CloudbassManager.Queries
 {
+    [ExtendObjectType(Name = "Query")]
     public class Query
     {
         private readonly IClientRepository _clientRepository;
