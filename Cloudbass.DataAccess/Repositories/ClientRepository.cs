@@ -26,18 +26,5 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
 
-        //
-        //public IEnumerable<object> Search(string text)
-        //{
-        //    IEnumerable<Client> filteredClients = _db.Clients
-        //       .Where(t => t.Name.Contains(text,
-        //           StringComparison.OrdinalIgnoreCase));
-
-        //    foreach (Client client in filteredClients)
-        //    {
-        //        yield return client;
-        //    }
-
-        //}
     }
 }

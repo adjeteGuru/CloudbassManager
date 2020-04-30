@@ -59,21 +59,6 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
 
-        //public Job Delete(DeleteJobInput input)
-        //{
-        //    //create a variable and check if input id match id field from the db
-        //    var jobToDelete = _db.Jobs.FirstOrDefault(x => x.Id == input.Id);
-
-        //    if (jobToDelete == null)
-        //        //{
-        //        throw new JobNotFoundException() { JobId = input.Id };
-        //    //}
-
-
-        //    _db.Jobs.Remove(jobToDelete);
-        //    return jobToDelete;
-        //}
-
         public Job Delete(DeleteJobInput input)
         {
             //create a variable and check if input id match id field from the db
@@ -88,6 +73,65 @@ namespace Cloudbass.DataAccess.Repositories
             _db.Jobs.Remove(jobToDelete);
             _db.SaveChanges();
             return jobToDelete;
+        }
+
+        public Job Update(UpdateJobInput input, int id)
+        {
+            //
+
+            var jobToUpdate = _db.Jobs.Find(id);
+            //var jobToUpdate = _db.Jobs.FirstOrDefault(x => x.Id == input.Id);
+
+            if (jobToUpdate == null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
+            if (!string.IsNullOrEmpty(input.Text))
+            {
+                jobToUpdate.Text = input.Text;
+            }
+
+            if (!string.IsNullOrEmpty(input.Description))
+            {
+                jobToUpdate.Description = input.Description;
+            }
+
+            if (!string.IsNullOrEmpty(input.Coordinator))
+            {
+                jobToUpdate.Coordinator = input.Coordinator;
+            }
+
+            if (!string.IsNullOrEmpty(input.CommercialLead))
+            {
+                jobToUpdate.CommercialLead = input.CommercialLead;
+            }
+
+            if (!string.IsNullOrEmpty(input.Status.ToString()))
+            {
+                jobToUpdate.Status = input.Status;
+            }
+
+            if (input.StartDate != null)
+            {
+                jobToUpdate.StartDate = input.StartDate;
+            }
+
+            if (input.TXDate != null)
+            {
+                jobToUpdate.TXDate = input.TXDate;
+            }
+
+            if (input.EndDate != null)
+            {
+                jobToUpdate.EndDate = input.EndDate;
+            }
+
+            _db.Jobs.Update(jobToUpdate);
+
+            //_db.SaveChanges();
+
+            return jobToUpdate;
         }
 
 

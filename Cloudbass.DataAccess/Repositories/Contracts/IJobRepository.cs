@@ -1,4 +1,6 @@
-﻿using Cloudbass.Database.Models;
+﻿using Cloudbass.Database;
+using Cloudbass.Database.Models;
+using HotChocolate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,6 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 
         Job Create(CreateJobInput input);
         Job Delete(DeleteJobInput input);
-
+        Job Update(UpdateJobInput input, int id);
     }
 }
