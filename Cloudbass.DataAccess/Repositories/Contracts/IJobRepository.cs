@@ -16,6 +16,6 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 
         Job Create(CreateJobInput input);
         Job Delete(DeleteJobInput input);
-        Job Update(UpdateJobInput input, int id);
+        Job Update(UpdateJobInput input, Guid id);
     }
 }

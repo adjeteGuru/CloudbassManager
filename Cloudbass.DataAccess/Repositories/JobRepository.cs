@@ -1,13 +1,16 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
+using Cloudbass.DataAccess.Repositories.Contracts.Inputs;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using Cloudbass.Utilities.CustomException;
 using HotChocolate;
 using HotChocolate.Execution;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Cloudbass.DataAccess.Repositories
 {
@@ -55,7 +58,6 @@ namespace Cloudbass.DataAccess.Repositories
             _db.Jobs.Add(job);
             _db.SaveChanges();
             return job;
-
         }
 
 
@@ -69,22 +71,19 @@ namespace Cloudbass.DataAccess.Repositories
                 throw new JobNotFoundException() { JobId = input.Id };
             }
 
-
             _db.Jobs.Remove(jobToDelete);
             _db.SaveChanges();
             return jobToDelete;
         }
 
-        public Job Update(UpdateJobInput input, int id)
+        public Job Update(UpdateJobInput input, Guid id)
         {
-            //
-
+            //quick search for input id from identical db id 
             var jobToUpdate = _db.Jobs.Find(id);
-            //var jobToUpdate = _db.Jobs.FirstOrDefault(x => x.Id == input.Id);
 
             if (jobToUpdate == null)
             {
-                throw new ArgumentNullException(nameof(input));
+                throw new JobNotFoundException() { JobId = input.Id };
             }
 
             if (!string.IsNullOrEmpty(input.Text))
@@ -129,10 +128,11 @@ namespace Cloudbass.DataAccess.Repositories
 
             _db.Jobs.Update(jobToUpdate);
 
-            //_db.SaveChanges();
+            _db.SaveChanges();
 
             return jobToUpdate;
         }
+
 
 
         IQueryable<Job> IJobRepository.GetAll()

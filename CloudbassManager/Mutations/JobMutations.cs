@@ -29,18 +29,15 @@ namespace CloudbassManager.Mutations
         public Job DeleteJob(DeleteJobInput input)
         {
             return _jobRepository.Delete(input);
-
         }
 
-        public Job UpdateJob(UpdateJobInput input, int? id)
-        {
-            if (input is null && id == null)
-            {
-                throw new ArgumentNullException(nameof(input));
-            }
 
+        public Job UpdateJob(UpdateJobInput input, /*[Service] CloudbassContext db,*/ Guid id)
+        {
             //return _jobRepository.Update(input);
-            return _jobRepository.Update(id: input.Id);
+            //db.Jobs.Update(input);
+            //db.SaveChanges();
+            return _jobRepository.Update(input,/* db,*/ id);
         }
     }
 }

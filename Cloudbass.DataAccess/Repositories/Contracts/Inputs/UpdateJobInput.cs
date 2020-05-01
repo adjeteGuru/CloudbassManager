@@ -9,9 +9,9 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
           DateTime? endDate, bool paid, string coordinator, string commercialLead, int clientId, Status status)
         {
             Text = text;
-            Description = description;
             Location = location;
-            CreatedAt = DateTime.UtcNow;
+            Description = description;
+            CreatedAt = createdAt;
             StartDate = startDate;
             EndDate = endDate;
             TXDate = tXDate;
