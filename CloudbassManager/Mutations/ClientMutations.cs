@@ -1,5 +1,6 @@
 ﻿using Cloudbass.DataAccess.Repositories;
 using Cloudbass.DataAccess.Repositories.Contracts;
+using Cloudbass.DataAccess.Repositories.Contracts.Inputs;
 using Cloudbass.Database.Models;
 using HotChocolate.Types;
 using System;
@@ -20,6 +21,16 @@ namespace CloudbassManager.Mutations
         public Client CreateClient(CreateClientInput input)
         {
             return _clientRepository.Create(input);
+        }
+
+        public Client DeleteClient(DeleteClientInput input)
+        {
+            return _clientRepository.Delete(input);
+        }
+
+        public Client UpdateClient(UpdateClientInput input, int id)
+        {
+            return _clientRepository.Update(input, id);
         }
     }
 }

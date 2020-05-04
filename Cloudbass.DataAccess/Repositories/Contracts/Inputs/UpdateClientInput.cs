@@ -6,12 +6,15 @@ namespace Cloudbass.DataAccess.Repositories.Contracts.Inputs
 {
     public class UpdateClientInput
     {
-        public UpdateClientInput()
+        public UpdateClientInput(string name, string email, string tel, string toContact, string address)
         {
-
+            Name = name;
+            Email = email;
+            Tel = tel;
+            ToContact = toContact;
+            Address = address;
         }
 
-        public int Id { get; set; }
 
         public string Name { get; set; }
 
@@ -19,9 +22,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts.Inputs
 
         public string Email { get; set; }
 
-
         public string ToContact { get; set; }
-
 
         public string Address { get; set; }
     }

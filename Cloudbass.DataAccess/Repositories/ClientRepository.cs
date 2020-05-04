@@ -59,12 +59,67 @@ namespace Cloudbass.DataAccess.Repositories
 
         public Client Delete(DeleteClientInput input)
         {
-            throw new NotImplementedException();
+            var clientToDelete = _db.Clients.FirstOrDefault(x => x.Id == input.Id);
+
+            if (clientToDelete == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("Client name not found")
+                       .SetCode("NAME_EXIST")
+                       .Build());
+            }
+
+            _db.Clients.Remove(clientToDelete);
+
+            _db.SaveChanges();
+
+            return clientToDelete;
         }
 
-        public Client Update(UpdateClientInput input)
+        public Client Update(UpdateClientInput input, int id)
         {
-            throw new NotImplementedException();
+            var clientToUpdate = _db.Clients.Find(id);
+
+            if (clientToUpdate == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("Client name not found")
+                       .SetCode("NAME_EXIST")
+                       .Build());
+            }
+
+            if (!string.IsNullOrEmpty(input.Name))
+            {
+                clientToUpdate.Name = input.Name;
+            }
+
+            if (!string.IsNullOrEmpty(input.Address))
+            {
+                clientToUpdate.Address = input.Address;
+            }
+
+            if (!string.IsNullOrEmpty(input.Email))
+            {
+                clientToUpdate.Email = input.Email;
+            }
+
+            if (!string.IsNullOrEmpty(input.Tel))
+            {
+                clientToUpdate.Tel = input.Tel;
+            }
+
+            if (!string.IsNullOrEmpty(input.ToContact))
+            {
+                clientToUpdate.ToContact = input.ToContact;
+            }
+
+            _db.Clients.Update(clientToUpdate);
+
+            _db.SaveChanges();
+
+            return clientToUpdate;
         }
     }
 }

@@ -56,7 +56,9 @@ namespace Cloudbass.DataAccess.Repositories
             };
 
             _db.Jobs.Add(job);
+
             _db.SaveChanges();
+
             return job;
         }
 
@@ -72,7 +74,9 @@ namespace Cloudbass.DataAccess.Repositories
             }
 
             _db.Jobs.Remove(jobToDelete);
+
             _db.SaveChanges();
+
             return jobToDelete;
         }
 

@@ -13,7 +13,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
         Client GetClient(int id);
         Client Create(CreateClientInput input);
         Client Delete(DeleteClientInput input);
-        Client Update(UpdateClientInput input);
+        Client Update(UpdateClientInput input, int id);
 
 
     }
