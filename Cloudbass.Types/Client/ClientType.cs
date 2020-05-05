@@ -20,6 +20,7 @@ namespace Cloudbass.Types
             descriptor.Field(x => x.Tel).Type<StringType>();
             descriptor.Field(x => x.Email).Type<StringType>();
             descriptor.Field(x => x.ToContact).Type<StringType>();
+            descriptor.Field(x => x.Address).Type<StringType>();
 
             //invoke the resolver to allow data fetching
             descriptor.Field<JobResolver>(t => t.GetJobs(default, default));

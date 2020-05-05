@@ -32,12 +32,9 @@ namespace CloudbassManager.Mutations
         }
 
 
-        public Job UpdateJob(UpdateJobInput input, /*[Service] CloudbassContext db,*/ Guid id)
+        public Job UpdateJob(UpdateJobInput input, Guid id)
         {
-            //return _jobRepository.Update(input);
-            //db.Jobs.Update(input);
-            //db.SaveChanges();
-            return _jobRepository.Update(input,/* db,*/ id);
+            return _jobRepository.Update(input, id);
         }
     }
 }

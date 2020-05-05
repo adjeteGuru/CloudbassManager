@@ -1,4 +1,5 @@
-﻿using Cloudbass.Database.Models;
+﻿using Cloudbass.DataAccess.Repositories.Contracts.Inputs;
+using Cloudbass.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,10 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     {
         IQueryable<Client> GetAll();
         Client GetClient(int id);
+        Client Create(CreateClientInput input);
+        Client Delete(DeleteClientInput input);
+        Client Update(UpdateClientInput input, int id);
+
 
     }
 }

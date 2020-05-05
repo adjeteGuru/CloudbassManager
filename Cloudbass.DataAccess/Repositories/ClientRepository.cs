@@ -1,6 +1,9 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
+using Cloudbass.DataAccess.Repositories.Contracts.Inputs;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
+using HotChocolate;
+using HotChocolate.Execution;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +28,98 @@ namespace Cloudbass.DataAccess.Repositories
             return _db.Clients;
         }
 
+        public Client Create(CreateClientInput input)
+        {
+            //duplication check
+            var clientCheck = _db.Clients.FirstOrDefault(x => x.Name == input.Name);
 
+            if (clientCheck != null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("There is existing client Name found in the database..Please chose another name ")
+                       .SetCode("NAME_EXIST")
+                       .Build());
+            }
+
+            Client client = new Client()
+            {
+                Name = input.Name,
+                Email = input.Email,
+                Tel = input.Tel,
+                ToContact = input.ToContact,
+                Address = input.Address
+            };
+
+            _db.Clients.Add(client);
+            _db.SaveChanges();
+
+            return client;
+        }
+
+        public Client Delete(DeleteClientInput input)
+        {
+            var clientToDelete = _db.Clients.FirstOrDefault(x => x.Id == input.Id);
+
+            if (clientToDelete == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("Client name not found")
+                       .SetCode("NAME_EXIST")
+                       .Build());
+            }
+
+            _db.Clients.Remove(clientToDelete);
+
+            _db.SaveChanges();
+
+            return clientToDelete;
+        }
+
+        public Client Update(UpdateClientInput input, int id)
+        {
+            var clientToUpdate = _db.Clients.Find(id);
+
+            if (clientToUpdate == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("Client name not found")
+                       .SetCode("NAME_EXIST")
+                       .Build());
+            }
+
+            if (!string.IsNullOrEmpty(input.Name))
+            {
+                clientToUpdate.Name = input.Name;
+            }
+
+            if (!string.IsNullOrEmpty(input.Address))
+            {
+                clientToUpdate.Address = input.Address;
+            }
+
+            if (!string.IsNullOrEmpty(input.Email))
+            {
+                clientToUpdate.Email = input.Email;
+            }
+
+            if (!string.IsNullOrEmpty(input.Tel))
+            {
+                clientToUpdate.Tel = input.Tel;
+            }
+
+            if (!string.IsNullOrEmpty(input.ToContact))
+            {
+                clientToUpdate.ToContact = input.ToContact;
+            }
+
+            _db.Clients.Update(clientToUpdate);
+
+            _db.SaveChanges();
+
+            return clientToUpdate;
+        }
     }
 }
