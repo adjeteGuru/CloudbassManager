@@ -20,7 +20,7 @@ namespace Cloudbass.Database
         public DbSet<User> Users { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Client> Clients { get; set; }
-
+        public DbSet<Schedule> Schedules { get; set; }
         public override int SaveChanges()
         {
             AddTimestamps();

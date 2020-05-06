@@ -4,14 +4,16 @@ using Cloudbass.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cloudbass.Database.Migrations
 {
     [DbContext(typeof(CloudbassContext))]
-    partial class CloudbassContextModelSnapshot : ModelSnapshot
+    [Migration("20200506191854_AddSchedule")]
+    partial class AddSchedule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,7 +126,7 @@ namespace Cloudbass.Database.Migrations
 
                     b.HasIndex("JobId");
 
-                    b.ToTable("Schedules");
+                    b.ToTable("Schedule");
                 });
 
             modelBuilder.Entity("Cloudbass.Database.Models.User", b =>

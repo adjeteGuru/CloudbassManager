@@ -6,7 +6,7 @@ namespace Cloudbass.Database.Models
 {
     public enum Status
     {
-        InQuotation, Active, Cancelled, Completed
+        InQuotation, Active, Cancelled, Completed, Pending
     }
     public class Job
     {
@@ -35,6 +35,9 @@ namespace Cloudbass.Database.Models
 
         public Client Client { get; set; }
         public Status Status { get; set; }
+
+        public ICollection<Schedule> Schedules { get; set; }
+
 
     }
 }
