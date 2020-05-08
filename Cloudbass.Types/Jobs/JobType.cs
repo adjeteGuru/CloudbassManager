@@ -9,7 +9,7 @@ namespace Cloudbass.Types.Jobs
         protected override void Configure(IObjectTypeDescriptor<Job> descriptor)
         {
             descriptor.Field(x => x.Id).Type<IdType>();
-            descriptor.Field(x => x.Text).Type<StringType>();
+            descriptor.Field(x => x.Name).Type<StringType>();
             descriptor.Field(x => x.Location).Type<StringType>();
             descriptor.Field(x => x.CreatedAt).Type<DateTimeType>();
             descriptor.Field(x => x.StartDate).Type<DateTimeType>();

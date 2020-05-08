@@ -54,7 +54,7 @@ namespace Cloudbass.Database
                                 {
                                     new Job
                                     {
-                                         Text = "SPL",
+                                         Name = "SPL",
                                         Description = "friendly",
                                         Location = "Scotland celtic park",
                                         Coordinator = "Dixon",
@@ -68,7 +68,7 @@ namespace Cloudbass.Database
 
                                     new Job
                                     {
-                                         Text = "MUTV",
+                                         Name = "MUTV",
                                         Description = "Accademy football",
                                         Location = "Old traford",
                                         Coordinator = "James",
@@ -83,7 +83,7 @@ namespace Cloudbass.Database
 
                                                          new Schedule
                                                          {
-                                                             Name="SPL-Travel",
+                                                             Name="MUTV-Travel",
                                                              Description="first phase of the setting",
                                                              StartDate=DateTime.Parse("2020-05-11"),
                                                              EndDate=DateTime.Parse("2020-05-13"),
