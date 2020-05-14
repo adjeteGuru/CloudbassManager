@@ -17,10 +17,12 @@ namespace CloudbassManager.Queries
     {
         private readonly IClientRepository _clientRepository;
         private readonly IJobRepository _jobRepository;
+
         public Query(IClientRepository clientRepository, IJobRepository jobRepository)
         {
             _clientRepository = clientRepository;
             _jobRepository = jobRepository;
+
         }
 
 

@@ -13,7 +13,7 @@ namespace Cloudbass.Database.Models
         public User()
         {
             Active = true; // Default Value true
-            TokenVersion = 0; // Default Value 0
+            //TokenVersion = 0; // Default Value 0
         }
 
 
@@ -23,8 +23,8 @@ namespace Cloudbass.Database.Models
         [GraphQLNonNullType]
         public string Name { get; set; }
 
-        [GraphQLIgnore]
-        public string Password { get; set; }
+        //[GraphQLIgnore]
+        //public string Password { get; set; }
 
 
         public string Email { get; set; }
@@ -32,19 +32,23 @@ namespace Cloudbass.Database.Models
         [GraphQLNonNullType]
 
         [DefaultValue(false)]
-        public bool Active { get; set; }
+        public bool? Active { get; set; }
+
+        public string FullName { get; set; }
+
+        //[GraphQLIgnore]
+        //[DefaultValue(0)]
+        //public int TokenVersion { get; set; }
 
 
+        //[GraphQLIgnore]
+        //public string Salt { get; set; }
 
         [GraphQLIgnore]
-        [DefaultValue(0)]
-        public int TokenVersion { get; set; }
-
+        public byte[] PasswordHash { get; set; }
 
         [GraphQLIgnore]
-        public string Salt { get; set; }
-
-        // public ICollection<Log> Logs { get; set; }
+        public byte[] PasswordSalt { get; set; }
 
 
     }

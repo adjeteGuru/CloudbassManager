@@ -23,6 +23,8 @@ namespace Cloudbass.DataAccess.Repositories
             return _db.Clients.SingleOrDefault(x => x.Id == id);
         }
 
+
+
         public IQueryable<Client> GetAll()
         {
             return _db.Clients;

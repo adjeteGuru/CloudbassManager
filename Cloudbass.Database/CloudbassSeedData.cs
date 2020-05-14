@@ -13,18 +13,19 @@ namespace Cloudbass.Database
         {
             if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any() || !db.Schedules.Any())
             {
-                string salt = Guid.NewGuid().ToString("N");
+                string passwordsalt = Guid.NewGuid().ToString("N");
 
                 using var sha = SHA512.Create();
-                byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes("Cloudba55" + salt));
+                byte[] passwordhash = sha.ComputeHash(Encoding.UTF8.GetBytes("Cloudba55" + passwordsalt));
 
                 var users = new List<User>
                 {
                     new User
 
                     {   Name = "Admin",
-                        Password= Convert.ToBase64String(hash),
-                        Salt = salt
+                        FullName = "John Flecther",
+                        Email= "johnfletcher@cloudbass.com"
+
                     }
                 };
 

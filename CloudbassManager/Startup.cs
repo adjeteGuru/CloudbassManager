@@ -4,6 +4,7 @@ using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Types;
 using Cloudbass.Types.Jobs;
+using Cloudbass.Utilities;
 using Cloudbass.Utilities.Filters;
 using CloudbassManager.Mutations;
 using CloudbassManager.Queries;
@@ -19,53 +20,78 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Text;
+using AutoMapper;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
 
 namespace CloudbassManager
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _env;
+
         internal static byte[] SharedSecret = Encoding.ASCII.GetBytes("LVmlpXCs7UeGCiIgqcnxW9VwHdQDHleAKMTWzX176B2fG10N3rG5UpRyytMYyLliCiAxsqILYqof6IIZrKG4eAtNQDbuRYxpn8uE9SweVgIKOKILtaMnW2iC");
-        public Startup(IConfiguration configuration)
+
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
-            this.Configuration = configuration;
+            _configuration = configuration;
+            _env = env;
         }
 
-        public IConfiguration Configuration { get; }
+        //public IConfiguration Configuration { get; }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        { // configure jwt authentication
-            services
-                .AddAuthentication(x =>
+        {
+
+            // configure jwt authentication           
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            // configure strongly typed settings objects
+            var appSettingsSection = _configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.Events = new JwtBearerEvents
                 {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(x =>
-                {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
+                    OnTokenValidated = context =>
                     {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(SharedSecret),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                    x.Events = new JwtBearerEvents
-                    {
-                        OnMessageReceived = context =>
+                        var userRepository = context.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
+                        var userId = int.Parse(context.Principal.Identity.Name);
+                        var user = userRepository.GetById(userId);
+                        if (user == null)
                         {
-                            if (context.HttpContext.Request.Query.ContainsKey("token"))
-                            {
-                                context.Token = context.HttpContext.Request.Query["token"];
-                            }
-                            return Task.CompletedTask;
+                            // return unauthorized if user no longer exists
+                            context.Fail("Unauthorized");
                         }
-                    };
-                });
+                        return Task.CompletedTask;
+                    }
+                };
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
             //this allows to instanciate a new object of the repository to be provided to
             //every services or controller
@@ -78,9 +104,20 @@ namespace CloudbassManager
             // this register the logger with the dependency injection
             services.AddLogging();
 
+
             //db connection strings
-            services.AddDbContext<CloudbassContext>(options =>
-               options.UseSqlServer(Configuration["ConnectionStrings:CloudbassDb"]));
+            //services.AddDbContext<CloudbassContext>(options =>
+            //   options.UseSqlServer(Configuration["ConnectionStrings:CloudbassDb"]));
+
+
+            //// use sql server db in production and sql db in development
+            if (_env.IsProduction())
+                services.AddDbContext<CloudbassContext>();
+            else
+                services.AddDbContext<CloudbassContext, CloudbassContext>(options =>
+               options.UseSqlServer(_configuration["ConnectionStrings:CloudbassDb"]));
+
+
             services.AddSingleton<UserType>();
             services.AddSingleton<ClientType>();
             services.AddSingleton<JobType>();
@@ -102,7 +139,7 @@ namespace CloudbassManager
                         .AddType<Query>()
 
                         .AddMutationType(d => d.Name("Mutation"))
-                        .AddType<LoginMutation>()
+                        //.AddType<LoginMutation>()
                         .AddType<UserMutations>()
                         .AddType<JobMutations>()
                         .AddType<ClientMutations>()

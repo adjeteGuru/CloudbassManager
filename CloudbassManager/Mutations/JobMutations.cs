@@ -1,7 +1,7 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
-using Cloudbass.Types.Payload;
+
 using HotChocolate;
 using HotChocolate.Subscriptions;
 using HotChocolate.Types;

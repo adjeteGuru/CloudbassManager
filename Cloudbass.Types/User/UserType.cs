@@ -16,14 +16,17 @@ namespace Cloudbass.Types
             descriptor.Field(u => u.Name)
                 .Type<NonNullType<StringType>>();
 
-            descriptor.Field(u => u.Password)
+            descriptor.Field(u => u.FullName)
+                .Type<NonNullType<StringType>>();
+
+            descriptor.Field(u => u.PasswordHash)
                .Ignore();
 
             descriptor.Field(u => u.Email)
                 .Type<StringType>();
 
-            descriptor.Field(u => u.TokenVersion)
-               .Type<NonNullType<StringType>>();
+            //descriptor.Field(u => u.TokenVersion)
+            //   .Type<NonNullType<StringType>>();
 
             descriptor.Field(u => u.Active)
                 .Type<NonNullType<BooleanType>>();
@@ -31,8 +34,9 @@ namespace Cloudbass.Types
             descriptor.Field(u => u.CreatedAt)
                .Type<NonNullType<DateType>>();
 
-            descriptor.Field(u => u.Salt)
-                .Type<NonNullType<StringType>>();
+            descriptor.Field(u => u.PasswordSalt)
+                .Ignore();
+            //.Type<NonNullType<ByteType>>();
 
         }
 
