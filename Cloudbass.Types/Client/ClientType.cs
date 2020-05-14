@@ -40,6 +40,11 @@ namespace Cloudbass.Types
         {
             return _jobRepository.GetAll().Where(x => x.ClientId == client.Id);
         }
+
+        //public IEnumerable<Job> GetJob(Schedule schedule, IResolverContext ctx)
+        //{
+        //    yield return _jobRepository.GetAll().Where(x => x.Id == schedule.JobId).FirstOrDefault();
+        //}
     }
 }
 

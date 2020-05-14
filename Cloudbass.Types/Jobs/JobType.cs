@@ -1,6 +1,12 @@
 ﻿using HotChocolate.Types;
 using Cloudbass.Database.Models;
 using Cloudbass.DataAccess.Resolvers;
+using Cloudbass.DataAccess.Repositories.Contracts;
+using System.Collections;
+using HotChocolate;
+using HotChocolate.Resolvers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Cloudbass.Types.Jobs
 {
@@ -9,7 +15,7 @@ namespace Cloudbass.Types.Jobs
         protected override void Configure(IObjectTypeDescriptor<Job> descriptor)
         {
             descriptor.Field(x => x.Id).Type<IdType>();
-            descriptor.Field(x => x.Text).Type<StringType>();
+            descriptor.Field(x => x.Name).Type<StringType>();
             descriptor.Field(x => x.Location).Type<StringType>();
             descriptor.Field(x => x.CreatedAt).Type<DateTimeType>();
             descriptor.Field(x => x.StartDate).Type<DateTimeType>();
@@ -23,6 +29,29 @@ namespace Cloudbass.Types.Jobs
             //able to get the information of clients when we make a query about jobs
             descriptor.Field<ClientResolver>(t => t.GetClient(default, default));
 
+            descriptor.Field<ScheduleResolver>(x => x.GetJob(default, default));
+
+        }
+    }
+
+    public class ScheduleResolver
+    {
+        private readonly IScheduleRepository _scheduleRepository;
+        private readonly IJobRepository _jobRepository;
+        public ScheduleResolver([Service] IScheduleRepository scheduleRepository, [Service] IJobRepository jobRepository)
+        {
+            _scheduleRepository = scheduleRepository;
+            _jobRepository = jobRepository;
+        }
+
+        public IEnumerable<Schedule> GetSchedules(Job job, IResolverContext ctx)
+        {
+            return _scheduleRepository.GetAll().Where(x => x.JobId == job.Id);
+        }
+
+        public IEnumerable<Job> GetJob(Schedule schedule, IResolverContext ctx)
+        {
+            yield return _jobRepository.GetAll().Where(x => x.Id == schedule.JobId).FirstOrDefault();
         }
     }
 }

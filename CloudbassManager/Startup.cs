@@ -4,6 +4,7 @@ using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Types;
 using Cloudbass.Types.Jobs;
+using Cloudbass.Types.Schedules;
 using Cloudbass.Utilities.Filters;
 using CloudbassManager.Mutations;
 using CloudbassManager.Queries;
@@ -72,6 +73,7 @@ namespace CloudbassManager
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IClientRepository, ClientRepository>();
             services.AddTransient<IJobRepository, JobRepository>();
+            services.AddTransient<IScheduleRepository, ScheduleRepository>();
             services.AddControllers();
             services.AddCors();
 
@@ -84,6 +86,7 @@ namespace CloudbassManager
             services.AddSingleton<UserType>();
             services.AddSingleton<ClientType>();
             services.AddSingleton<JobType>();
+            services.AddSingleton<ScheduleType>();
 
             //this is to record the job not found exception
             services.AddErrorFilter<JobNotFoundExceptionFilter>();
@@ -100,7 +103,6 @@ namespace CloudbassManager
                         .AddQueryType(d => d.Name("Query"))
                         .AddType<UserQuery>()
                         .AddType<Query>()
-
                         .AddMutationType(d => d.Name("Mutation"))
                         .AddType<LoginMutation>()
                         .AddType<UserMutations>()

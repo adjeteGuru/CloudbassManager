@@ -73,6 +73,9 @@ namespace Cloudbass.Database.Migrations
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Paid")
                         .HasColumnType("bit");
 
@@ -85,14 +88,43 @@ namespace Cloudbass.Database.Migrations
                     b.Property<DateTime?>("TXDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
                     b.ToTable("Jobs");
+                });
+
+            modelBuilder.Entity("Cloudbass.Database.Models.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("JobId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("Cloudbass.Database.Models.User", b =>
@@ -136,6 +168,15 @@ namespace Cloudbass.Database.Migrations
                     b.HasOne("Cloudbass.Database.Models.Client", "Client")
                         .WithMany("Jobs")
                         .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Cloudbass.Database.Models.Schedule", b =>
+                {
+                    b.HasOne("Cloudbass.Database.Models.Job", "Job")
+                        .WithMany("Schedules")
+                        .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

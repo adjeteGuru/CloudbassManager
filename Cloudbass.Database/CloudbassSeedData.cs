@@ -11,7 +11,7 @@ namespace Cloudbass.Database
     {
         public static void EnsureSeedData(this CloudbassContext db)
         {
-            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any())
+            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any() || !db.Schedules.Any())
             {
                 string salt = Guid.NewGuid().ToString("N");
 
@@ -54,7 +54,7 @@ namespace Cloudbass.Database
                                 {
                                     new Job
                                     {
-                                         Text = "SPL",
+                                         Name = "SPL",
                                         Description = "friendly",
                                         Location = "Scotland celtic park",
                                         Coordinator = "Dixon",
@@ -68,7 +68,7 @@ namespace Cloudbass.Database
 
                                     new Job
                                     {
-                                         Text = "MUTV",
+                                         Name = "MUTV",
                                         Description = "Accademy football",
                                         Location = "Old traford",
                                         Coordinator = "James",
@@ -78,18 +78,20 @@ namespace Cloudbass.Database
 
                                         CommercialLead = "Luke Davies",
 
-                                        //Schedules= new List<Schedule>
-                                        //{
+                                        Schedules= new List<Schedule>
+                                                   {
 
-                                        //     new Schedule
-                                        //     {
-                                        //         Text="SPL-Travel",
-                                        //         StartDate=DateTime.Parse("2020-03-11"),
-                                        //         EndDate=DateTime.Parse("2020-03-11"),
-                                        //         SchType = SchType.TrucksTravel
-                                        //     }
+                                                        new Schedule
+                                                        {
+                                                            Name="MUTV-Travel",
+                                                            Description="first phase of the setting",
+                                                            StartDate=DateTime.Parse("2020-05-11"),
+                                                            EndDate=DateTime.Parse("2020-05-13"),
+                                                            Status = Status.Active
+                                                        }
 
-                                        //}
+                                                   }
+
 
 
                                     }

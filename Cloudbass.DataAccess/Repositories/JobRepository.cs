@@ -26,7 +26,7 @@ namespace Cloudbass.DataAccess.Repositories
         public Job Create(CreateJobInput input)
         {
             //Duplication job check
-            var checkDuplication = _db.Jobs.FirstOrDefault(x => x.StartDate == input.StartDate && x.Text == input.Text);
+            var checkDuplication = _db.Jobs.FirstOrDefault(x => x.StartDate == input.StartDate && x.Name == input.Text);
 
             if (checkDuplication != null)
             {
@@ -39,7 +39,7 @@ namespace Cloudbass.DataAccess.Repositories
 
             var job = new Job
             {
-                Text = input.Text,
+                Name = input.Text,
 
                 Description = input.Description,
                 Location = input.Location,
@@ -92,7 +92,7 @@ namespace Cloudbass.DataAccess.Repositories
 
             if (!string.IsNullOrEmpty(input.Text))
             {
-                jobToUpdate.Text = input.Text;
+                jobToUpdate.Name = input.Text;
             }
 
             if (!string.IsNullOrEmpty(input.Description))

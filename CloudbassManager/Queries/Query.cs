@@ -2,6 +2,7 @@
 using Cloudbass.Database.Models;
 using Cloudbass.Types;
 using Cloudbass.Types.Jobs;
+using Cloudbass.Types.Schedules;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 using System;
@@ -17,10 +18,12 @@ namespace CloudbassManager.Queries
     {
         private readonly IClientRepository _clientRepository;
         private readonly IJobRepository _jobRepository;
-        public Query(IClientRepository clientRepository, IJobRepository jobRepository)
+        private readonly IScheduleRepository _scheduleRepository;
+        public Query(IClientRepository clientRepository, IJobRepository jobRepository, IScheduleRepository scheduleRepository)
         {
             _clientRepository = clientRepository;
             _jobRepository = jobRepository;
+            _scheduleRepository = scheduleRepository;
         }
 
 
@@ -33,5 +36,10 @@ namespace CloudbassManager.Queries
         [UsePaging(SchemaType = typeof(JobType))]
         [UseFiltering]
         public IQueryable<Job> Jobs => _jobRepository.GetAll();
+
+
+        [UsePaging(SchemaType = typeof(ScheduleType))]
+        [UseFiltering]
+        public IQueryable<Schedule> Schedules => _scheduleRepository.GetAll();
     }
 }
