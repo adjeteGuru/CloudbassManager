@@ -29,8 +29,8 @@ namespace Cloudbass.Types.Jobs
             //able to get the information of clients when we make a query about jobs
             descriptor.Field<ClientResolver>(t => t.GetClient(default, default));
 
-            descriptor.Field<ScheduleResolver>(x => x.GetJob(default, default));
-
+            //descriptor.Field<ScheduleResolver>(x => x.GetJob(default, default));
+            //descriptor.Field(x=>x.Get)
         }
     }
 

@@ -26,20 +26,20 @@ namespace Cloudbass.DataAccess.Repositories
         public Job Create(CreateJobInput input)
         {
             //Duplication job check
-            var checkDuplication = _db.Jobs.FirstOrDefault(x => x.StartDate == input.StartDate && x.Name == input.Text);
+            var checkDuplication = _db.Jobs.FirstOrDefault(x => x.StartDate == input.StartDate && x.Name == input.Name);
 
             if (checkDuplication != null)
             {
                 throw new QueryException(
                    ErrorBuilder.New()
-                       .SetMessage("There is existing Job Name found in the database scheduled on same Date " + input.StartDate)
+                       .SetMessage("Name " + input.Name + " is already scheduled on same Date " + input.StartDate)
                        .SetCode("NAME_EXIST")
                        .Build());
             }
 
             var job = new Job
             {
-                Name = input.Text,
+                Name = input.Name,
 
                 Description = input.Description,
                 Location = input.Location,
@@ -90,27 +90,27 @@ namespace Cloudbass.DataAccess.Repositories
                 throw new JobNotFoundException() { JobId = input.Id };
             }
 
-            if (!string.IsNullOrEmpty(input.Text))
+            if (!string.IsNullOrWhiteSpace(input.Name))
             {
-                jobToUpdate.Name = input.Text;
+                jobToUpdate.Name = input.Name;
             }
 
-            if (!string.IsNullOrEmpty(input.Description))
+            if (!string.IsNullOrWhiteSpace(input.Description))
             {
                 jobToUpdate.Description = input.Description;
             }
 
-            if (!string.IsNullOrEmpty(input.Coordinator))
+            if (!string.IsNullOrWhiteSpace(input.Coordinator))
             {
                 jobToUpdate.Coordinator = input.Coordinator;
             }
 
-            if (!string.IsNullOrEmpty(input.CommercialLead))
+            if (!string.IsNullOrWhiteSpace(input.CommercialLead))
             {
                 jobToUpdate.CommercialLead = input.CommercialLead;
             }
 
-            if (!string.IsNullOrEmpty(input.Status.ToString()))
+            if (!string.IsNullOrWhiteSpace(input.Status.ToString()))
             {
                 jobToUpdate.Status = input.Status;
             }

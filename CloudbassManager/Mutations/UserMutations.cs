@@ -1,4 +1,6 @@
-﻿using Cloudbass.Database;
+﻿using Cloudbass.DataAccess.Repositories.Contracts;
+using Cloudbass.DataAccess.Repositories.Contracts.Inputs.User;
+using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using Cloudbass.Types.Input;
 using Cloudbass.Types.Payload;
@@ -19,6 +21,11 @@ namespace CloudbassManager.Mutations
     [ExtendObjectType(Name = "Mutation")]
     public class UserMutations
     {
+        private readonly IUserRepository _userRepository;
+        public UserMutations(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
         /// <summary>
         /// Creates a user.
         /// </summary>
@@ -31,7 +38,7 @@ namespace CloudbassManager.Mutations
             var nameCheck = await db.Users.FirstOrDefaultAsync(t => t.Name == input.Name);
 
 
-            if (string.IsNullOrEmpty(input.Name))
+            if (string.IsNullOrWhiteSpace(input.Name))
             {
                 throw new QueryException(
                     ErrorBuilder.New()
@@ -43,17 +50,17 @@ namespace CloudbassManager.Mutations
             //check dupication of the new entry
             if (nameCheck != null)
             {
-
+                // throw error if the new username is already taken
                 throw new QueryException(
                     ErrorBuilder.New()
-                        .SetMessage(input.Name + " Exist already in the database! Please chose different name.")
+                        .SetMessage("Name \"" + input.Name + "\" is already taken")
                         .SetCode("NAME_EXIST")
                         .Build());
             }
 
 
 
-            if (string.IsNullOrEmpty(input.Password))
+            if (string.IsNullOrWhiteSpace(input.Password))
             {
                 throw new QueryException(
                     ErrorBuilder.New()
@@ -88,7 +95,7 @@ namespace CloudbassManager.Mutations
                         .Build());
             }
 
-            if (!string.IsNullOrEmpty(input.Email))
+            if (!string.IsNullOrWhiteSpace(input.Email))
             {
                 user.Email = input.Email;
             }
@@ -127,13 +134,23 @@ namespace CloudbassManager.Mutations
                         .Build());
             }
 
-
-            if (!string.IsNullOrEmpty(input.Name))
+            // update name if it has changed
+            if (!string.IsNullOrWhiteSpace(input.Name) && input.Name != user.Name)
             {
+                // throw error if the new name is already taken
+                if (db.Users.Any(x => x.Name == input.Name))
+
+                    throw new QueryException(
+                        ErrorBuilder.New()
+                            .SetMessage("Name " + input.Name + " is already taken")
+                            .SetCode("NAME_EXIST")
+                            .Build());
+
                 user.Name = input.Name;
             }
 
-            if (!string.IsNullOrEmpty(input.Password))
+            // update password if provided
+            if (!string.IsNullOrWhiteSpace(input.Password))
             {
 
                 using var sha = SHA512.Create();
@@ -142,7 +159,7 @@ namespace CloudbassManager.Mutations
             }
 
 
-            if (!string.IsNullOrEmpty(input.Email))
+            if (!string.IsNullOrWhiteSpace(input.Email))
             {
                 user.Email = input.Email;
 
@@ -154,7 +171,7 @@ namespace CloudbassManager.Mutations
                 {
                     throw new QueryException(
                         ErrorBuilder.New()
-                            .SetMessage(input.Email + " is already been taken! Please chose different email.")
+                            .SetMessage("Email " + input.Email + " is already taken")
                             .SetCode("EMAIL_EXIST")
                             .Build());
                 }
@@ -180,5 +197,13 @@ namespace CloudbassManager.Mutations
 
             return new UpdateUserPayload(user);
         }
+
+
+        //remove user
+        public User DeleteUser(DeleteUserInput input)
+        {
+            return _userRepository.Delete(input);
+        }
+
     }
 }

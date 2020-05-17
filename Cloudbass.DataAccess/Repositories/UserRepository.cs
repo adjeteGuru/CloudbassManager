@@ -1,7 +1,10 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
+using Cloudbass.DataAccess.Repositories.Contracts.Inputs.User;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using Cloudbass.Utilities;
+using HotChocolate;
+using HotChocolate.Execution;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -83,6 +86,31 @@ namespace Cloudbass.DataAccess.Repositories
         public User GetById(int id)
         {
             return _dbContext.Users.SingleOrDefault(x => x.Id == id);
+        }
+
+        //public void Delete(int id)
+        //{
+        //    var user = _dbContext.Users.Find(id);
+        //    _dbContext.Users.Remove(user);
+        //    _dbContext.SaveChanges();
+        //}
+
+        public User Delete(DeleteUserInput input)
+        {
+
+            var userToDelete = _dbContext.Users.Find(input);
+
+            if (userToDelete == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("User not found in database.")
+                       .SetCode("USER_NOT_FOUND")
+                       .Build());
+            }
+            _dbContext.Users.Remove(userToDelete);
+            _dbContext.SaveChanges();
+            return userToDelete;
         }
     }
 }

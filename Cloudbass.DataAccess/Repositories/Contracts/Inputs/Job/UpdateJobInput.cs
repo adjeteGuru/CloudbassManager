@@ -5,10 +5,10 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public class UpdateJobInput
     {
-        public UpdateJobInput(string text, string description, string location, DateTime? createdAt, DateTime? startDate, DateTime? tXDate,
+        public UpdateJobInput(string name, string description, string location, DateTime? createdAt, DateTime? startDate, DateTime? tXDate,
           DateTime? endDate, bool paid, string coordinator, string commercialLead, int clientId, Status status)
         {
-            Text = text;
+            Name = name;
             Location = location;
             Description = description;
             CreatedAt = createdAt;
@@ -24,7 +24,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 
 
         public Guid Id { get; set; }
-        public string Text { get; set; }
+        public string Name { get; set; }
 
         public string Description { get; set; }
 

@@ -37,7 +37,7 @@ namespace Cloudbass.DataAccess.Repositories
             {
                 throw new QueryException(
                    ErrorBuilder.New()
-                       .SetMessage("There is existing client Name found in the database..Please chose another name ")
+                       .SetMessage("Name " + input.Name + " is already taken")
                        .SetCode("NAME_EXIST")
                        .Build());
             }
