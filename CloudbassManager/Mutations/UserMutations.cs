@@ -73,13 +73,28 @@ namespace CloudbassManager.Mutations
 
             using var sha = SHA512.Create();
             byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(input.Password + salt));
-
+            int employeeId = 1;
 
             var user = new User()
             {
+                // EmployeeId = employeeId,
                 Name = input.Name,
                 Password = Convert.ToBase64String(hash),
                 Salt = salt
+            };
+
+            var employee = new Employee
+            {
+                Id = employeeId,
+                UserId = user.Id,
+                PostNominals = input.PostNominals,
+                Alergy = input.Alergy,
+                NextOfKin = input.NextOfKin,
+                Bared = input.Bared,
+                Email = input.Email,
+                FullName = input.FullName,
+                Photo = input.Photo
+
             };
 
             //create a variable for exiting email check

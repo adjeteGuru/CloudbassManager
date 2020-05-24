@@ -35,8 +35,10 @@ namespace Cloudbass.Database.Models
 
         public Client Client { get; set; }
         public Status Status { get; set; }
+        //public int HasRoleId { get; set; }
 
         public ICollection<Schedule> Schedules { get; set; }
+        public ICollection<HasRole> HasRoles { get; set; }
 
     }
 }

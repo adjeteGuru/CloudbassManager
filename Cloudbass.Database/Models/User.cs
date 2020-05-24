@@ -23,9 +23,13 @@ namespace Cloudbass.Database.Models
         [GraphQLNonNullType]
         public string Name { get; set; }
 
+        //[GraphQLIgnore]
+        //public int EmployeeId { get; set; }
+
+        //public Employee Employee { get; set; }
+
         [GraphQLIgnore]
         public string Password { get; set; }
-
 
         public string Email { get; set; }
 
@@ -35,7 +39,6 @@ namespace Cloudbass.Database.Models
         public bool Active { get; set; }
 
 
-
         [GraphQLIgnore]
         [DefaultValue(0)]
         public int TokenVersion { get; set; }
@@ -43,6 +46,13 @@ namespace Cloudbass.Database.Models
 
         [GraphQLIgnore]
         public string Salt { get; set; }
+
+        ////two new
+        //[GraphQLIgnore]
+        //public int EmployeeId { get; set; }
+
+        //[GraphQLNonNullType]
+        //public Employee Employee { get; set; }
 
         // public ICollection<Log> Logs { get; set; }
 

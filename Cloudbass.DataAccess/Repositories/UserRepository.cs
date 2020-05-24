@@ -85,15 +85,9 @@ namespace Cloudbass.DataAccess.Repositories
         //which is going to be use in the UserQuery 
         public User GetById(int id)
         {
-            return _dbContext.Users.SingleOrDefault(x => x.Id == id);
+            return _dbContext.Users.FirstOrDefault(x => x.Id == id);
         }
 
-        //public void Delete(int id)
-        //{
-        //    var user = _dbContext.Users.Find(id);
-        //    _dbContext.Users.Remove(user);
-        //    _dbContext.SaveChanges();
-        //}
 
         public User Delete(DeleteUserInput input)
         {

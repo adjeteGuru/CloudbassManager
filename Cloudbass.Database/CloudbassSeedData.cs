@@ -11,7 +11,7 @@ namespace Cloudbass.Database
     {
         public static void EnsureSeedData(this CloudbassContext db)
         {
-            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any() || !db.Schedules.Any())
+            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any() || !db.Schedules.Any() || !db.Employees.Any())
             {
                 string salt = Guid.NewGuid().ToString("N");
 
