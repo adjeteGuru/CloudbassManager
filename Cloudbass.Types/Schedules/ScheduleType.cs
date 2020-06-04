@@ -1,4 +1,5 @@
-﻿using Cloudbass.Database.Models;
+﻿using Cloudbass.DataAccess.Resolvers;
+using Cloudbass.Database.Models;
 using HotChocolate.Types;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Cloudbass.Types.Schedules
             descriptor.Field(x => x.Status).Type<StringType>();
 
 
-            descriptor.Field<JobResolver>(x => x.GetJobs(default, default));
+            descriptor.Field<JobResolver>(x => x.GetJob(default, default));
 
         }
     }

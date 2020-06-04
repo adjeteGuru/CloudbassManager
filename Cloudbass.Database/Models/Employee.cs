@@ -11,11 +11,6 @@ namespace Cloudbass.Database.Models
         [Key]
         public int Id { get; set; }
 
-        [GraphQLIgnore]
-        public int UserId { get; set; }
-
-        ///desactivated
-        public User User { get; set; }
 
         [GraphQLNonNullType]
         public string Email { get; set; }
@@ -29,8 +24,13 @@ namespace Cloudbass.Database.Models
         public string Bared { get; set; }
 
         public Uri? Photo { get; set; }
+        public int CountyId { get; set; }
+        public County County { get; set; }
 
-        public ICollection<HasRole> HasRoles { get; set; }
+        // public ICollection<HasRole> HasRoles { get; set; }
+        // public ICollection<User> Users { get; set; }
+
+        // public ICollection<Category> Categories { get; set; }
 
 
     }

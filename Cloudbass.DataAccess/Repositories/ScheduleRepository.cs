@@ -28,7 +28,7 @@ namespace Cloudbass.DataAccess.Repositories
 
         public IQueryable<Schedule> GetAll()
         {
-            return _db.Schedules;
+            return _db.Schedules.AsQueryable();
         }
 
         public Schedule GetSchedule(int id)

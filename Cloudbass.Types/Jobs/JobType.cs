@@ -29,29 +29,29 @@ namespace Cloudbass.Types.Jobs
             //able to get the information of clients when we make a query about jobs
             descriptor.Field<ClientResolver>(t => t.GetClient(default, default));
 
-            //descriptor.Field<ScheduleResolver>(x => x.GetJob(default, default));
-            //descriptor.Field(x=>x.Get)
+            descriptor.Field<ScheduleResolver>(x => x.GetSchedules(default, default));
+
         }
     }
 
-    public class ScheduleResolver
-    {
-        private readonly IScheduleRepository _scheduleRepository;
-        private readonly IJobRepository _jobRepository;
-        public ScheduleResolver([Service] IScheduleRepository scheduleRepository, [Service] IJobRepository jobRepository)
-        {
-            _scheduleRepository = scheduleRepository;
-            _jobRepository = jobRepository;
-        }
+    //public class ScheduleResolver
+    //{
+    //    private readonly IScheduleRepository _scheduleRepository;
+    //    private readonly IJobRepository _jobRepository;
+    //    public ScheduleResolver([Service] IScheduleRepository scheduleRepository, [Service] IJobRepository jobRepository)
+    //    {
+    //        _scheduleRepository = scheduleRepository;
+    //        _jobRepository = jobRepository;
+    //    }
 
-        public IEnumerable<Schedule> GetSchedules(Job job, IResolverContext ctx)
-        {
-            return _scheduleRepository.GetAll().Where(x => x.JobId == job.Id);
-        }
+    //    public IEnumerable<Schedule> GetSchedules(Job job, IResolverContext ctx)
+    //    {
+    //        return _scheduleRepository.GetAll().Where(x => x.JobId == job.Id);
+    //    }
 
-        public IEnumerable<Job> GetJob(Schedule schedule, IResolverContext ctx)
-        {
-            yield return _jobRepository.GetAll().Where(x => x.Id == schedule.JobId).FirstOrDefault();
-        }
-    }
+    //    public Job GetJob(Schedule schedule, IResolverContext ctx)
+    //    {
+    //        return _jobRepository.GetAll().Where(x => x.Id == schedule.JobId).FirstOrDefault();
+    //    }
+    //}
 }

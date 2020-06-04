@@ -20,13 +20,14 @@ namespace Cloudbass.Database.Models
         [Key]
         public int Id { get; set; }
 
-        [GraphQLNonNullType]
-        public string Name { get; set; }
-
         //[GraphQLIgnore]
         //public int EmployeeId { get; set; }
 
         //public Employee Employee { get; set; }
+
+        [GraphQLNonNullType]
+        public string Name { get; set; }
+
 
         [GraphQLIgnore]
         public string Password { get; set; }
@@ -47,14 +48,6 @@ namespace Cloudbass.Database.Models
         [GraphQLIgnore]
         public string Salt { get; set; }
 
-        ////two new
-        //[GraphQLIgnore]
-        //public int EmployeeId { get; set; }
-
-        //[GraphQLNonNullType]
-        //public Employee Employee { get; set; }
-
-        // public ICollection<Log> Logs { get; set; }
 
 
     }

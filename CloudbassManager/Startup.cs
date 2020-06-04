@@ -74,6 +74,8 @@ namespace CloudbassManager
             services.AddTransient<IClientRepository, ClientRepository>();
             services.AddTransient<IJobRepository, JobRepository>();
             services.AddTransient<IScheduleRepository, ScheduleRepository>();
+            //services.AddTransient<IRoleRepository, RoleRepository>();
+            //services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddControllers();
             services.AddCors();
 
@@ -102,6 +104,7 @@ namespace CloudbassManager
                         .AddServices(sp)
                         .AddQueryType(d => d.Name("Query"))
                         .AddType<UserQuery>()
+                        .AddType<EmployeeQuery>()
                         .AddType<Query>()
                         .AddMutationType(d => d.Name("Mutation"))
                         .AddType<LoginMutation>()

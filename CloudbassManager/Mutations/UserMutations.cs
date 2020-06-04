@@ -22,16 +22,19 @@ namespace CloudbassManager.Mutations
     public class UserMutations
     {
         private readonly IUserRepository _userRepository;
-        public UserMutations(IUserRepository userRepository)
+        private readonly IEmployeeRepository _employeeRepository;
+        public UserMutations(IUserRepository userRepository, IEmployeeRepository employeeRepository)
         {
             _userRepository = userRepository;
+            _employeeRepository = employeeRepository;
         }
         /// <summary>
         /// Creates a user.
         /// </summary>
         public async Task<CreateUserPayload> CreateUser(
-            CreateUserInput input,
-            [Service] CloudbassContext db,
+            CreateUserInput input, [Service]IUserRepository userRepository,
+            [Service] CloudbassContext db, [Service]
+            IEmployeeRepository employeeRepository,
             [Service]ITopicEventSender eventSender)
         {
             //create a variable for dupication name check
@@ -73,29 +76,31 @@ namespace CloudbassManager.Mutations
 
             using var sha = SHA512.Create();
             byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(input.Password + salt));
-            int employeeId = 1;
 
-            var user = new User()
+
+            var user = new User
             {
-                // EmployeeId = employeeId,
                 Name = input.Name,
+                Email = input.Email,
                 Password = Convert.ToBase64String(hash),
                 Salt = salt
             };
 
-            var employee = new Employee
-            {
-                Id = employeeId,
-                UserId = user.Id,
-                PostNominals = input.PostNominals,
-                Alergy = input.Alergy,
-                NextOfKin = input.NextOfKin,
-                Bared = input.Bared,
-                Email = input.Email,
-                FullName = input.FullName,
-                Photo = input.Photo
 
-            };
+            //var employee = new Employee
+            //{
+            // Id = employeeId,
+            // UserId = user.Id,
+            //CountyId = input.
+            //PostNominals = input.PostNominals,
+            //Alergy = input.Alergy,
+            //NextOfKin = input.NextOfKin,
+            //Bared = input.Bared,
+            //Email = input.Email,
+            //FullName = input.FullName,
+            //Photo = input.Photo
+
+            //};
 
             //create a variable for exiting email check
             var emailCheck = await db.Users.FirstOrDefaultAsync(x => x.Email == input.Email);
@@ -120,6 +125,9 @@ namespace CloudbassManager.Mutations
                 user.Active = input.Active.Value ? true : false;
             }
 
+            //await userRepository.AddUserAsync(user).ConfigureAwait(false);
+
+            //await employeeRepository.AddEmployeeAsync(employee).ConfigureAwait(false);
 
             db.Users.Add(user);
 

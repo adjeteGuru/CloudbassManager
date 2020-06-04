@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Cloudbass.Database.Models
 {
-    public class Role
+    public class County
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        //public ICollection<HasRole> HasRoles { get; set; }
+        // public ICollection<Employee> Employees { get; set; }
     }
 }

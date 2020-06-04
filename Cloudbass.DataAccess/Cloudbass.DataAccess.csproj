@@ -15,6 +15,7 @@
     <PackageReference Include="HotChocolate.Subscriptions" Version="10.4.1" />
     <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="10.4.1" />
     <PackageReference Include="HotChocolate.Types.Filters" Version="10.4.0" />
+    <PackageReference Include="HotChocolate.Types.Selections" Version="10.4.0" />
     <PackageReference Include="HotChocolate.Types.Sorting" Version="10.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
@@ -39,6 +40,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Cloudbass.Database\Cloudbass.Database.csproj" />
     <ProjectReference Include="..\Cloudbass.Utilities\Cloudbass.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories\Contracts\Inputs\County\" />
+    <Folder Include="Repositories\Contracts\Inputs\Employee\" />
+    <Folder Include="Repositories\Contracts\Inputs\Role\" />
   </ItemGroup>
 
 </Project>
