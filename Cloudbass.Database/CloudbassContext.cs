@@ -21,18 +21,34 @@ namespace Cloudbass.Database
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
-        //public DbSet<Employee> Employees { get; set; }
-        //public DbSet<Role> Roles { get; set; }
+        public DbSet<HasRole> HasRoles { get; set; }
+        public DbSet<Role> Roles { get; set; }
         // public DbSet<County> Counties { get; set; }
         //public DbSet<Category> Categories { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Crew>()
+                .HasKey(t => new { t.JobId, t.HasRoleId });
+
+            modelBuilder.Entity<Crew>()
+                .HasOne(pt => pt.Job)
+                .WithMany(p => p.Crews)
+                .HasForeignKey(pt => pt.JobId);
+
+            modelBuilder.Entity<Crew>()
+                .HasOne(pt => pt.HasRole)
+                .WithMany(t => t.Crews)
+                .HasForeignKey(pt => pt.HasRoleId);
+        }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    modelBuilder.Entity<HasRole>()
-        //        .HasKey(t => new { t.EmployeeId, t.RoleId });
+        //        .HasKey(t => new { t.UserId, t.RoleId });
 
         //    modelBuilder.Entity<HasRole>()
-        //        .HasOne(pt => pt.Employee)
+        //        .HasOne(pt => pt.User)
         //        .WithMany(p => p.HasRoles)
         //        .HasForeignKey(pt => pt.EmployeeId);
 

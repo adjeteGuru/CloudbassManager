@@ -9,6 +9,6 @@ namespace Cloudbass.Database.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        //public ICollection<HasRole> HasRoles { get; set; }
+        public ICollection<HasRole> HasRoles { get; set; }
     }
 }

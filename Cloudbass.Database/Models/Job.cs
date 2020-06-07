@@ -38,7 +38,7 @@ namespace Cloudbass.Database.Models
 
 
         public ICollection<Schedule> Schedules { get; set; }
-        //public ICollection<HasRole> HasRoles { get; set; }
+        public ICollection<Crew> Crews { get; set; }
 
     }
 }

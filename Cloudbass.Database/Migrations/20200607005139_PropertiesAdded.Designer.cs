@@ -4,14 +4,16 @@ using Cloudbass.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cloudbass.Database.Migrations
 {
     [DbContext(typeof(CloudbassContext))]
-    partial class CloudbassContextModelSnapshot : ModelSnapshot
+    [Migration("20200607005139_PropertiesAdded")]
+    partial class PropertiesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,47 +48,30 @@ namespace Cloudbass.Database.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("Cloudbass.Database.Models.Crew", b =>
-                {
-                    b.Property<Guid>("JobId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("HasRoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("JobId", "HasRoleId");
-
-                    b.HasIndex("HasRoleId");
-
-                    b.ToTable("Crew");
-                });
-
             modelBuilder.Entity("Cloudbass.Database.Models.HasRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal?>("Rate")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("JobId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("Rate")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal?>("TotalDays")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.HasKey("UserId", "RoleId");
 
-                    b.HasKey("Id");
+                    b.HasIndex("JobId");
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("HasRoles");
+                    b.ToTable("HasRole");
                 });
 
             modelBuilder.Entity("Cloudbass.Database.Models.Job", b =>
@@ -221,23 +206,12 @@ namespace Cloudbass.Database.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Cloudbass.Database.Models.Crew", b =>
-                {
-                    b.HasOne("Cloudbass.Database.Models.HasRole", "HasRole")
-                        .WithMany("Crews")
-                        .HasForeignKey("HasRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Cloudbass.Database.Models.Job", "Job")
-                        .WithMany("Crews")
-                        .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Cloudbass.Database.Models.HasRole", b =>
                 {
+                    b.HasOne("Cloudbass.Database.Models.Job", null)
+                        .WithMany("HasRoles")
+                        .HasForeignKey("JobId");
+
                     b.HasOne("Cloudbass.Database.Models.Role", "Role")
                         .WithMany("HasRoles")
                         .HasForeignKey("RoleId")

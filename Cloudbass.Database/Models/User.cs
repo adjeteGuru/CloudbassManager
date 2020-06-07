@@ -49,6 +49,10 @@ namespace Cloudbass.Database.Models
         public string Salt { get; set; }
 
 
+        //[DefaultValue(false)]
+        //public bool IsAdmin { get; set; }
+
+        public ICollection<HasRole> HasRoles { get; set; }
 
     }
 }
