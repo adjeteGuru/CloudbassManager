@@ -31,6 +31,8 @@ namespace Cloudbass.Types.Jobs
 
             descriptor.Field<ScheduleResolver>(x => x.GetSchedules(default, default));
 
+            //descriptor.Field<JobResolver>(x => x.GetJobForClient(clientId, default));
+
         }
     }
 

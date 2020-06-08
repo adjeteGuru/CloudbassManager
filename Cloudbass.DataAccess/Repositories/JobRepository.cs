@@ -145,14 +145,14 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
 
-        //public IEnumerable<Job> GetJobsForClient(int clientId, int lastJob)
-        //{
-        //    return _db.Jobs.Where(x => x.ClientId == clientId)
-        //         //by decending order
-        //         .OrderByDescending(x => x.CreatedAt)
-        //         //take as many as client want
-        //         .Take(lastJob);
-        //}
+        public IEnumerable<Job> GetJobsForClient(int clientId, int lastJob)
+        {
+            return _db.Jobs.Where(x => x.ClientId == clientId)
+                 //by decending order
+                 .OrderByDescending(x => x.CreatedAt)
+                 //take as many as client want
+                 .Take(lastJob);
+        }
 
 
     }

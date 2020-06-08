@@ -12,7 +12,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     {
         IQueryable<Job> GetAll();
         //IEnumerable<Job> GetJobsForClient(int clientId);
-        //IEnumerable<Job> GetJobsForClient(int clientId, int lastJob);
+        IEnumerable<Job> GetJobsForClient(int clientId, int lastJob);
 
         Job Create(CreateJobInput input);
         Job Delete(DeleteJobInput input);

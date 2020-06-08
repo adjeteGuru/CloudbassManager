@@ -13,11 +13,9 @@ namespace Cloudbass.DataAccess.Resolvers
     {
         private readonly IJobRepository _jobRepository;
 
-
         public JobResolver([Service] IJobRepository jobRepository)
         {
             _jobRepository = jobRepository;
-
         }
 
         public Job GetJob(Schedule schedule, IResolverContext ctx)
@@ -28,6 +26,16 @@ namespace Cloudbass.DataAccess.Resolvers
         public Job GetJob(Crew crew, IResolverContext ctx)
         {
             return _jobRepository.GetAll().Where(x => x.Id == crew.JobId).FirstOrDefault();
+        }
+
+        public Job GetJobForClient(int clientId, int lastJob, IResolverContext ctx)
+        {
+            return _jobRepository.GetAll()
+                .Where(x => x.ClientId == clientId)
+                .OrderByDescending(x => x.CreatedAt)
+                .Take(lastJob)
+                .FirstOrDefault();
+
         }
 
         public IEnumerable<Job> GetJobs(Client client, IResolverContext ctx)

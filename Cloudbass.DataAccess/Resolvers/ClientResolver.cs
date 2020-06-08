@@ -21,5 +21,6 @@ namespace Cloudbass.DataAccess.Resolvers
         {
             return _clientRepository.GetAll().Where(a => a.Id == job.ClientId).FirstOrDefault();
         }
+
     }
 }

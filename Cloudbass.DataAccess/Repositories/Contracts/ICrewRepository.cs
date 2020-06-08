@@ -6,10 +6,8 @@ using System.Text;
 
 namespace Cloudbass.DataAccess.Repositories.Contracts
 {
-    public interface IHasRoleRepository
+    public interface ICrewRepository
     {
-        IQueryable<HasRole> GetAll();
-        public HasRole GetHasRoleById(int id);
-
+        IQueryable<Crew> GetAll();
     }
 }

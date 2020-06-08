@@ -8,23 +8,17 @@ using System.Text;
 
 namespace Cloudbass.DataAccess.Repositories
 {
-    public class CountyRepository : ICountyRepository
+    public class CrewRepository : ICrewRepository
+
     {
         private readonly CloudbassContext _db;
-        public CountyRepository(CloudbassContext db)
+        public CrewRepository(CloudbassContext db)
         {
             _db = db;
         }
-
-        public IQueryable<County> GetAll()
+        public IQueryable<Crew> GetAll()
         {
             throw new NotImplementedException();
-        }
-
-        public County GetById(int id)
-        {
-            throw new NotImplementedException();
-            //return _db.Counties.SingleOrDefault(x => x.Id == id);
         }
     }
 }

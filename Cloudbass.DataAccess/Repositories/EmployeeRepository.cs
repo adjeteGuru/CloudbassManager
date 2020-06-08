@@ -1,4 +1,5 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
+using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,11 @@ namespace Cloudbass.DataAccess.Repositories
 {
     public class EmployeeRepository : IEmployeeRepository
     {
+        private readonly CloudbassContext _db;
+        public EmployeeRepository(CloudbassContext db)
+        {
+            _db = db;
+        }
         public Task AddEmployeeAsync(Employee employee)
         {
             throw new NotImplementedException();
