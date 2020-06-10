@@ -25,6 +25,19 @@ namespace Cloudbass.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -74,6 +87,34 @@ namespace Cloudbass.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "HasRoles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: false),
+                    TotalDays = table.Column<decimal>(nullable: true),
+                    Rate = table.Column<decimal>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HasRoles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HasRoles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HasRoles_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Schedules",
                 columns: table => new
                 {
@@ -97,6 +138,57 @@ namespace Cloudbass.Database.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Crew",
+                columns: table => new
+                {
+                    HasRoleId = table.Column<int>(nullable: false),
+                    JobId = table.Column<Guid>(nullable: false),
+                    JobId1 = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Crew", x => new { x.JobId, x.HasRoleId });
+                    table.ForeignKey(
+                        name: "FK_Crew_HasRoles_HasRoleId",
+                        column: x => x.HasRoleId,
+                        principalTable: "HasRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Crew_Jobs_JobId",
+                        column: x => x.JobId,
+                        principalTable: "Jobs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Crew_Jobs_JobId1",
+                        column: x => x.JobId1,
+                        principalTable: "Jobs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Crew_HasRoleId",
+                table: "Crew",
+                column: "HasRoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Crew_JobId1",
+                table: "Crew",
+                column: "JobId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HasRoles_RoleId",
+                table: "HasRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HasRoles_UserId",
+                table: "HasRoles",
+                column: "UserId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Jobs_ClientId",
                 table: "Jobs",
@@ -111,13 +203,22 @@ namespace Cloudbass.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Crew");
+
+            migrationBuilder.DropTable(
                 name: "Schedules");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "HasRoles");
 
             migrationBuilder.DropTable(
                 name: "Jobs");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Clients");

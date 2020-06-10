@@ -224,13 +224,13 @@ namespace Cloudbass.Database.Migrations
             modelBuilder.Entity("Cloudbass.Database.Models.Crew", b =>
                 {
                     b.HasOne("Cloudbass.Database.Models.HasRole", "HasRole")
-                        .WithMany("Crews")
+                        .WithMany("CrewMembers")
                         .HasForeignKey("HasRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Cloudbass.Database.Models.Job", "Job")
-                        .WithMany("Crews")
+                        .WithMany("CrewMembers")
                         .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

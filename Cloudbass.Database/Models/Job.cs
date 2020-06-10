@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotChocolate;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -38,7 +39,15 @@ namespace Cloudbass.Database.Models
 
 
         public ICollection<Schedule> Schedules { get; set; }
-        public ICollection<Crew> Crews { get; set; }
+
+        //[GraphQLIgnore]
+        //public ICollection<Crew> Crews { get; set; }
+
+        //[GraphQLIgnore]
+        //public List<Crew> EngagedIn { get; } = new List<Crew>();
+
+        [GraphQLIgnore]
+        public List<Crew> CrewMembers { get; } = new List<Crew>();
 
     }
 }

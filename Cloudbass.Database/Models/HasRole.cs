@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotChocolate;
+using System;
 using System.Collections.Generic;
 
 namespace Cloudbass.Database.Models
@@ -15,6 +16,8 @@ namespace Cloudbass.Database.Models
         public Nullable<decimal> TotalDays { get; set; }
         public Nullable<decimal> Rate { get; set; }
 
-        public ICollection<Crew> Crews { get; set; }
+        //public ICollection<Crew> CrewMembers { get; set; }
+        [GraphQLIgnore]
+        public List<Crew> CrewMembers { get; } = new List<Crew>();
     }
 }

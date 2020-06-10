@@ -18,12 +18,12 @@ namespace Cloudbass.DataAccess.Resolvers
             _jobRepository = jobRepository;
         }
 
-        public Job GetJob(Schedule schedule, IResolverContext ctx)
+        public Job GetJobOnSched(Schedule schedule, IResolverContext ctx)
         {
             return _jobRepository.GetAll().Where(x => x.Id == schedule.JobId).FirstOrDefault();
         }
 
-        public Job GetJob(Crew crew, IResolverContext ctx)
+        public Job GetJobOnCrew(Crew crew, IResolverContext ctx)
         {
             return _jobRepository.GetAll().Where(x => x.Id == crew.JobId).FirstOrDefault();
         }

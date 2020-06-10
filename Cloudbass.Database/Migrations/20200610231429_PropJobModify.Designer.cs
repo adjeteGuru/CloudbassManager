@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cloudbass.Database.Migrations
 {
     [DbContext(typeof(CloudbassContext))]
-    [Migration("20200603231803_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200610231429_PropJobModify")]
+    partial class PropJobModify
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,49 @@ namespace Cloudbass.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("Cloudbass.Database.Models.Crew", b =>
+                {
+                    b.Property<Guid>("JobId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("HasRoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("JobId", "HasRoleId");
+
+                    b.HasIndex("HasRoleId");
+
+                    b.ToTable("Crew");
+                });
+
+            modelBuilder.Entity("Cloudbass.Database.Models.HasRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal?>("Rate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("TotalDays")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("HasRoles");
                 });
 
             modelBuilder.Entity("Cloudbass.Database.Models.Job", b =>
@@ -95,6 +138,21 @@ namespace Cloudbass.Database.Migrations
                     b.HasIndex("ClientId");
 
                     b.ToTable("Jobs");
+                });
+
+            modelBuilder.Entity("Cloudbass.Database.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Cloudbass.Database.Models.Schedule", b =>
@@ -163,6 +221,36 @@ namespace Cloudbass.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Cloudbass.Database.Models.Crew", b =>
+                {
+                    b.HasOne("Cloudbass.Database.Models.HasRole", "HasRole")
+                        .WithMany("CrewMembers")
+                        .HasForeignKey("HasRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cloudbass.Database.Models.Job", "Job")
+                        .WithMany("CrewMembers")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Cloudbass.Database.Models.HasRole", b =>
+                {
+                    b.HasOne("Cloudbass.Database.Models.Role", "Role")
+                        .WithMany("HasRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cloudbass.Database.Models.User", "User")
+                        .WithMany("HasRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Cloudbass.Database.Models.Job", b =>

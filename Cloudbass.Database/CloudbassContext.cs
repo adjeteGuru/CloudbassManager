@@ -33,12 +33,12 @@ namespace Cloudbass.Database
 
             modelBuilder.Entity<Crew>()
                 .HasOne(pt => pt.Job)
-                .WithMany(p => p.Crews)
+                .WithMany(p => p.CrewMembers)
                 .HasForeignKey(pt => pt.JobId);
 
             modelBuilder.Entity<Crew>()
                 .HasOne(pt => pt.HasRole)
-                .WithMany(t => t.Crews)
+                .WithMany(t => t.CrewMembers)
                 .HasForeignKey(pt => pt.HasRoleId);
         }
 
