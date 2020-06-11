@@ -20,10 +20,11 @@ namespace Cloudbass.Database.Models
         [Key]
         public int Id { get; set; }
 
-        //[GraphQLIgnore]
-        //public int EmployeeId { get; set; }
+        [GraphQLIgnore]
+        public int EmployeeId { get; set; }
 
-        //public Employee Employee { get; set; }
+        [GraphQLNonNullType]
+        public Employee Employee { get; set; }
 
         [GraphQLNonNullType]
         public string Name { get; set; }
@@ -49,10 +50,12 @@ namespace Cloudbass.Database.Models
         public string Salt { get; set; }
 
 
-        //[DefaultValue(false)]
-        //public bool IsAdmin { get; set; }
+        [DefaultValue(false)]
+        public bool IsAdmin { get; set; }
 
-        public ICollection<HasRole> HasRoles { get; set; }
+        // public ICollection<HasRole> HasRoles { get; set; }
+
+        //  public ICollection<Employee> Employees { get; set; }
 
     }
 }

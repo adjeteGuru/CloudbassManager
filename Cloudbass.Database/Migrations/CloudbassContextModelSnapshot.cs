@@ -46,6 +46,21 @@ namespace Cloudbass.Database.Migrations
                     b.ToTable("Clients");
                 });
 
+            modelBuilder.Entity("Cloudbass.Database.Models.County", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Counties");
+                });
+
             modelBuilder.Entity("Cloudbass.Database.Models.Crew", b =>
                 {
                     b.Property<Guid>("JobId")
@@ -61,12 +76,53 @@ namespace Cloudbass.Database.Migrations
                     b.ToTable("Crew");
                 });
 
+            modelBuilder.Entity("Cloudbass.Database.Models.Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Alergy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Bared")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CountyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NextOfKin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostNominals")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountyId");
+
+                    b.ToTable("Employees");
+                });
+
             modelBuilder.Entity("Cloudbass.Database.Models.HasRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<decimal?>("Rate")
                         .HasColumnType("decimal(18,2)");
@@ -77,14 +133,11 @@ namespace Cloudbass.Database.Migrations
                     b.Property<decimal?>("TotalDays")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("EmployeeId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("RoleId");
 
                     b.ToTable("HasRoles");
                 });
@@ -106,6 +159,9 @@ namespace Cloudbass.Database.Migrations
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -201,6 +257,12 @@ namespace Cloudbass.Database.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -217,6 +279,8 @@ namespace Cloudbass.Database.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("Users");
                 });
@@ -236,17 +300,26 @@ namespace Cloudbass.Database.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Cloudbass.Database.Models.Employee", b =>
+                {
+                    b.HasOne("Cloudbass.Database.Models.County", "County")
+                        .WithMany("Employees")
+                        .HasForeignKey("CountyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Cloudbass.Database.Models.HasRole", b =>
                 {
-                    b.HasOne("Cloudbass.Database.Models.Role", "Role")
-                        .WithMany("HasRoles")
-                        .HasForeignKey("RoleId")
+                    b.HasOne("Cloudbass.Database.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Cloudbass.Database.Models.User", "User")
+                    b.HasOne("Cloudbass.Database.Models.Role", "Role")
                         .WithMany("HasRoles")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -265,6 +338,15 @@ namespace Cloudbass.Database.Migrations
                     b.HasOne("Cloudbass.Database.Models.Job", "Job")
                         .WithMany("Schedules")
                         .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Cloudbass.Database.Models.User", b =>
+                {
+                    b.HasOne("Cloudbass.Database.Models.Employee", "Employee")
+                        .WithMany("Users")
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

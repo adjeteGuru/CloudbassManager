@@ -23,8 +23,8 @@ namespace Cloudbass.Database
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<HasRole> HasRoles { get; set; }
         public DbSet<Role> Roles { get; set; }
-        // public DbSet<County> Counties { get; set; }
-        //public DbSet<Category> Categories { get; set; }
+        public DbSet<County> Counties { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

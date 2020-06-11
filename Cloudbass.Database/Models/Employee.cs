@@ -28,9 +28,9 @@ namespace Cloudbass.Database.Models
         public County County { get; set; }
 
         // public ICollection<HasRole> HasRoles { get; set; }
-        // public ICollection<User> Users { get; set; }
+        public ICollection<User> Users { get; set; }
 
-        // public ICollection<Category> Categories { get; set; }
+
 
 
     }

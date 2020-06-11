@@ -11,25 +11,98 @@ namespace Cloudbass.Database
     {
         public static void EnsureSeedData(this CloudbassContext db)
         {
-            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any() || !db.Schedules.Any())
+            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any() || !db.Schedules.Any() || !db.Employees.Any() || !db.Counties.Any())
             {
                 string salt = Guid.NewGuid().ToString("N");
 
                 using var sha = SHA512.Create();
                 byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes("Cloudba55" + salt));
+                //int EmployeeId = 1;
 
-                var users = new List<User>
-                {
-                    new User
 
-                    {   Name = "Admin",
-                        Password= Convert.ToBase64String(hash),
-                        Salt = salt,
-                    }
+                var counties = new List<County>
+                                {
+                                    new County
+                                    {
+                                        Name = "Derbyshire",
+
+                                       Employees=new List<Employee>
+                                       {
+                                           new Employee
+                                           {
+                                               FullName= "Ben Davies",
+                                               Email ="ben.davies@cloudbass.com",
+                                               Users= new List<User>
+                                               {
+                                                   new User
+                                                   {
+                                                       Name = "Admin",
+                                                       Password= Convert.ToBase64String(hash),
+                                                       Salt = salt,
+                                                   }
+                                               }
+                                           }
+                                       }
+
+                                    }
                 };
 
-                db.Users.AddRange(users);
+                db.Counties.AddRange(counties);
                 db.SaveChanges();
+
+
+                //var employees = new List<Employee>
+                //{
+                //    new Employee
+                //    {
+                //         FullName= "Ben Davies",
+                //         Email ="ben.davies@cloudbass.com",
+                //         CountyId = 1,
+                //          Users= new List<User>
+                //          { 
+                //           new User
+                //           {
+                //               Name = "Admin",
+                //               Password= Convert.ToBase64String(hash),
+                //               Salt = salt,
+                //           }
+                //          }
+                //    }
+                //};
+
+                //db.Employees.AddRange(employees);
+                //db.SaveChanges();
+
+
+                //var users = new List<User>
+                //{
+                //    new User
+
+                //    {   Name = "Admin",
+                //        Password= Convert.ToBase64String(hash),
+                //        Salt = salt,
+
+                //    }
+                //};
+
+                //db.Users.AddRange(users);
+                //db.SaveChanges();
+
+
+
+
+                //var employees = new List<Employee>
+                //{
+                //    new Employee
+                //    {
+                //         FullName= "Ben Davies",
+                //         Email ="ben.davies@cloudbass.com",
+                //         CountyId = 1,
+                //    }
+                //};
+
+                //db.Employees.AddRange(employees);
+                //db.SaveChanges();
 
 
                 var clients = new List<Client>

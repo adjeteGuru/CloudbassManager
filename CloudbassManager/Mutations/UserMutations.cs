@@ -76,10 +76,30 @@ namespace CloudbassManager.Mutations
 
             using var sha = SHA512.Create();
             byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(input.Password + salt));
+            //Guid employeeId = Guid.NewGuid();
+
+
+            var employee = new Employee
+            {
+                //Id = user.Id,
+                // UserId = user.Id,
+                // Id = employeeId,
+                CountyId = input.CountyId,
+                PostNominals = input.PostNominals,
+                Alergy = input.Alergy,
+                NextOfKin = input.NextOfKin,
+                Bared = input.Bared,
+                Email = input.Email,
+                FullName = input.FullName,
+                Photo = input.Photo
+
+            };
 
 
             var user = new User
             {
+                // Id = Guid.NewGuid(),
+                EmployeeId = employee.Id,
                 Name = input.Name,
                 Email = input.Email,
                 Password = Convert.ToBase64String(hash),
@@ -87,20 +107,6 @@ namespace CloudbassManager.Mutations
             };
 
 
-            //var employee = new Employee
-            //{
-            // Id = employeeId,
-            // UserId = user.Id,
-            //CountyId = input.
-            //PostNominals = input.PostNominals,
-            //Alergy = input.Alergy,
-            //NextOfKin = input.NextOfKin,
-            //Bared = input.Bared,
-            //Email = input.Email,
-            //FullName = input.FullName,
-            //Photo = input.Photo
-
-            //};
 
             //create a variable for exiting email check
             var emailCheck = await db.Users.FirstOrDefaultAsync(x => x.Email == input.Email);
@@ -130,6 +136,7 @@ namespace CloudbassManager.Mutations
             //await employeeRepository.AddEmployeeAsync(employee).ConfigureAwait(false);
 
             db.Users.Add(user);
+            db.Employees.Add(employee);
 
             await db.SaveChangesAsync();
 

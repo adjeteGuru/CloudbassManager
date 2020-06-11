@@ -58,6 +58,7 @@ namespace CloudbassManager
                     x.Events = new JwtBearerEvents
                     {
                         OnMessageReceived = context =>
+
                         {
                             if (context.HttpContext.Request.Query.ContainsKey("token"))
                             {
@@ -74,8 +75,10 @@ namespace CloudbassManager
             services.AddTransient<IClientRepository, ClientRepository>();
             services.AddTransient<IJobRepository, JobRepository>();
             services.AddTransient<IScheduleRepository, ScheduleRepository>();
-            //services.AddTransient<IRoleRepository, RoleRepository>();
-            //services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            services.AddTransient<IHasRoleRepository, HasRoleRepository>();
+            services.AddTransient<ICountyRepository, CountyRepository>();
             services.AddControllers();
             services.AddCors();
 
@@ -89,6 +92,7 @@ namespace CloudbassManager
             services.AddSingleton<ClientType>();
             services.AddSingleton<JobType>();
             services.AddSingleton<ScheduleType>();
+            //services.AddSingleton<EmployeeType>();
 
             //this is to record the job not found exception
             services.AddErrorFilter<JobNotFoundExceptionFilter>();
