@@ -17,12 +17,12 @@ namespace Cloudbass.DataAccess.Repositories
         }
         public IQueryable<Role> GetAll()
         {
-            throw new NotImplementedException();
+            return _db.Roles.AsQueryable();
         }
 
         public Role GetRole(int id)
         {
-            throw new NotImplementedException();
+            return _db.Roles.SingleOrDefault(x => x.Id == id);
         }
     }
 }

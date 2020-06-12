@@ -10,6 +10,8 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     public interface IScheduleRepository
     {
         public Schedule GetSchedule(int id);
+        IEnumerable<Schedule> GetSchedulesForJob(Guid jobId);
+        //public Schedule GetSchedulesForJob(Guid jobId);
         IQueryable<Schedule> GetAll();
         public Schedule CreateSchedule(CreateScheduleInput input);
         public Schedule DeleteSchedule(DeleteScheduleInput input);

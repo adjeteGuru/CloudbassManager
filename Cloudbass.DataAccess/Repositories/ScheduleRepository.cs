@@ -33,12 +33,22 @@ namespace Cloudbass.DataAccess.Repositories
 
         public Schedule GetSchedule(int id)
         {
-            return _db.Schedules.Find(id);
+            return _db.Schedules.FirstOrDefault(x => x.Id == id);
         }
+
+        //public Schedule GetSchedulesForJob(Guid jobId)
+        //{
+        //    return _db.Schedules.Where(x => x.JobId == jobId);
+        //}
 
         public Schedule UpdateSchedule(UpdateJobInput input, int id)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<Schedule> GetSchedulesForJob(Guid jobId)
+        {
+            return _db.Schedules.Where(x => x.JobId == jobId);
         }
     }
 }

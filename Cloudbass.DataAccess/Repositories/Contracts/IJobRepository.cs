@@ -11,7 +11,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     public interface IJobRepository
     {
         IQueryable<Job> GetAll();
-        //IEnumerable<Job> GetJobsForClient(int clientId);
+        IEnumerable<Job> GetJobsForClient(int clientId);
         IEnumerable<Job> GetJobsForClient(int clientId, int lastJob);
 
         Job Create(CreateJobInput input);

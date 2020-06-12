@@ -18,13 +18,13 @@ namespace Cloudbass.DataAccess.Repositories
 
         public IQueryable<County> GetAll()
         {
-            throw new NotImplementedException();
+            return _db.Counties.AsQueryable();
         }
 
         public County GetById(int id)
         {
-            throw new NotImplementedException();
-            //return _db.Counties.SingleOrDefault(x => x.Id == id);
+            //throw new NotImplementedException();
+            return _db.Counties.SingleOrDefault(x => x.Id == id);
         }
     }
 }

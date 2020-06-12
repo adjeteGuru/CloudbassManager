@@ -138,13 +138,6 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
 
-
-        IQueryable<Job> IJobRepository.GetAll()
-        {
-            return _db.Jobs.AsQueryable();
-        }
-
-
         public IEnumerable<Job> GetJobsForClient(int clientId, int lastJob)
         {
             return _db.Jobs.Where(x => x.ClientId == clientId)
@@ -154,7 +147,15 @@ namespace Cloudbass.DataAccess.Repositories
                  .Take(lastJob);
         }
 
+        public IQueryable<Job> GetAll()
+        {
+            return _db.Jobs.AsQueryable();
+        }
 
+        public IEnumerable<Job> GetJobsForClient(int clientId)
+        {
+            return _db.Jobs.Where(x => x.ClientId == clientId);
+        }
     }
 }
 

@@ -10,7 +10,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     public interface IClientRepository
     {
         IQueryable<Client> GetAll();
-        Client GetClient(int id);
+        public Client GetClient(int id);
         Client Create(CreateClientInput input);
         Client Delete(DeleteClientInput input);
         Client Update(UpdateClientInput input, int id);

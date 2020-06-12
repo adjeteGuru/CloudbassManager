@@ -23,12 +23,12 @@ namespace Cloudbass.DataAccess.Repositories
 
         public IQueryable<Employee> GetAll()
         {
-            throw new NotImplementedException();
+            return _db.Employees.AsQueryable();
         }
 
         public Employee GetEmployee(int id)
         {
-            throw new NotImplementedException();
+            return _db.Employees.SingleOrDefault(x => x.Id == id);
         }
     }
 }

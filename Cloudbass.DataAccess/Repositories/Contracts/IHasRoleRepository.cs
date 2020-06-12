@@ -10,6 +10,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     {
         IQueryable<HasRole> GetAll();
         public HasRole GetHasRoleById(int id);
+        IEnumerable<HasRole> GetHasRolesForRoleOrEmployee(int roleId, int employeeId);
 
     }
 }
