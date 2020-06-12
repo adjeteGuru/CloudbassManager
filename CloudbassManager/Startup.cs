@@ -79,6 +79,7 @@ namespace CloudbassManager
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IHasRoleRepository, HasRoleRepository>();
             services.AddTransient<ICountyRepository, CountyRepository>();
+            services.AddTransient<ICrewRepository, CrewRepository>();
             services.AddControllers();
             services.AddCors();
 

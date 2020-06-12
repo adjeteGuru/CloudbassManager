@@ -34,6 +34,11 @@ namespace Cloudbass.Types
             descriptor.Field(u => u.Salt)
                 .Type<NonNullType<StringType>>();
 
+            descriptor.Field(u => u.EmployeeId)
+               .Ignore();
+            descriptor.Field(u => u.IsAdmin)
+              .Type<NonNullType<BooleanType>>();
+
         }
 
     }

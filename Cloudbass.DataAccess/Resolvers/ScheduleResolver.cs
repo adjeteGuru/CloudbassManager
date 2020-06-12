@@ -12,11 +12,11 @@ namespace Cloudbass.DataAccess.Resolvers
     public class ScheduleResolver
     {
         private readonly IScheduleRepository _scheduleRepository;
-        private readonly IJobRepository _jobRepository;
-        public ScheduleResolver([Service] IScheduleRepository scheduleRepository, [Service] IJobRepository jobRepository)
+        // private readonly IJobRepository _jobRepository;
+        public ScheduleResolver([Service] IScheduleRepository scheduleRepository /*, [Service] IJobRepository jobRepository*/)
         {
             _scheduleRepository = scheduleRepository;
-            _jobRepository = jobRepository;
+            //_jobRepository = jobRepository;
         }
 
         public IEnumerable<Schedule> GetSchedules(Job job, IResolverContext ctx)
@@ -24,10 +24,10 @@ namespace Cloudbass.DataAccess.Resolvers
             return _scheduleRepository.GetAll().Where(x => x.JobId == job.Id);
         }
 
-        public Job GetJob(Schedule schedule, IResolverContext ctx)
-        {
-            return _jobRepository.GetAll().Where(x => x.Id == schedule.JobId).FirstOrDefault();
-        }
+        //public Job GetJob(Schedule schedule, IResolverContext ctx)
+        //{
+        //    return _jobRepository.GetAll().Where(x => x.Id == schedule.JobId).FirstOrDefault();
+        //}
     }
 }
 
