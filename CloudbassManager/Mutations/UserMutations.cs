@@ -140,9 +140,9 @@ namespace CloudbassManager.Mutations
 
             await db.SaveChangesAsync();
 
-            await eventSender.SendAsync("CreateUser", user);
+            await eventSender.SendAsync("CreateUser", user/*,employee*/);
 
-            return new CreateUserPayload(user);
+            return new CreateUserPayload(user/*, employee*/);
         }
 
         /// <summary>

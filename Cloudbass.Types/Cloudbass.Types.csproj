@@ -42,8 +42,4 @@
     <ProjectReference Include="..\Cloudbass.Database\Cloudbass.Database.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="HasRoles\" />
-  </ItemGroup>
-
 </Project>

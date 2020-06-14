@@ -3,7 +3,12 @@ using Cloudbass.DataAccess.Repositories;
 using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Types;
+using Cloudbass.Types.Counties;
+using Cloudbass.Types.Crews;
+using Cloudbass.Types.Employees;
+using Cloudbass.Types.HasRoles;
 using Cloudbass.Types.Jobs;
+using Cloudbass.Types.Roles;
 using Cloudbass.Types.Schedules;
 using Cloudbass.Utilities.Filters;
 using CloudbassManager.Mutations;
@@ -93,7 +98,11 @@ namespace CloudbassManager
             services.AddSingleton<ClientType>();
             services.AddSingleton<JobType>();
             services.AddSingleton<ScheduleType>();
-            //services.AddSingleton<EmployeeType>();
+            services.AddSingleton<EmployeeType>();
+            services.AddSingleton<RoleType>();
+            services.AddSingleton<CountyType>();
+            services.AddSingleton<HasRoleType>();
+            services.AddSingleton<CrewType>();
 
             //this is to record the job not found exception
             services.AddErrorFilter<JobNotFoundExceptionFilter>();

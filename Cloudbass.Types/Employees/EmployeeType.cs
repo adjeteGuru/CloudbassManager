@@ -1,4 +1,5 @@
-﻿using Cloudbass.Database.Models;
+﻿using Cloudbass.DataAccess.Resolvers;
+using Cloudbass.Database.Models;
 using HotChocolate.Types;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,12 @@ namespace Cloudbass.Types.Employees
             descriptor.Field(x => x.Bared).Type<BooleanType>();
             descriptor.Field(x => x.Email).Type<StringType>();
             descriptor.Field(x => x.NextOfKin).Type<StringType>();
-            descriptor.Field(x => x.CountyId).Type<IdType>();
+            //descriptor.Field(x => x.CountyId).Type<IdType>();
             descriptor.Field(x => x.Photo).Type<StringType>();
+
+            descriptor.Field<CountyResolver>(x => x.GetCounty(default, default));
+
+            descriptor.Field<UserResolver>(x => x.GetUsers(default, default));
         }
     }
 }

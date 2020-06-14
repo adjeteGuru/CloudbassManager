@@ -19,6 +19,7 @@ namespace Cloudbass.Types.Input
              string bared,
              bool? isAdmin,
              int countyId
+
             )
         {
             Name = name;
@@ -39,7 +40,7 @@ namespace Cloudbass.Types.Input
 
         public string FullName { get; }
 
-#nullable enable
+        //#nullable enable
         public Uri? Photo { get; }
 
         public string Email { get; }
@@ -52,7 +53,7 @@ namespace Cloudbass.Types.Input
         public string NextOfKin { get; }
         public string Bared { get; }
         public string Alergy { get; }
-        public int CountyId { get; /*set;*/ }
+        public int CountyId { get; }
 
     }
 }

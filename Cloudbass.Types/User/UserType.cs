@@ -1,4 +1,5 @@
-﻿using Cloudbass.Database.Models;
+﻿using Cloudbass.DataAccess.Resolvers;
+using Cloudbass.Database.Models;
 using HotChocolate.Types;
 using System;
 using System.Collections.Generic;
@@ -34,10 +35,12 @@ namespace Cloudbass.Types
             descriptor.Field(u => u.Salt)
                 .Type<NonNullType<StringType>>();
 
-            descriptor.Field(u => u.EmployeeId)
-               .Ignore();
+            //descriptor.Field(u => u.EmployeeId)
+            //   .Ignore();
             descriptor.Field(u => u.IsAdmin)
               .Type<NonNullType<BooleanType>>();
+
+            descriptor.Field<EmployeeResolver>(x => x.GetEmployee(default, default));
 
         }
 

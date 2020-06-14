@@ -21,9 +21,14 @@ namespace Cloudbass.DataAccess.Resolvers
             return _employeeRepository.GetAll().Where(x => x.CountyId == client.Id);
         }
 
-        public Employee GetEmployee(HasRole hasRole, IResolverContext ctx)
+        public Employee GetEmployee(/*HasRole hasRole,*/ User user, IResolverContext ctx)
         {
-            return _employeeRepository.GetAll().Where(x => x.Id == hasRole.EmployeeId).FirstOrDefault();
+            return _employeeRepository.GetAll().Where(x => /*x.Id == hasRole.EmployeeId ||*/ x.Id == user.EmployeeId).FirstOrDefault();
         }
+
+        //public Employee GetEmployee(User user, IResolverContext ctx)
+        //{
+        //    return _employeeRepository.GetAll().Where(a => a.Id == user.EmployeeId).FirstOrDefault();
+        //}
     }
 }

@@ -15,7 +15,7 @@ namespace CloudbassManager.Queries
         /// <summary>
         /// Gets all users.
         /// </summary>
-        [Authorize]
+        //[Authorize]
         public IQueryable<User> GetUsers([Service] CloudbassContext db) =>
 
             db.Users;
@@ -23,7 +23,7 @@ namespace CloudbassManager.Queries
         /// <summary>
         /// Gets a user by its id.
         /// </summary>
-        [Authorize]
+        //[Authorize]
         public IQueryable<User> GetUser([Service] CloudbassContext db, int id) =>
 
             db.Users.Where(t => t.Id == id);

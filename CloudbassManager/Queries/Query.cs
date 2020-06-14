@@ -1,7 +1,12 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database.Models;
 using Cloudbass.Types;
+using Cloudbass.Types.Counties;
+using Cloudbass.Types.Crews;
+using Cloudbass.Types.Employees;
+using Cloudbass.Types.HasRoles;
 using Cloudbass.Types.Jobs;
+using Cloudbass.Types.Roles;
 using Cloudbass.Types.Schedules;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
@@ -19,11 +24,30 @@ namespace CloudbassManager.Queries
         private readonly IClientRepository _clientRepository;
         private readonly IJobRepository _jobRepository;
         private readonly IScheduleRepository _scheduleRepository;
-        public Query(IClientRepository clientRepository, IJobRepository jobRepository, IScheduleRepository scheduleRepository)
+        private readonly ICountyRepository _countyRepository;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IRoleRepository _roleRepository;
+        private readonly IHasRoleRepository _hasRoleRepository;
+        private readonly ICrewRepository _crewRepository;
+        public Query(IClientRepository clientRepository,
+            IJobRepository jobRepository,
+            IScheduleRepository scheduleRepository,
+            ICountyRepository countyRepository,
+            IEmployeeRepository employeeRepository,
+            IRoleRepository roleRepository,
+            IHasRoleRepository hasRoleRepository,
+            ICrewRepository crewRepository
+            )
         {
             _clientRepository = clientRepository;
             _jobRepository = jobRepository;
             _scheduleRepository = scheduleRepository;
+            _countyRepository = countyRepository;
+            _employeeRepository = employeeRepository;
+            _roleRepository = roleRepository;
+            _hasRoleRepository = hasRoleRepository;
+            _crewRepository = crewRepository;
+
         }
 
 
@@ -41,5 +65,26 @@ namespace CloudbassManager.Queries
         [UsePaging(SchemaType = typeof(ScheduleType))]
         [UseFiltering]
         public IQueryable<Schedule> Schedules => _scheduleRepository.GetAll();
+
+
+        [UsePaging(SchemaType = typeof(CountyType))]
+        [UseFiltering]
+        public IQueryable<County> Counties => _countyRepository.GetAll();
+
+        [UsePaging(SchemaType = typeof(RoleType))]
+        [UseFiltering]
+        public IQueryable<Role> Roles => _roleRepository.GetAll();
+
+        [UsePaging(SchemaType = typeof(HasRoleType))]
+        [UseFiltering]
+        public IQueryable<HasRole> HasRoles => _hasRoleRepository.GetAll();
+
+        [UsePaging(SchemaType = typeof(CrewType))]
+        [UseFiltering]
+        public IQueryable<Crew> Crews => _crewRepository.GetAll();
+
+        [UsePaging(SchemaType = typeof(EmployeeType))]
+        [UseFiltering]
+        public IQueryable<Employee> Employees => _employeeRepository.GetAll();
     }
 }
