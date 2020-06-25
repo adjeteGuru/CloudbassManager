@@ -26,7 +26,7 @@ namespace Cloudbass.DataAccess.Repositories
             return _db.Employees.AsQueryable();
         }
 
-        public Employee GetEmployee(int id)
+        public Employee GetEmployee(Guid id)
         {
             return _db.Employees.SingleOrDefault(x => x.Id == id);
         }

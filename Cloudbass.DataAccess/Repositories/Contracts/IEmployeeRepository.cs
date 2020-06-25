@@ -9,7 +9,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public interface IEmployeeRepository
     {
-        public Employee GetEmployee(int id);
+        public Employee GetEmployee(Guid id);
         IQueryable<Employee> GetAll();
 
         Task AddEmployeeAsync(Employee employee);

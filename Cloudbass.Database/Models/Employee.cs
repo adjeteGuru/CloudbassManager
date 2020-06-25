@@ -9,7 +9,7 @@ namespace Cloudbass.Database.Models
     public class Employee
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
 
         [GraphQLNonNullType]

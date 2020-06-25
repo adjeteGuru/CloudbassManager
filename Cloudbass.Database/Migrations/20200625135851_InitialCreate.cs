@@ -84,8 +84,7 @@ namespace Cloudbass.Database.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false),
                     Email = table.Column<string>(nullable: true),
                     FullName = table.Column<string>(nullable: true),
                     PostNominals = table.Column<string>(nullable: true),
@@ -136,7 +135,7 @@ namespace Cloudbass.Database.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeId = table.Column<int>(nullable: false),
+                    EmployeeId = table.Column<Guid>(nullable: false),
                     RoleId = table.Column<int>(nullable: false),
                     TotalDays = table.Column<decimal>(nullable: true),
                     Rate = table.Column<decimal>(nullable: true)
@@ -162,11 +161,10 @@ namespace Cloudbass.Database.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: true),
                     UpdatedAt = table.Column<DateTime>(nullable: true),
-                    EmployeeId = table.Column<int>(nullable: false),
+                    EmployeeId = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),

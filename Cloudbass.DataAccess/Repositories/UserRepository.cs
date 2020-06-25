@@ -85,7 +85,7 @@ namespace Cloudbass.DataAccess.Repositories
 
         //this method use linq "SingleOrDefault" statement with lambda function to compile the correct id
         //which is going to be use in the UserQuery 
-        public User GetById(int id)
+        public User GetById(Guid id)
         {
             return _db.Users.FirstOrDefault(x => x.Id == id);
         }

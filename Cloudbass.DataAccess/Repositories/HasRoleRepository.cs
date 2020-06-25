@@ -25,9 +25,11 @@ namespace Cloudbass.DataAccess.Repositories
             return _db.HasRoles.SingleOrDefault(x => x.Id == id);
         }
 
-        public IEnumerable<HasRole> GetHasRolesForRoleOrEmployee(int roleId, int employeeId)
+        public IEnumerable<HasRole> GetHasRolesForRoleOrEmployee(int roleId, Guid employeeId)
         {
             return _db.HasRoles.Where(x => x.RoleId == roleId || x.EmployeeId == employeeId);
         }
+
+
     }
 }

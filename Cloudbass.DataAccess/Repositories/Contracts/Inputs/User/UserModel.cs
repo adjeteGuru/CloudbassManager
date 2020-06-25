@@ -6,7 +6,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts.Inputs.User
 {
     public class UserModel
     {
-        public UserModel(int id, int employeeId, string email, string name, string password, string salt, bool active, int tokenVersion)
+        public UserModel(Guid id, Guid employeeId, string email, string name, string password, string salt, bool active, int tokenVersion)
         {
             Id = id;
             EmployeeId = employeeId;
@@ -18,8 +18,8 @@ namespace Cloudbass.DataAccess.Repositories.Contracts.Inputs.User
             TokenVersion = tokenVersion;
         }
 
-        public int Id { get; set; }
-        public int EmployeeId { get; set; }
+        public Guid Id { get; set; }
+        public Guid EmployeeId { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }

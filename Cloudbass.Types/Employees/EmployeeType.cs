@@ -17,7 +17,7 @@ namespace Cloudbass.Types.Employees
             descriptor.Field(x => x.FullName).Type<StringType>();
             descriptor.Field(x => x.PostNominals).Type<StringType>();
             descriptor.Field(x => x.Alergy).Type<StringType>();
-            descriptor.Field(x => x.Bared).Type<BooleanType>();
+            descriptor.Field(x => x.Bared).Type<StringType>();
             descriptor.Field(x => x.Email).Type<StringType>();
             descriptor.Field(x => x.NextOfKin).Type<StringType>();
             //descriptor.Field(x => x.CountyId).Type<IdType>();

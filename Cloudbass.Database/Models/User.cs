@@ -13,15 +13,18 @@ namespace Cloudbass.Database.Models
         public User()
         {
             Active = true; // Default Value true
+            IsAdmin = false;
             TokenVersion = 0; // Default Value 0
         }
 
 
         [Key]
-        public int Id { get; set; }
+
+        public Guid Id { get; set; }
 
         [GraphQLIgnore]
-        public int EmployeeId { get; set; }
+
+        public Guid EmployeeId { get; set; }
 
         [GraphQLNonNullType]
         public Employee Employee { get; set; }

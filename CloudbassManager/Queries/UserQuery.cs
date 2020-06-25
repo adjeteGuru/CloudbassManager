@@ -4,6 +4,7 @@ using Cloudbass.Database.Models;
 using HotChocolate;
 using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Types;
+using System;
 using System.Linq;
 
 
@@ -24,7 +25,7 @@ namespace CloudbassManager.Queries
         /// Gets a user by its id.
         /// </summary>
         //[Authorize]
-        public IQueryable<User> GetUser([Service] CloudbassContext db, int id) =>
+        public IQueryable<User> GetUser([Service] CloudbassContext db, Guid id) =>
 
             db.Users.Where(t => t.Id == id);
 

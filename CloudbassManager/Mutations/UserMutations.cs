@@ -21,20 +21,13 @@ namespace CloudbassManager.Mutations
     [ExtendObjectType(Name = "Mutation")]
     public class UserMutations
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IEmployeeRepository _employeeRepository;
-        public UserMutations(IUserRepository userRepository, IEmployeeRepository employeeRepository)
-        {
-            _userRepository = userRepository;
-            _employeeRepository = employeeRepository;
-        }
+
         /// <summary>
         /// Creates a user.
         /// </summary>
         public async Task<CreateUserPayload> CreateUser(
-            CreateUserInput input, [Service]IUserRepository userRepository,
-            [Service] CloudbassContext db, [Service]
-            IEmployeeRepository employeeRepository,
+            CreateUserInput input,
+            [Service] CloudbassContext db,
             [Service]ITopicEventSender eventSender)
         {
             //create a variable for dupication name check
@@ -76,14 +69,12 @@ namespace CloudbassManager.Mutations
 
             using var sha = SHA512.Create();
             byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(input.Password + salt));
-            //Guid employeeId = Guid.NewGuid();
 
+            Guid employeeId = Guid.NewGuid();
 
             var employee = new Employee
             {
-                //Id = user.Id,
-                // UserId = user.Id,
-                // Id = employeeId,
+                Id = employeeId,
                 CountyId = input.CountyId,
                 PostNominals = input.PostNominals,
                 Alergy = input.Alergy,
@@ -98,10 +89,12 @@ namespace CloudbassManager.Mutations
 
             var user = new User
             {
-                // Id = Guid.NewGuid(),
-                EmployeeId = employee.Id,
+                Id = Guid.NewGuid(),
+
+                EmployeeId = employeeId,
                 Name = input.Name,
                 Email = input.Email,
+
                 Password = Convert.ToBase64String(hash),
                 Salt = salt
             };
@@ -131,18 +124,20 @@ namespace CloudbassManager.Mutations
                 user.Active = input.Active.Value ? true : false;
             }
 
-            //await userRepository.AddUserAsync(user).ConfigureAwait(false);
+            if (input.IsAdmin.HasValue)
+            {
+                user.IsAdmin = input.IsAdmin.Value ? true : false;
+            }
 
-            //await employeeRepository.AddEmployeeAsync(employee).ConfigureAwait(false);
 
             db.Users.Add(user);
             db.Employees.Add(employee);
 
             await db.SaveChangesAsync();
 
-            await eventSender.SendAsync("CreateUser", user/*,employee*/);
+            await eventSender.SendAsync("CreateUser", user);
 
-            return new CreateUserPayload(user/*, employee*/);
+            return new CreateUserPayload(user);
         }
 
         /// <summary>
@@ -230,10 +225,10 @@ namespace CloudbassManager.Mutations
 
 
         //remove user
-        public User DeleteUser(DeleteUserInput input)
-        {
-            return _userRepository.Delete(input);
-        }
+        //public User DeleteUser(DeleteUserInput input)
+        //{
+        //    return _userRepository.Delete(input);
+        //}
 
     }
 }
