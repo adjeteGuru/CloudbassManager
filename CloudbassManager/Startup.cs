@@ -122,6 +122,7 @@ namespace CloudbassManager
                         .AddType<Query>()
                         .AddMutationType(d => d.Name("Mutation"))
                         .AddType<LoginMutation>()
+                        .AddType<LogoutMutation>()
                         .AddType<UserMutations>()
                         .AddType<JobMutations>()
                         .AddType<ClientMutations>()

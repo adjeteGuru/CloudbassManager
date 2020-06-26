@@ -207,6 +207,11 @@ namespace CloudbassManager.Mutations
                 user.Active = input.Active.Value ? true : false;
             }
 
+            if (input.IsAdmin.HasValue)
+            {
+                user.IsAdmin = input.IsAdmin.Value ? true : false;
+            }
+
 
             db.Users.Update(user);
 
