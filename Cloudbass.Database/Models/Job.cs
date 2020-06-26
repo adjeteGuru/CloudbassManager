@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotChocolate;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,7 +13,7 @@ namespace Cloudbass.Database.Models
     {
         public Guid Id { get; set; }
 
-        public string Text { get; set; }
+        public string Name { get; set; }
 
         public string Description { get; set; }
 
@@ -35,6 +36,18 @@ namespace Cloudbass.Database.Models
 
         public Client Client { get; set; }
         public Status Status { get; set; }
+
+        public int CreatedBy { get; set; }
+        public ICollection<Schedule> Schedules { get; set; }
+
+        //[GraphQLIgnore]
+        //public ICollection<Crew> Crews { get; set; }
+
+        //[GraphQLIgnore]
+        //public List<Crew> EngagedIn { get; } = new List<Crew>();
+
+        [GraphQLIgnore]
+        public List<Crew> CrewMembers { get; } = new List<Crew>();
 
     }
 }

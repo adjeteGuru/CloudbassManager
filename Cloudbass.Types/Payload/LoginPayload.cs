@@ -9,14 +9,16 @@ namespace Cloudbass.Types.Payload
     {
         public LoginPayload(
             User user,
+            //Employee employee,
             string accessToken)
         {
+            //Employee = employee;
             User = user;
             AccessToken = accessToken;
         }
 
         public User User { get; }
-
+        //public Employee Employee { get; }
         public string AccessToken { get; }
 
     }

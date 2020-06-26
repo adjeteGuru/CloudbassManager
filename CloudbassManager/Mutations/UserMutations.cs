@@ -1,4 +1,6 @@
-﻿using Cloudbass.Database;
+﻿using Cloudbass.DataAccess.Repositories.Contracts;
+using Cloudbass.DataAccess.Repositories.Contracts.Inputs.User;
+using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using Cloudbass.Types.Input;
 using Cloudbass.Types.Payload;
@@ -19,6 +21,7 @@ namespace CloudbassManager.Mutations
     [ExtendObjectType(Name = "Mutation")]
     public class UserMutations
     {
+
         /// <summary>
         /// Creates a user.
         /// </summary>
@@ -31,7 +34,7 @@ namespace CloudbassManager.Mutations
             var nameCheck = await db.Users.FirstOrDefaultAsync(t => t.Name == input.Name);
 
 
-            if (string.IsNullOrEmpty(input.Name))
+            if (string.IsNullOrWhiteSpace(input.Name))
             {
                 throw new QueryException(
                     ErrorBuilder.New()
@@ -43,17 +46,17 @@ namespace CloudbassManager.Mutations
             //check dupication of the new entry
             if (nameCheck != null)
             {
-
+                // throw error if the new username is already taken
                 throw new QueryException(
                     ErrorBuilder.New()
-                        .SetMessage(input.Name + " Exist already in the database! Please chose different name.")
+                        .SetMessage("Name \"" + input.Name + "\" is already taken")
                         .SetCode("NAME_EXIST")
                         .Build());
             }
 
 
 
-            if (string.IsNullOrEmpty(input.Password))
+            if (string.IsNullOrWhiteSpace(input.Password))
             {
                 throw new QueryException(
                     ErrorBuilder.New()
@@ -67,13 +70,36 @@ namespace CloudbassManager.Mutations
             using var sha = SHA512.Create();
             byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(input.Password + salt));
 
+            Guid employeeId = Guid.NewGuid();
 
-            var user = new User()
+            var employee = new Employee
             {
+                Id = employeeId,
+                CountyId = input.CountyId,
+                PostNominals = input.PostNominals,
+                Alergy = input.Alergy,
+                NextOfKin = input.NextOfKin,
+                Bared = input.Bared,
+                Email = input.Email,
+                FullName = input.FullName,
+                Photo = input.Photo
+
+            };
+
+
+            var user = new User
+            {
+                Id = Guid.NewGuid(),
+
+                EmployeeId = employeeId,
                 Name = input.Name,
+                Email = input.Email,
+
                 Password = Convert.ToBase64String(hash),
                 Salt = salt
             };
+
+
 
             //create a variable for exiting email check
             var emailCheck = await db.Users.FirstOrDefaultAsync(x => x.Email == input.Email);
@@ -88,7 +114,7 @@ namespace CloudbassManager.Mutations
                         .Build());
             }
 
-            if (!string.IsNullOrEmpty(input.Email))
+            if (!string.IsNullOrWhiteSpace(input.Email))
             {
                 user.Email = input.Email;
             }
@@ -98,8 +124,14 @@ namespace CloudbassManager.Mutations
                 user.Active = input.Active.Value ? true : false;
             }
 
+            if (input.IsAdmin.HasValue)
+            {
+                user.IsAdmin = input.IsAdmin.Value ? true : false;
+            }
+
 
             db.Users.Add(user);
+            db.Employees.Add(employee);
 
             await db.SaveChangesAsync();
 
@@ -127,13 +159,23 @@ namespace CloudbassManager.Mutations
                         .Build());
             }
 
-
-            if (!string.IsNullOrEmpty(input.Name))
+            // update name if it has changed
+            if (!string.IsNullOrWhiteSpace(input.Name) && input.Name != user.Name)
             {
+                // throw error if the new name is already taken
+                if (db.Users.Any(x => x.Name == input.Name))
+
+                    throw new QueryException(
+                        ErrorBuilder.New()
+                            .SetMessage("Name " + input.Name + " is already taken")
+                            .SetCode("NAME_EXIST")
+                            .Build());
+
                 user.Name = input.Name;
             }
 
-            if (!string.IsNullOrEmpty(input.Password))
+            // update password if provided
+            if (!string.IsNullOrWhiteSpace(input.Password))
             {
 
                 using var sha = SHA512.Create();
@@ -142,7 +184,7 @@ namespace CloudbassManager.Mutations
             }
 
 
-            if (!string.IsNullOrEmpty(input.Email))
+            if (!string.IsNullOrWhiteSpace(input.Email))
             {
                 user.Email = input.Email;
 
@@ -154,7 +196,7 @@ namespace CloudbassManager.Mutations
                 {
                     throw new QueryException(
                         ErrorBuilder.New()
-                            .SetMessage(input.Email + " is already been taken! Please chose different email.")
+                            .SetMessage("Email " + input.Email + " is already taken")
                             .SetCode("EMAIL_EXIST")
                             .Build());
                 }
@@ -163,6 +205,11 @@ namespace CloudbassManager.Mutations
             if (input.Active.HasValue)
             {
                 user.Active = input.Active.Value ? true : false;
+            }
+
+            if (input.IsAdmin.HasValue)
+            {
+                user.IsAdmin = input.IsAdmin.Value ? true : false;
             }
 
 
@@ -180,5 +227,13 @@ namespace CloudbassManager.Mutations
 
             return new UpdateUserPayload(user);
         }
+
+
+        //remove user
+        //public User DeleteUser(DeleteUserInput input)
+        //{
+        //    return _userRepository.Delete(input);
+        //}
+
     }
 }

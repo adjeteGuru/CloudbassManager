@@ -13,19 +13,28 @@ namespace Cloudbass.Database.Models
         public User()
         {
             Active = true; // Default Value true
+            IsAdmin = false;
             TokenVersion = 0; // Default Value 0
         }
 
 
         [Key]
-        public int Id { get; set; }
+
+        public Guid Id { get; set; }
+
+        [GraphQLIgnore]
+
+        public Guid EmployeeId { get; set; }
+
+        [GraphQLNonNullType]
+        public Employee Employee { get; set; }
 
         [GraphQLNonNullType]
         public string Name { get; set; }
 
+
         [GraphQLIgnore]
         public string Password { get; set; }
-
 
         public string Email { get; set; }
 
@@ -33,7 +42,6 @@ namespace Cloudbass.Database.Models
 
         [DefaultValue(false)]
         public bool Active { get; set; }
-
 
 
         [GraphQLIgnore]
@@ -44,8 +52,13 @@ namespace Cloudbass.Database.Models
         [GraphQLIgnore]
         public string Salt { get; set; }
 
-        // public ICollection<Log> Logs { get; set; }
 
+        [DefaultValue(false)]
+        public bool IsAdmin { get; set; }
+
+        // public ICollection<HasRole> HasRoles { get; set; }
+
+        //  public ICollection<Employee> Employees { get; set; }
 
     }
 }

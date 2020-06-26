@@ -11,25 +11,98 @@ namespace Cloudbass.Database
     {
         public static void EnsureSeedData(this CloudbassContext db)
         {
-            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any())
+            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any() || !db.Schedules.Any() || !db.Employees.Any() || !db.Counties.Any())
             {
                 string salt = Guid.NewGuid().ToString("N");
 
                 using var sha = SHA512.Create();
                 byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes("Cloudba55" + salt));
+                //int EmployeeId = 1;
+                // Guid employeeId = Guid.NewGuid()
 
-                var users = new List<User>
-                {
-                    new User
+                var counties = new List<County>
+                                {
+                                    new County
+                                    {
+                                        Name = "Derbyshire",
 
-                    {   Name = "Admin",
-                        Password= Convert.ToBase64String(hash),
-                        Salt = salt
-                    }
+                                       Employees=new List<Employee>
+                                       {
+                                           new Employee
+                                           {
+                                               FullName= "Ben Davies",
+                                               Email ="ben.davies@cloudbass.com",
+                                               Users= new List<User>
+                                               {
+                                                   new User
+                                                   {
+                                                       Name = "Admin",
+                                                       Password= Convert.ToBase64String(hash),
+                                                       Salt = salt,
+                                                   }
+                                               }
+                                           }
+                                       }
+
+                                    }
                 };
 
-                db.Users.AddRange(users);
+                db.Counties.AddRange(counties);
                 db.SaveChanges();
+
+
+                //var employees = new List<Employee>
+                //{
+                //    new Employee
+                //    {
+                //         FullName= "Ben Davies",
+                //         Email ="ben.davies@cloudbass.com",
+                //         CountyId = 1,
+                //          Users= new List<User>
+                //          { 
+                //           new User
+                //           {
+                //               Name = "Admin",
+                //               Password= Convert.ToBase64String(hash),
+                //               Salt = salt,
+                //           }
+                //          }
+                //    }
+                //};
+
+                //db.Employees.AddRange(employees);
+                //db.SaveChanges();
+
+
+                //var users = new List<User>
+                //{
+                //    new User
+
+                //    {   Name = "Admin",
+                //        Password= Convert.ToBase64String(hash),
+                //        Salt = salt,
+
+                //    }
+                //};
+
+                //db.Users.AddRange(users);
+                //db.SaveChanges();
+
+
+
+
+                //var employees = new List<Employee>
+                //{
+                //    new Employee
+                //    {
+                //         FullName= "Ben Davies",
+                //         Email ="ben.davies@cloudbass.com",
+                //         CountyId = 1,
+                //    }
+                //};
+
+                //db.Employees.AddRange(employees);
+                //db.SaveChanges();
 
 
                 var clients = new List<Client>
@@ -54,7 +127,7 @@ namespace Cloudbass.Database
                                 {
                                     new Job
                                     {
-                                         Text = "SPL",
+                                         Name = "SPL",
                                         Description = "friendly",
                                         Location = "Scotland celtic park",
                                         Coordinator = "Dixon",
@@ -68,7 +141,7 @@ namespace Cloudbass.Database
 
                                     new Job
                                     {
-                                         Text = "MUTV",
+                                         Name = "MUTV",
                                         Description = "Accademy football",
                                         Location = "Old traford",
                                         Coordinator = "James",
@@ -78,18 +151,20 @@ namespace Cloudbass.Database
 
                                         CommercialLead = "Luke Davies",
 
-                                        //Schedules= new List<Schedule>
-                                        //{
+                                        Schedules= new List<Schedule>
+                                                   {
 
-                                        //     new Schedule
-                                        //     {
-                                        //         Text="SPL-Travel",
-                                        //         StartDate=DateTime.Parse("2020-03-11"),
-                                        //         EndDate=DateTime.Parse("2020-03-11"),
-                                        //         SchType = SchType.TrucksTravel
-                                        //     }
+                                                        new Schedule
+                                                        {
+                                                            Name="MUTV-Travel",
+                                                            Description="first phase of the setting",
+                                                            StartDate=DateTime.Parse("2020-05-11"),
+                                                            EndDate=DateTime.Parse("2020-05-13"),
+                                                            Status = Status.Active
+                                                        }
 
-                                        //}
+                                                   }
+
 
 
                                     }

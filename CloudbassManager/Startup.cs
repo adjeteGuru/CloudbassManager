@@ -3,7 +3,13 @@ using Cloudbass.DataAccess.Repositories;
 using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Types;
+using Cloudbass.Types.Counties;
+using Cloudbass.Types.Crews;
+using Cloudbass.Types.Employees;
+using Cloudbass.Types.HasRoles;
 using Cloudbass.Types.Jobs;
+using Cloudbass.Types.Roles;
+using Cloudbass.Types.Schedules;
 using Cloudbass.Utilities.Filters;
 using CloudbassManager.Mutations;
 using CloudbassManager.Queries;
@@ -57,6 +63,7 @@ namespace CloudbassManager
                     x.Events = new JwtBearerEvents
                     {
                         OnMessageReceived = context =>
+
                         {
                             if (context.HttpContext.Request.Query.ContainsKey("token"))
                             {
@@ -72,6 +79,12 @@ namespace CloudbassManager
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IClientRepository, ClientRepository>();
             services.AddTransient<IJobRepository, JobRepository>();
+            services.AddTransient<IScheduleRepository, ScheduleRepository>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            services.AddTransient<IHasRoleRepository, HasRoleRepository>();
+            services.AddTransient<ICountyRepository, CountyRepository>();
+            services.AddTransient<ICrewRepository, CrewRepository>();
             services.AddControllers();
             services.AddCors();
 
@@ -84,6 +97,12 @@ namespace CloudbassManager
             services.AddSingleton<UserType>();
             services.AddSingleton<ClientType>();
             services.AddSingleton<JobType>();
+            services.AddSingleton<ScheduleType>();
+            services.AddSingleton<EmployeeType>();
+            services.AddSingleton<RoleType>();
+            services.AddSingleton<CountyType>();
+            services.AddSingleton<HasRoleType>();
+            services.AddSingleton<CrewType>();
 
             //this is to record the job not found exception
             services.AddErrorFilter<JobNotFoundExceptionFilter>();
@@ -99,10 +118,11 @@ namespace CloudbassManager
                         .AddServices(sp)
                         .AddQueryType(d => d.Name("Query"))
                         .AddType<UserQuery>()
+                        .AddType<EmployeeQuery>()
                         .AddType<Query>()
-
                         .AddMutationType(d => d.Name("Mutation"))
                         .AddType<LoginMutation>()
+                        .AddType<LogoutMutation>()
                         .AddType<UserMutations>()
                         .AddType<JobMutations>()
                         .AddType<ClientMutations>()

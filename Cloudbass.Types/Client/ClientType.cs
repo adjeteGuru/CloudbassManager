@@ -1,4 +1,5 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
+using Cloudbass.DataAccess.Resolvers;
 using Cloudbass.Database.Models;
 using HotChocolate;
 using HotChocolate.Resolvers;
@@ -22,24 +23,31 @@ namespace Cloudbass.Types
             descriptor.Field(x => x.ToContact).Type<StringType>();
             descriptor.Field(x => x.Address).Type<StringType>();
 
-            //invoke the resolver to allow data fetching
+            //invoke the resolver to allow data fetching          
+
             descriptor.Field<JobResolver>(t => t.GetJobs(default, default));
+            //descriptor.Field<JobResolver>(x=>x.GetJobForClient())
 
         }
     }
 
-    public class JobResolver
-    {
-        private readonly IJobRepository _jobRepository;
-        public JobResolver([Service] IJobRepository jobRepository)
-        {
-            _jobRepository = jobRepository;
-        }
+    //public class JobResolver
+    //{
+    //    private readonly IJobRepository _jobRepository;
+    //    public JobResolver([Service] IJobRepository jobRepository)
+    //    {
+    //        _jobRepository = jobRepository;
+    //    }
 
-        public IEnumerable<Job> GetJobs(Client client, IResolverContext ctx)
-        {
-            return _jobRepository.GetAll().Where(x => x.ClientId == client.Id);
-        }
-    }
+    //public IEnumerable<Job> GetJobs(Client client, IResolverContext ctx)
+    //{
+    //    return _jobRepository.GetAll().Where(x => x.ClientId == client.Id);
+    //}
+
+    //public IQueryable<Job> GetJob(Schedule schedule, IResolverContext ctx)
+    //{
+    //   /* yield*/ return _jobRepository.GetAll().Where(x => x.Id == schedule.JobId).FirstOrDefault();
+    //}
+    //}
 }
 

@@ -2,7 +2,7 @@
 
 namespace Cloudbass.Database.Migrations
 {
-    public partial class LogPropertyChange : Migration
+    public partial class UserPropEdit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
