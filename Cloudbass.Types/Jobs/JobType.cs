@@ -26,6 +26,14 @@ namespace Cloudbass.Types.Jobs
             descriptor.Field(x => x.CommercialLead).Type<StringType>();
             descriptor.Field(x => x.Status).Type<StringType>();
 
+            descriptor.Field<ClientType, Client>()
+                .Name("Client")
+                .ResolverAsync(ctx =>
+                {
+                    var clientLoader = accessor.Context.GetOrAddBatchLoader<int, Client>("GetClientById", IClientRepository.GetClientByIdAsync);
+                    return clientLoader.LoadAsync(ctx.Source.ClientId);
+                });
+
             //able to get the information of clients when we make a query about jobs
             descriptor.Field<ClientResolver>(t => t.GetClient(default, default));
 

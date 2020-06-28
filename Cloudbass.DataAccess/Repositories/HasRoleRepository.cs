@@ -1,10 +1,13 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Cloudbass.DataAccess.Repositories
 {
@@ -15,20 +18,43 @@ namespace Cloudbass.DataAccess.Repositories
         {
             _db = db;
         }
-        public IQueryable<HasRole> GetAll()
+
+        public async Task<HasRole> CreateHasRoleAsync(HasRole hasRole, CancellationToken cancellationToken)
+        {
+            var addedHasRole = await _db.HasRoles.AddAsync(hasRole);
+            await _db.SaveChangesAsync()
+                .ConfigureAwait(false);
+            return addedHasRole.Entity;
+        }
+
+
+
+        public async Task<HasRole> GetHasRoleByIdAsync(int id)
+        {
+            return await _db.HasRoles.FindAsync(id);
+        }
+
+        public Task<HasRole> GetHasRoleByRoleOrEmployee(string employeeName, string roleName)
+        {
+            return _db.HasRoles.FirstAsync(x => x.Employee.FullName == employeeName || x.Role.Name == roleName);
+        }
+
+        public IQueryable<HasRole> GetHasRoles()
         {
             return _db.HasRoles.AsQueryable();
         }
 
-        public HasRole GetHasRoleById(int id)
+        // this GetHasRolesAsync method takes a list of hasRole ids and returns a dictionary of hasRoles
+        //with their ids as keys.
+        public async Task<IReadOnlyDictionary<int, HasRole>> GetHasRolesAsync(IReadOnlyList<int> ids, CancellationToken cancellationToken)
         {
-            return _db.HasRoles.SingleOrDefault(x => x.Id == id);
+            var list = await _db.HasRoles.AsQueryable()
+                .Where(x => ids.Contains(x.Id))
+                .ToListAsync(cancellationToken)
+                .ConfigureAwait(false);
+            return list.ToDictionary(x => x.Id);
         }
 
-        public IEnumerable<HasRole> GetHasRolesForRoleOrEmployee(int roleId, Guid employeeId)
-        {
-            return _db.HasRoles.Where(x => x.RoleId == roleId || x.EmployeeId == employeeId);
-        }
 
 
     }

@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public interface ICrewRepository
     {
-        IQueryable<Crew> GetAll();
+        Task<IEnumerable<Crew>> GetCrewAsync();
+        Task<Crew> CreateCrewAsync(Crew crew);
     }
 }
