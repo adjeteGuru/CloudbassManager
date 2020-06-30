@@ -11,13 +11,12 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public interface IClientRepository
     {
-        IQueryable<Client> GetClients();
-        Task<Client> GetClientByIdAsync(int clientId);
-        Task<IReadOnlyDictionary<int, Client>> GetClientsAsync(
-            IReadOnlyList<int> ids, CancellationToken cancellationToken);
-        Task<Client> CreateClientAsync(Client client);
+        IQueryable<Client> GetAllClients();
+        Task<Client> GetClientByIdAsync(Guid clientId);
+        Task<IReadOnlyDictionary<Guid, Client>> GetClientsAsync(
+            IReadOnlyList<Guid> ids, CancellationToken cancellationToken);
+        Task<Client> CreateClientAsync(Client client, CancellationToken cancellationToken);
 
-        // Task UpdateClientAsync(Client client);
 
         //public Client GetClient(int id);
         //Client Create(CreateClientInput input);

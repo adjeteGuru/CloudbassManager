@@ -53,13 +53,13 @@ namespace CloudbassManager.Queries
 
         [UsePaging(SchemaType = typeof(ClientType))]
         [UseFiltering]
-        public IQueryable<Client> Clients => _clientRepository.GetAll();
+        public IQueryable<Client> Clients => _clientRepository.GetAllClients();
 
 
 
         [UsePaging(SchemaType = typeof(JobType))]
         [UseFiltering]
-        public IQueryable<Job> Jobs => _jobRepository.GetAll();
+        public IQueryable<Job> Jobs => _jobRepository.GetAllJobs();
 
 
         [UsePaging(SchemaType = typeof(ScheduleType))]
@@ -75,13 +75,13 @@ namespace CloudbassManager.Queries
         [UseFiltering]
         public IQueryable<Role> Roles => _roleRepository.GetAll();
 
-        [UsePaging(SchemaType = typeof(HasRoleType))]
-        [UseFiltering]
-        public IQueryable<HasRole> HasRoles => _hasRoleRepository.GetAll();
+        //[UsePaging(SchemaType = typeof(HasRoleType))]
+        //[UseFiltering]
+        //public IQueryable<HasRole> HasRoles => _hasRoleRepository.GetAll();
 
-        [UsePaging(SchemaType = typeof(CrewType))]
-        [UseFiltering]
-        public IQueryable<Crew> Crews => _crewRepository.GetAll();
+        //[UsePaging(SchemaType = typeof(CrewType))]
+        //[UseFiltering]
+        //public IQueryable<Crew> Crews => _crewRepository.GetAll();
 
         [UsePaging(SchemaType = typeof(EmployeeType))]
         [UseFiltering]

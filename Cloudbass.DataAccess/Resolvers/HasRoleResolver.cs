@@ -17,10 +17,10 @@ namespace Cloudbass.DataAccess.Resolvers
             _hasRoleRepository = hasRoleRepository;
         }
 
-        public HasRole GetHasRoleOnCrew(Crew crew, IResolverContext ctx)
-        {
-            return _hasRoleRepository.GetAll().Where(x => x.Id == crew.HasRoleId).FirstOrDefault();
-        }
+        //public HasRole GetHasRoleOnCrew(Crew crew, IResolverContext ctx)
+        //{
+        //    return _hasRoleRepository.GetAll().Where(x => x.Id == crew.HasRoleId).FirstOrDefault();
+        //}
 
         //public IEnumerable<HasRole> GetHasRoles(Role role, IResolverContext ctx)
         //{
@@ -31,9 +31,9 @@ namespace Cloudbass.DataAccess.Resolvers
         //    return _hasRoleRepository.GetAll().Where(x => x.EmployeeId == employee.Id);
         //}
 
-        public IEnumerable<HasRole> GetHasRoles(Role role, Employee employee, IResolverContext ctx)
-        {
-            return _hasRoleRepository.GetAll().Where(x => x.RoleId == role.Id && x.EmployeeId == employee.Id);
-        }
+        //public IEnumerable<HasRole> GetHasRoles(Role role, Employee employee, IResolverContext ctx)
+        //{
+        //    return _hasRoleRepository.GetAll().Where(x => x.RoleId == role.Id && x.EmployeeId == employee.Id);
+        //}
     }
 }

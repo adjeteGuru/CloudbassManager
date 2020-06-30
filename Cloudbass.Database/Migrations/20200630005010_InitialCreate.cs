@@ -11,8 +11,7 @@ namespace Cloudbass.Database.Migrations
                 name: "Clients",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Tel = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -65,9 +64,9 @@ namespace Cloudbass.Database.Migrations
                     Paid = table.Column<bool>(nullable: false),
                     Coordinator = table.Column<string>(nullable: true),
                     CommercialLead = table.Column<string>(nullable: true),
-                    ClientId = table.Column<int>(nullable: false),
+                    ClientId = table.Column<Guid>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: false)
+                    CreatedBy = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -27,9 +27,9 @@ namespace Cloudbass.DataAccess.Resolvers
         //    return _crewRepository.GetAll().Where(x => x.JobId == job.Id);
         //}
 
-        public IEnumerable<Crew> GetCrews(HasRole hasRole, Job job, IResolverContext ctx)
-        {
-            return _crewRepository.GetAll().Where(x => x.HasRoleId == hasRole.Id && x.JobId == job.Id);
-        }
+        //public IEnumerable<Crew> GetCrews(HasRole hasRole, Job job, IResolverContext ctx)
+        //{
+        //    return _crewRepository.GetAll().Where(x => x.HasRoleId == hasRole.Id && x.JobId == job.Id);
+        //}
     }
 }

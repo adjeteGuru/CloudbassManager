@@ -21,10 +21,9 @@ namespace Cloudbass.Database.Migrations
 
             modelBuilder.Entity("Cloudbass.Database.Models.Client", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -147,8 +146,8 @@ namespace Cloudbass.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CommercialLead")
                         .HasColumnType("nvarchar(max)");
@@ -159,8 +158,8 @@ namespace Cloudbass.Database.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");

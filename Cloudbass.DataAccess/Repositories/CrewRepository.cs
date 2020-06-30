@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Cloudbass.DataAccess.Repositories
 {
@@ -16,7 +17,18 @@ namespace Cloudbass.DataAccess.Repositories
         {
             _db = db;
         }
+
+        public Task<Crew> CreateCrewAsync(Crew crew)
+        {
+            throw new NotImplementedException();
+        }
+
         public IQueryable<Crew> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Crew>> GetCrewAsync()
         {
             throw new NotImplementedException();
         }

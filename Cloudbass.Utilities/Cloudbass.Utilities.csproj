@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="graphiql" Version="1.2.0" />
     <PackageReference Include="GraphQL" Version="2.4.0" />
+    <PackageReference Include="GreenDonut" Version="10.4.3" />
     <PackageReference Include="HotChocolate" Version="10.4.0" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="10.4.0" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="10.4.0" />

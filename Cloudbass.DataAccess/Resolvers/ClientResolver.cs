@@ -19,7 +19,7 @@ namespace Cloudbass.DataAccess.Resolvers
 
         public Client GetClient(Job job, IResolverContext ctx)
         {
-            return _clientRepository.GetAll().Where(a => a.Id == job.ClientId).FirstOrDefault();
+            return _clientRepository.GetAllClients().Where(a => a.Id == job.ClientId).FirstOrDefault();
         }
 
     }

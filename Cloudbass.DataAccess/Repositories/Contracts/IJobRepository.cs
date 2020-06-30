@@ -12,16 +12,16 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public interface IJobRepository
     {
-        IQueryable<Job> GetJobs();
+        IQueryable<Job> GetAllJobs();
 
-        Task<Job> GetJobByIdAsync(Guid jobId);
-        Task<IEnumerable<Job>> GetJobsByClientIdAsync(int clientId);
-        Task<ILookup<Guid, Job>> GetJobsByClientIdAsync(IEnumerable<int> clientIds);
+        Task<Job> GetJobAsync(Guid jobId);
+        Task<IEnumerable<Job>> GetJobsByClientIdAsync(Guid clientId);
+        Task<ILookup<Guid, Job>> GetJobsByClientIdAsync(
+            IEnumerable<Guid> clientIds, CancellationToken cancellationToken);
         Task<IReadOnlyDictionary<Guid, Job>> GetJobsAsync(
             IReadOnlyList<Guid> ids, CancellationToken cancellationToken);
-        Task<Job> CreateJobAsync(Job job);
+        Task<Job> CreateJobAsync(Job job, CancellationToken cancellationToken);
 
-        //Task UpdateJobAsync(Job job, CancellationToken cancellationToken);
 
         //IEnumerable<Job> GetJobsForClient(int clientId);
         //IEnumerable<Job> GetJobsForClient(int clientId, int lastJob);

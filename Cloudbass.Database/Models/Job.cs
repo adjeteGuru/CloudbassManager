@@ -32,12 +32,12 @@ namespace Cloudbass.Database.Models
 
         public string CommercialLead { get; set; }
 
-        public int ClientId { get; set; }
+        public Guid ClientId { get; set; }
 
         public Client Client { get; set; }
         public Status Status { get; set; }
 
-        public int CreatedBy { get; set; }
+        public Guid CreatedBy { get; set; }
         public ICollection<Schedule> Schedules { get; set; }
 
         //[GraphQLIgnore]

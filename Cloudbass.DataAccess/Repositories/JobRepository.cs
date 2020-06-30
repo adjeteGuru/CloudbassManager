@@ -23,26 +23,28 @@ namespace Cloudbass.DataAccess.Repositories
             _db = db;
         }
 
-        public async Task<Job> CreateJobAsync(Job job)
+        //To create
+        public async Task<Job> CreateJobAsync(Job job, CancellationToken cancellationToken)
         {
             var addedJob = await _db.Jobs.AddAsync(job);
             await _db.SaveChangesAsync();
             return addedJob.Entity;
         }
 
-        public async Task<Job> GetJobByIdAsync(Guid jobId)
+        public async Task<Job> GetJobAsync(Guid jobId)
         {
             return await _db.Jobs.FindAsync(jobId);
         }
 
-        public IQueryable<Job> GetJobs()
+        public IQueryable<Job> GetAllJobs()
         {
             return _db.Jobs.AsQueryable();
         }
 
         // this GetJobsAsync method takes a list of job ids and returns a dictionary of jobs
         //with their ids as keys.
-        public async Task<IReadOnlyDictionary<Guid, Job>> GetJobsAsync(IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
+        public async Task<IReadOnlyDictionary<Guid, Job>> GetJobsAsync(
+            IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
         {
             var list = await _db.Jobs.AsQueryable()
                 .Where(x => ids.Contains(x.Id))
@@ -51,19 +53,20 @@ namespace Cloudbass.DataAccess.Repositories
             return list.ToDictionary(x => x.Id);
         }
 
-        public async Task<IEnumerable<Job>> GetJobsByClientIdAsync(int clientId)
+        public async Task<IEnumerable<Job>> GetJobsByClientIdAsync(Guid clientId)
         {
             return await _db.Jobs.Where(x => x.ClientId == clientId).ToListAsync();
         }
 
-        //this method helps for a collection navigation property by GetOrAddCollectionBatchLoader
-        public async Task<ILookup<Guid, Job>> GetJobsByClientIdAsync(IEnumerable<int> clientIds)
+        //this method helps filter Jobs by client
+        public async Task<ILookup<Guid, Job>> GetJobsByClientIdAsync(
+            IEnumerable<Guid> clientIds, CancellationToken cancellationToken)
         {
-            var jobs = await _db.Jobs.AsQueryable()
+            var filterJobs = await _db.Jobs.AsQueryable()
                  .Where(x => clientIds.Contains(x.ClientId))
-                 .ToListAsync()
+                 .ToListAsync(cancellationToken)
                  .ConfigureAwait(false);
-            return jobs.ToLookup(x => x.Id);//something wrong suppose to be (x=>x.ClientId)
+            return filterJobs.ToLookup(x => x.ClientId);
         }
 
         //public Task UpdateJobAsync(Job job, CancellationToken cancellationToken)

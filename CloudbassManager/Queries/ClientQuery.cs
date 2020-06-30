@@ -4,6 +4,7 @@ using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using HotChocolate;
 using HotChocolate.Types;
+using System;
 using System.Linq;
 
 
@@ -41,7 +42,7 @@ namespace CloudbassManager.Queries
         /// Gets a client by its id.
         /// </summary>
 
-        public IQueryable<Client> GetClient([Service] CloudbassContext db, int id) =>
+        public IQueryable<Client> GetClient([Service] CloudbassContext db, Guid id) =>
 
             db.Clients.Where(t => t.Id == id);
 

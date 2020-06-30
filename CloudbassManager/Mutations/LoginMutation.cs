@@ -60,7 +60,8 @@ namespace CloudbassManager.Mutations
 
             // User? user = await userRepository.GetUserAsync(x => x.input.).ConfigureAwait(false);
 
-            User? user = await db.Users.FirstOrDefaultAsync(t => t.Email == input.Email);
+            //create a variable for dupication name check
+            var user = await db.Users.FirstOrDefaultAsync(t => t.Email == input.Email);
 
 
 

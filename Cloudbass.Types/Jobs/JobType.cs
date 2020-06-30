@@ -7,6 +7,10 @@ using HotChocolate;
 using HotChocolate.Resolvers;
 using System.Collections.Generic;
 using System.Linq;
+using Cloudbass.DataAccess.Repositories;
+using System;
+using GreenDonut;
+using Cloudbass.Types.Schedules;
 
 namespace Cloudbass.Types.Jobs
 {
@@ -26,18 +30,50 @@ namespace Cloudbass.Types.Jobs
             descriptor.Field(x => x.CommercialLead).Type<StringType>();
             descriptor.Field(x => x.Status).Type<StringType>();
 
-            descriptor.Field<ClientType, Client>()
-                .Name("Client")
-                .ResolverAsync(ctx =>
-                {
-                    var clientLoader = accessor.Context.GetOrAddBatchLoader<int, Client>("GetClientById", IClientRepository.GetClientByIdAsync);
-                    return clientLoader.LoadAsync(ctx.Source.ClientId);
-                });
+            descriptor.Field("client").Type<NonNullType<ClientType>>().Resolver(ctx =>
+            {
+                ClientRepository clientRepository = ctx.Service<ClientRepository>();
+                IDataLoader dataloader = ctx.BatchDataLoader<Guid, Client>(
+                    "ClientById",
+                    clientRepository.GetClientsAsync);
+
+                return dataloader.LoadAsync(ctx.Parent<Job>().ClientId);
+            });
+
+
+
+            //descriptor.Field("replyTo").Type<JobType>().Resolver(async ctx =>
+            //{
+            //    Id? replyToId = ctx.Parent<Job>().Id;
+            //    if (replyToId.HasValue)
+            //    {
+            //        JobRepository jobRepository = ctx.Service<JobRepository>();
+
+            //        IDataLoader<ObjectId, Job> dataLoader = ctx.CacheDataLoader<ObjectId, Job>(
+            //            "MessageById",
+            //            jobRepository.GetMessageById);
+
+            //        return await dataLoader.LoadAsync(ctx.Parent<Job>().ReplyToId.Value);
+            //    }
+            //    return null;
+            //});
+
+
+            //descriptor.Field("schedule").Type<NonNullType<ScheduleType>>().Resolver(ctx =>
+            //{
+            //    ScheduleRepository scheduleRepository = ctx.Service<ScheduleRepository>();
+            //    IDataLoader dataloader = ctx.BatchDataLoader<Guid, Schedule>(
+            //        "ScheduleById",
+            //        scheduleRepository.GetClientsAsync);
+
+            //    return dataloader.LoadAsync(ctx.Parent<Job>().ClientId);
+
+            //});
 
             //able to get the information of clients when we make a query about jobs
-            descriptor.Field<ClientResolver>(t => t.GetClient(default, default));
+            // descriptor.Field<ClientResolver>(t => t.GetClient(default, default));
 
-            descriptor.Field<ScheduleResolver>(x => x.GetSchedules(default, default));
+            // descriptor.Field<ScheduleResolver>(x => x.GetSchedules(default, default));
 
             //descriptor.Field<JobResolver>(x => x.GetJobForClient(clientId, default));
 

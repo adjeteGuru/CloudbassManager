@@ -21,20 +21,20 @@ namespace CloudbassManager.Mutations
             _jobRepository = jobRepository;
         }
 
-        public Job CreateJob(CreateJobInput input)
-        {
-            return _jobRepository.Create(input);
-        }
+        //public Job CreateJob(CreateJobInput input)
+        //{
+        //    return _jobRepository.Create(input);
+        //}
 
-        public Job DeleteJob(DeleteJobInput input)
-        {
-            return _jobRepository.Delete(input);
-        }
+        //public Job DeleteJob(DeleteJobInput input)
+        //{
+        //    return _jobRepository.Delete(input);
+        //}
 
 
-        public Job UpdateJob(UpdateJobInput input, Guid id)
-        {
-            return _jobRepository.Update(input, id);
-        }
+        //public Job UpdateJob(UpdateJobInput input, Guid id)
+        //{
+        //    return _jobRepository.Update(input, id);
+        //}
     }
 }

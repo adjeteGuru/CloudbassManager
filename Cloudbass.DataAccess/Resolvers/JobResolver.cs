@@ -20,17 +20,17 @@ namespace Cloudbass.DataAccess.Resolvers
 
         public Job GetJobOnSched(Schedule schedule, IResolverContext ctx)
         {
-            return _jobRepository.GetAll().Where(x => x.Id == schedule.JobId).FirstOrDefault();
+            return _jobRepository.GetAllJobs().Where(x => x.Id == schedule.JobId).FirstOrDefault();
         }
 
         public Job GetJobOnCrew(Crew crew, IResolverContext ctx)
         {
-            return _jobRepository.GetAll().Where(x => x.Id == crew.JobId).FirstOrDefault();
+            return _jobRepository.GetAllJobs().Where(x => x.Id == crew.JobId).FirstOrDefault();
         }
 
-        public Job GetJobForClient(int clientId, int lastJob, IResolverContext ctx)
+        public Job GetJobForClient(Guid clientId, int lastJob, IResolverContext ctx)
         {
-            return _jobRepository.GetAll()
+            return _jobRepository.GetAllJobs()
                 .Where(x => x.ClientId == clientId)
                 .OrderByDescending(x => x.CreatedAt)
                 .Take(lastJob)
@@ -40,7 +40,7 @@ namespace Cloudbass.DataAccess.Resolvers
 
         public IEnumerable<Job> GetJobs(Client client, IResolverContext ctx)
         {
-            return _jobRepository.GetAll().Where(x => x.ClientId == client.Id);
+            return _jobRepository.GetAllJobs().Where(x => x.ClientId == client.Id);
         }
 
 

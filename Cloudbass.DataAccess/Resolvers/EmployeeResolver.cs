@@ -16,10 +16,10 @@ namespace Cloudbass.DataAccess.Resolvers
         {
             _employeeRepository = employeeRepository;
         }
-        public IEnumerable<Employee> GetEmplyees(Client client, IResolverContext ctx)
-        {
-            return _employeeRepository.GetAll().Where(x => x.CountyId == client.Id);
-        }
+        //public IEnumerable<Employee> GetEmplyees(Client client, IResolverContext ctx)
+        //{
+        //    return _employeeRepository.GetAll().Where(x => x.CountyId == client.Id);
+        //}
 
         public Employee GetEmployee(/*HasRole hasRole,*/ User user, IResolverContext ctx)
         {

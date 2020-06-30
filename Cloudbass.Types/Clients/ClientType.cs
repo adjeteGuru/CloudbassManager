@@ -25,7 +25,7 @@ namespace Cloudbass.Types
 
             //invoke the resolver to allow data fetching          
 
-            descriptor.Field<JobResolver>(t => t.GetJobs(default, default));
+            // descriptor.Field<JobResolver>(t => t.GetJobs(default, default));
             //descriptor.Field<JobResolver>(x=>x.GetJobForClient())
 
         }

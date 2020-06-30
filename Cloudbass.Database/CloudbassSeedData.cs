@@ -17,8 +17,8 @@ namespace Cloudbass.Database
 
                 using var sha = SHA512.Create();
                 byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes("Cloudba55" + salt));
-                //int EmployeeId = 1;
-                // Guid employeeId = Guid.NewGuid()
+
+                Guid employeeId = Guid.NewGuid();
 
                 var counties = new List<County>
                                 {
