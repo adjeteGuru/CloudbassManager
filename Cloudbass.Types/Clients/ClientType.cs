@@ -1,9 +1,13 @@
-﻿using Cloudbass.DataAccess.Repositories.Contracts;
+﻿using Cloudbass.DataAccess.Repositories;
+using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.DataAccess.Resolvers;
 using Cloudbass.Database.Models;
+using Cloudbass.Types.Jobs;
+using GreenDonut;
 using HotChocolate;
 using HotChocolate.Resolvers;
 using HotChocolate.Types;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,8 +29,23 @@ namespace Cloudbass.Types
 
             //invoke the resolver to allow data fetching          
 
-            // descriptor.Field<JobResolver>(t => t.GetJobs(default, default));
+            //descriptor.Field<JobResolver>(t => t.GetJobs(default, default));
             //descriptor.Field<JobResolver>(x=>x.GetJobForClient())
+
+            descriptor.Field("jobs").Type<JobType>().Resolver(ctx =>
+            {
+                JobRepository jobRepository = ctx.Service<JobRepository>();
+                IDataLoader dataLoader = ctx.BatchDataLoader<Guid, Job>(
+                    "JobByClientId",
+                    jobRepository.GetJobsByClientIdAsync);
+
+                return dataLoader.LoadAsync(ctx.Parent<Client>().Id);
+
+            });
+
+
+
+
 
         }
     }

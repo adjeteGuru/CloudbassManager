@@ -9,18 +9,18 @@ using System.Text;
 
 namespace Cloudbass.DataAccess.Resolvers
 {
-    public class ClientResolver
-    {
-        private readonly IClientRepository _clientRepository;
-        public ClientResolver([Service] IClientRepository clientRepository)
-        {
-            _clientRepository = clientRepository;
-        }
+    //public class ClientResolver
+    //{
+    //    private readonly IClientRepository _clientRepository;
+    //    public ClientResolver([Service] IClientRepository clientRepository)
+    //    {
+    //        _clientRepository = clientRepository;
+    //    }
 
-        public Client GetClient(Job job, IResolverContext ctx)
-        {
-            return _clientRepository.GetAllClients().Where(a => a.Id == job.ClientId).FirstOrDefault();
-        }
+    //    public Client GetClient(Job job, IResolverContext ctx)
+    //    {
+    //        return _clientRepository.GetAllClients().Where(a => a.Id == job.ClientId).FirstOrDefault();
+    //    }
 
-    }
+    //}
 }

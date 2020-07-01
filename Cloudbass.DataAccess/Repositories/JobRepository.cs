@@ -53,7 +53,7 @@ namespace Cloudbass.DataAccess.Repositories
             return list.ToDictionary(x => x.Id);
         }
 
-        public async Task<IEnumerable<Job>> GetJobsByClientIdAsync(Guid clientId)
+        public async Task<IEnumerable<Job>> GetJobByClientIdAsync(Guid clientId)
         {
             return await _db.Jobs.Where(x => x.ClientId == clientId).ToListAsync();
         }

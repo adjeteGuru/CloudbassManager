@@ -16,7 +16,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
         Task<IReadOnlyDictionary<Guid, Client>> GetClientsAsync(
             IReadOnlyList<Guid> ids, CancellationToken cancellationToken);
         Task<Client> CreateClientAsync(Client client, CancellationToken cancellationToken);
-
+        Task<Client> UpdateClientAsync(Client client, Guid id, CancellationToken cancellationToken);
 
         //public Client GetClient(int id);
         //Client Create(CreateClientInput input);

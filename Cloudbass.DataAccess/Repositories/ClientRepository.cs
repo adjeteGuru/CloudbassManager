@@ -155,6 +155,15 @@ namespace Cloudbass.DataAccess.Repositories
             return addedClient.Entity;
         }
 
+        public async Task<Client> UpdateClientAsync(Client client, Guid id, CancellationToken cancellationToken)
+        {
+            var clientToUpdate = await _db.Clients.FindAsync(id);
+            var updatedClient = _db.Clients.Update(clientToUpdate);
+            await _db.SaveChangesAsync()
+                .ConfigureAwait(false);
+            return updatedClient.Entity;
+        }
+
 
     }
 }
