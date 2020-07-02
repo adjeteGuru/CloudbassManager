@@ -137,7 +137,8 @@ namespace Cloudbass.DataAccess.Repositories
 
         // this GetClientsAsync method takes a list of client ids and returns a dictionary of clients
         //with their ids as keys.
-        public async Task<IReadOnlyDictionary<Guid, Client>> GetClientsAsync(IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
+        public async Task<IReadOnlyDictionary<Guid, Client>> GetClientsAsync(
+            IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
         {
             var list = await _db.Clients.AsQueryable()
                 .Where(x => ids.Contains(x.Id))
@@ -155,12 +156,12 @@ namespace Cloudbass.DataAccess.Repositories
             return addedClient.Entity;
         }
 
-        public async Task<Client> UpdateClientAsync(Client client, Guid id, CancellationToken cancellationToken)
+        public async Task<Client> UpdateClientAsync(
+            Client client, CancellationToken cancellationToken)
         {
-            var clientToUpdate = await _db.Clients.FindAsync(id);
+            var clientToUpdate = await _db.Clients.FindAsync(client.Id);
             var updatedClient = _db.Clients.Update(clientToUpdate);
-            await _db.SaveChangesAsync()
-                .ConfigureAwait(false);
+            await _db.SaveChangesAsync();
             return updatedClient.Entity;
         }
 

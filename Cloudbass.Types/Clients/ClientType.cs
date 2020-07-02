@@ -32,16 +32,16 @@ namespace Cloudbass.Types
             //descriptor.Field<JobResolver>(t => t.GetJobs(default, default));
             //descriptor.Field<JobResolver>(x=>x.GetJobForClient())
 
-            descriptor.Field("jobs").Type<JobType>().Resolver(ctx =>
-            {
-                JobRepository jobRepository = ctx.Service<JobRepository>();
-                IDataLoader dataLoader = ctx.BatchDataLoader<Guid, Job>(
-                    "JobByClientId",
-                    jobRepository.GetJobsByClientIdAsync);
+            //descriptor.Field("jobs").Type<JobType>().Resolver(ctx =>
+            //{
+            //    JobRepository jobRepository = ctx.Service<JobRepository>();
+            //    IDataLoader dataLoader = ctx.BatchDataLoader<Guid, Job>(
+            //        "JobByClientId",
+            //        jobRepository.GetJobsByClientIdAsync);
 
-                return dataLoader.LoadAsync(ctx.Parent<Client>().Id);
+            //    return dataLoader.LoadAsync(ctx.Parent<Client>().Id);
 
-            });
+            //});
 
 
 

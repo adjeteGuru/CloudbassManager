@@ -1,4 +1,5 @@
-﻿using Cloudbass.Database;
+﻿using Cloudbass.DataAccess.Repositories.Contracts;
+using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using HotChocolate.DataLoader;
 using Microsoft.EntityFrameworkCore;
@@ -11,18 +12,19 @@ using System.Threading.Tasks;
 
 namespace Cloudbass.Types.Employees
 {
-    public class EmployeeByIdLoader : BatchDataLoader<Guid, Employee>
+    public class EmployeeByIdDataLoader : BatchDataLoader<Guid, Employee>
     {
-        private readonly CloudbassContext _db;
-        public EmployeeByIdLoader(CloudbassContext db)
+        private readonly IEmployeeRepository _employeeRepository;
+        public EmployeeByIdDataLoader(IEmployeeRepository employeeRepository)
         {
-            _db = db;
+            _employeeRepository = employeeRepository;
         }
-        protected override async Task<IReadOnlyDictionary<Guid, Employee>> LoadBatchAsync(IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
+        protected override async Task<IReadOnlyDictionary<Guid, Employee>> LoadBatchAsync(
+            IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
         {
-            return await _db.Employees
-                .Where(x => keys.Contains(x.Id))
-                .ToDictionaryAsync(x => x.Id);
+            return await _employeeRepository
+                .GetEmployeesAsync(keys, cancellationToken)
+                .ConfigureAwait(false);
         }
     }
 }
