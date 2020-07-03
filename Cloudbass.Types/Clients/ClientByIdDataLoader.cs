@@ -1,4 +1,5 @@
-﻿using Cloudbass.Database;
+﻿using Cloudbass.DataAccess.Repositories.Contracts;
+using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using HotChocolate.DataLoader;
 using Microsoft.EntityFrameworkCore;
@@ -13,17 +14,17 @@ namespace Cloudbass.Types.Clients
 {
     public class ClientByIdDataLoader : BatchDataLoader<Guid, Client>
     {
-        private readonly CloudbassContext _db;
-        public ClientByIdDataLoader(CloudbassContext db)
+        private readonly IClientRepository _clientRepository;
+        public ClientByIdDataLoader(IClientRepository clientRepository)
         {
-            _db = db;
+            _clientRepository = clientRepository;
         }
         protected override async Task<IReadOnlyDictionary<Guid, Client>> LoadBatchAsync(
             IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
         {
-            return await _db.Clients
-                .Where(x => keys.Contains(x.Id))
-                .ToDictionaryAsync(x => x.Id);
+            return await _clientRepository
+                .GetClientsAsync(keys, cancellationToken)
+                .ConfigureAwait(false);
         }
     }
 }
