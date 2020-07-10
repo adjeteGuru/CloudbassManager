@@ -10,6 +10,6 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     {
 
         public County GetById(int id);
-        IQueryable<County> GetAll();
+        IQueryable<County> GetAllCounty();
     }
 }

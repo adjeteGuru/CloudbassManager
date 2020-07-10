@@ -14,6 +14,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cloudbass.DataAccess.Repositories
@@ -109,7 +110,7 @@ namespace Cloudbass.DataAccess.Repositories
             return userToDelete;
         }
 
-        public async Task<User> GetUserAsync(string email)
+        public async Task<User> GetUserAsync(string email, CancellationToken cancellationToken)
         {
             return await _db.Users.AsQueryable()
                 .FirstOrDefaultAsync(x => x.Email == email)
@@ -119,20 +120,47 @@ namespace Cloudbass.DataAccess.Repositories
                 .ConfigureAwait(false);
         }
 
-        public async Task AddUserAsync(User user)
+
+
+        //public async Task<User> UpdatePasswordAsync(
+        //    string email, string newPAsswordHash, string salt, CancellationToken cancellationToken)
+        //{
+        //    var userToUpdate = await _db.Users.FindAsync(email);
+        //    var updatedUser = _db.Users.Update(userToUpdate);
+        //    await _db.SaveChangesAsync();
+        //    return updatedUser.Entity;
+        //}
+
+        //public async Task<User> UpdatePasswordAsync(string email, string newPAsswordHash, string salt, CancellationToken cancellationToken)
+        //{
+        //    var userToUpdate = await _db.Users.AsQueryable()
+        //    .Where(x => x.Email == email || x.Password == newPAsswordHash || x.Salt == salt)
+        //    .FirstOrDefaultAsync(cancellationToken);
+        //    //.SingleOrDefault(x => x.Email == email || x.Password == newPAsswordHash || x.Salt == salt)
+
+        //    //var userToUpdate = await _db.Users.Where(x => x.Email == email || x.Password == newPAsswordHash || x.Salt == salt);
+        //    //.FirstOrDefaultAsync(cancellationToken);
+        //    var updatedUser = _db.Users.Update(userToUpdate.Password == newPAsswordHash, userToUpdate.Email==email);
+        //    // var updatedUser = _db.Users.Where(x => x.Password == newPAsswordHash && x.Salt == salt);
+
+
+        //    await _db.SaveChangesAsync()
+
+        //        .ConfigureAwait(false);
+
+        //    return updatedUser.Entity;
+
+
+        //}
+
+        public async Task<User> CreateUserAsync(User user)
         {
-            /*await*/
-            _db.Users.Add(user)/*.ConfigureAwait(false)*/;
+            var addedUser = await _db.Users.AddAsync(user);
+            await _db.SaveChangesAsync()
+            .ConfigureAwait(false);
+            return addedUser.Entity;
         }
 
-        public async Task UpdatePasswordAsync(string email, string newPAsswordHash, string salt)
-        {
-            await _db.Users
-                .Where(x => x.Email == email || x.Password == newPAsswordHash || x.Salt == salt)
-                .FirstOrDefaultAsync()
-                //.SingleOrDefault(x => x.Email == email || x.Password == newPAsswordHash || x.Salt == salt)
 
-                /*.ConfigureAwait(false)*/;
-        }
     }
 }

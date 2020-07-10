@@ -16,7 +16,7 @@ namespace Cloudbass.DataAccess.Repositories
             _db = db;
         }
 
-        public IQueryable<County> GetAll()
+        public IQueryable<County> GetAllCounty()
         {
             return _db.Counties.AsQueryable();
         }

@@ -55,7 +55,8 @@ namespace Cloudbass.DataAccess.Repositories
 
         public async Task<IEnumerable<Job>> GetJobByClientIdAsync(Guid clientId)
         {
-            return await _db.Jobs.Where(x => x.ClientId == clientId).ToListAsync();
+            return await _db.Jobs.Where(x => x.ClientId == clientId)
+                                 .ToListAsync();
         }
 
         //this method helps filter Jobs by client

@@ -3,6 +3,7 @@
 using Cloudbass.DataAccess.Repositories.Contracts.Inputs.User;
 using Cloudbass.Database.Models;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cloudbass.DataAccess.Repositories.Contracts
@@ -16,13 +17,13 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 
         //this method return a single user by ID and take the "ID" as a parameter
         // User GetById(int id);
-        Task<User> GetUserAsync(string email);
+        Task<User> GetUserAsync(string email, CancellationToken cancellationToken = default);
 
-        Task AddUserAsync(User user);
+        Task<User> CreateUserAsync(User user);
 
-        Task UpdatePasswordAsync(string email, string newPAsswordHash, string salt);
+        //Task UpdatePasswordAsync(string email, string newPAsswordHash, string salt, CancellationToken cancellationToken = default);
 
-        User Delete(DeleteUserInput input);
+        //User Delete(DeleteUserInput input);
 
     }
 }
