@@ -23,7 +23,7 @@ namespace Cloudbass.DataAccess.Resolvers
 
         public Employee GetEmployee(/*HasRole hasRole,*/ User user, IResolverContext ctx)
         {
-            return _employeeRepository.GetAll().Where(x => /*x.Id == hasRole.EmployeeId ||*/ x.Id == user.EmployeeId).FirstOrDefault();
+            return _employeeRepository.GetAllEmployee().Where(x => /*x.Id == hasRole.EmployeeId ||*/ x.Id == user.EmployeeId).FirstOrDefault();
         }
 
         //public Employee GetEmployee(User user, IResolverContext ctx)

@@ -69,11 +69,11 @@ namespace CloudbassManager.Queries
 
         [UsePaging(SchemaType = typeof(CountyType))]
         [UseFiltering]
-        public IQueryable<County> Counties => _countyRepository.GetAll();
+        public IQueryable<County> Counties => _countyRepository.GetAllCounty();
 
         [UsePaging(SchemaType = typeof(RoleType))]
         [UseFiltering]
-        public IQueryable<Role> Roles => _roleRepository.GetAll();
+        public IQueryable<Role> Roles => _roleRepository.GetAllRole();
 
         //[UsePaging(SchemaType = typeof(HasRoleType))]
         //[UseFiltering]
@@ -85,6 +85,6 @@ namespace CloudbassManager.Queries
 
         [UsePaging(SchemaType = typeof(EmployeeType))]
         [UseFiltering]
-        public IQueryable<Employee> Employees => _employeeRepository.GetAll();
+        public IQueryable<Employee> Employees => _employeeRepository.GetAllEmployee();
     }
 }

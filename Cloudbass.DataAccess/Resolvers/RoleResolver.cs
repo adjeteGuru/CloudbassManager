@@ -19,7 +19,7 @@ namespace Cloudbass.DataAccess.Resolvers
 
         public Role GetRole(HasRole hasRole, IResolverContext ctx)
         {
-            return _roleRepository.GetAll().Where(x => x.Id == hasRole.RoleId).FirstOrDefault();
+            return _roleRepository.GetAllRole().Where(x => x.Id == hasRole.RoleId).FirstOrDefault();
         }
     }
 }

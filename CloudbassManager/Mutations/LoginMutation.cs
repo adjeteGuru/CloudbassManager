@@ -29,7 +29,7 @@ namespace CloudbassManager.Mutations
         public async Task<LoginPayload> LoginAsync(
           LoginInput input,
           [Service] CloudbassContext db,
-          [Service] EmployeeByEmailLoader employeeByEmail,
+          [Service] EmployeeByEmailDataLoader employeeByEmail,
           [Service] ITopicEventSender eventSender,
           CancellationToken cancellationToken
             //[Service]IUserRepository userRepository,
