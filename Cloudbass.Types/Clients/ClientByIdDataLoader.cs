@@ -23,7 +23,7 @@ namespace Cloudbass.Types.Clients
             IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
         {
             return await _clientRepository
-                .GetClientsAsync(keys, cancellationToken)
+                .GetClientsByIdAsync(keys, cancellationToken)
                 .ConfigureAwait(false);
         }
     }

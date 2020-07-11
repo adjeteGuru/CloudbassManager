@@ -22,7 +22,7 @@ namespace Cloudbass.Types.Roles
             IReadOnlyList<int> keys, CancellationToken cancellationToken)
         {
             return await _roleRepository
-                .GetRolesAsync(keys, cancellationToken)
+                .GetRolesByIdAsync(keys, cancellationToken)
                 .ConfigureAwait(false);
         }
     }

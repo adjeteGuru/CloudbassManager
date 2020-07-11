@@ -13,7 +13,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     {
         IQueryable<Client> GetAllClients();
         Task<Client> GetClientByIdAsync(Guid clientId);
-        Task<IReadOnlyDictionary<Guid, Client>> GetClientsAsync(
+        Task<IReadOnlyDictionary<Guid, Client>> GetClientsByIdAsync(
             IReadOnlyList<Guid> ids, CancellationToken cancellationToken);
         Task<Client> CreateClientAsync(Client client, CancellationToken cancellationToken);
         Task<Client> UpdateClientAsync(Client client, CancellationToken cancellationToken);

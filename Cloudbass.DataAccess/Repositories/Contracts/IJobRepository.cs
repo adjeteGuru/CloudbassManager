@@ -18,7 +18,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
         Task<IEnumerable<Job>> GetJobByClientIdAsync(Guid clientId);
         Task<ILookup<Guid, Job>> GetJobsByClientIdAsync(
             IEnumerable<Guid> clientIds, CancellationToken cancellationToken);
-        Task<IReadOnlyDictionary<Guid, Job>> GetJobsAsync(
+        Task<IReadOnlyDictionary<Guid, Job>> GetJobsByIdAsync(
             IReadOnlyList<Guid> ids, CancellationToken cancellationToken);
         Task<Job> CreateJobAsync(Job job, CancellationToken cancellationToken);
 

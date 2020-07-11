@@ -131,6 +131,21 @@ namespace Cloudbass.DataAccess.Repositories
         //    return updatedUser.Entity;
         //}
 
+        public async Task<User> UpdatePasswordAsync(
+       string email, string newPAsswordHash, string salt, CancellationToken cancellationToken)
+        {
+            var userToUpdate = await _db.Users
+                .Where(x => x.Email == email).FirstOrDefaultAsync();
+            //.ConfigureAwait(false);
+            var updatedUser = _db.Users.Update(userToUpdate);
+            await _db.SaveChangesAsync()
+            .ConfigureAwait(false);
+            return updatedUser.Entity;
+        }
+
+
+
+
         //public async Task<User> UpdatePasswordAsync(string email, string newPAsswordHash, string salt, CancellationToken cancellationToken)
         //{
         //    var userToUpdate = await _db.Users.AsQueryable()

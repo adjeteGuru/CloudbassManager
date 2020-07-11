@@ -34,7 +34,7 @@ namespace Cloudbass.DataAccess.Repositories
             return _db.Employees.AsQueryable();
         }
 
-        public async Task<IReadOnlyDictionary<Guid, Employee>> GetEmployeesAsync(
+        public async Task<IReadOnlyDictionary<Guid, Employee>> GetEmployeesByIdAsync(
             IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
         {
             var list = await _db.Employees.AsQueryable()
@@ -64,6 +64,16 @@ namespace Cloudbass.DataAccess.Repositories
             await _db.SaveChangesAsync()
                 .ConfigureAwait(false);
             return updatedEmployee.Entity;
+        }
+
+        public Task<Employee> GetEmployeeByCountyAsync(string countyName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Employee> GetEmployeeByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
         }
 
 

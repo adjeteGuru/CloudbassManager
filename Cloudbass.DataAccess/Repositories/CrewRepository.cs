@@ -23,7 +23,7 @@ namespace Cloudbass.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public IQueryable<Crew> GetAll()
+        public IQueryable<Crew> GetAllCrewAsync()
         {
             throw new NotImplementedException();
         }

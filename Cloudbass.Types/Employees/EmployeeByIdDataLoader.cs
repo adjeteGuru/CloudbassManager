@@ -23,7 +23,7 @@ namespace Cloudbass.Types.Employees
             IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
         {
             return await _employeeRepository
-                .GetEmployeesAsync(keys, cancellationToken)
+                .GetEmployeesByIdAsync(keys, cancellationToken)
                 .ConfigureAwait(false);
         }
     }

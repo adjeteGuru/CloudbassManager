@@ -46,7 +46,7 @@ namespace Cloudbass.DataAccess.Repositories
 
         // this GetHasRolesAsync method takes a list of hasRole ids and returns a dictionary of hasRoles
         //with their ids as keys.
-        public async Task<IReadOnlyDictionary<int, HasRole>> GetHasRolesAsync(
+        public async Task<IReadOnlyDictionary<int, HasRole>> GetHasRolesByIdAsync(
             IReadOnlyList<int> ids, CancellationToken cancellationToken)
         {
             var list = await _db.HasRoles.AsQueryable()

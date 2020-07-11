@@ -31,7 +31,7 @@ namespace Cloudbass.DataAccess.Repositories
             return _db.Roles.AsQueryable();
         }
 
-        public async Task<IReadOnlyDictionary<int, Role>> GetRolesAsync(
+        public async Task<IReadOnlyDictionary<int, Role>> GetRolesByIdAsync(
             IReadOnlyList<int> ids, CancellationToken cancellation)
         {
             var list = await _db.Roles.AsQueryable()

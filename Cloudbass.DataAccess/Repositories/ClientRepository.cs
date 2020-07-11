@@ -137,7 +137,7 @@ namespace Cloudbass.DataAccess.Repositories
 
         // this GetClientsAsync method takes a list of client ids and returns a dictionary of clients
         //with their ids as keys.
-        public async Task<IReadOnlyDictionary<Guid, Client>> GetClientsAsync(
+        public async Task<IReadOnlyDictionary<Guid, Client>> GetClientsByIdAsync(
             IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
         {
             var list = await _db.Clients.AsQueryable()

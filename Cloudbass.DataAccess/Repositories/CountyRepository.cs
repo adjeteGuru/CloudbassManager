@@ -1,10 +1,13 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Cloudbass.DataAccess.Repositories
 {
@@ -16,15 +19,34 @@ namespace Cloudbass.DataAccess.Repositories
             _db = db;
         }
 
-        public IQueryable<County> GetAllCounty()
+        public async Task<County> CreateCountyAsync(County county, CancellationToken cancellationToken)
         {
+            var addedCounty = await _db.Counties.AddAsync(county)
+                .ConfigureAwait(false);
+            await _db.SaveChangesAsync();
+            return addedCounty.Entity;
+        }
+
+        public IQueryable<County> GetAllCountyAsync()
+        {
+            //return await _db.Counties.AsNoTracking().ToListAsync();
             return _db.Counties.AsQueryable();
         }
 
-        public County GetById(int id)
+
+        public async Task<IReadOnlyDictionary<int, County>> GetCountiesByIdAsync(
+            IReadOnlyList<int> ids, CancellationToken cancellationToken)
         {
-            //throw new NotImplementedException();
-            return _db.Counties.SingleOrDefault(x => x.Id == id);
+            var list = await _db.Counties.AsQueryable()
+                .Where(x => ids.Contains(x.Id))
+                .ToListAsync(cancellationToken)
+                .ConfigureAwait(false);
+            return list.ToDictionary(x => x.Id);
+        }
+
+        public async Task<County> GetCountyByIdAsync(int countyId)
+        {
+            return await _db.Counties.SingleOrDefaultAsync(x => x.Id == countyId);
         }
     }
 }

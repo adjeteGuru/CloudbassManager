@@ -69,7 +69,7 @@ namespace CloudbassManager.Queries
 
         [UsePaging(SchemaType = typeof(CountyType))]
         [UseFiltering]
-        public IQueryable<County> Counties => _countyRepository.GetAllCounty();
+        public IQueryable<County> Counties => _countyRepository.GetAllCountyAsync();
 
         [UsePaging(SchemaType = typeof(RoleType))]
         [UseFiltering]

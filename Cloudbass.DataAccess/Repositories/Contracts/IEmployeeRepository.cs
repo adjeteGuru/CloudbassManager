@@ -12,8 +12,10 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     {
 
         IQueryable<Employee> GetAllEmployee();
+        Task<Employee> GetEmployeeByCountyAsync(string countyName);
 
-        Task<IReadOnlyDictionary<Guid, Employee>> GetEmployeesAsync(
+        Task<Employee> GetEmployeeByIdAsync(Guid id);
+        Task<IReadOnlyDictionary<Guid, Employee>> GetEmployeesByIdAsync(
            IReadOnlyList<Guid> ids,
            CancellationToken cancellationToken);
 

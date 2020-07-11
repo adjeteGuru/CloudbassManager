@@ -19,7 +19,7 @@ namespace Cloudbass.DataAccess.Resolvers
 
         public County GetCounty(Employee employee, IResolverContext ctx)
         {
-            return _countyRepository.GetAllCounty().Where(x => x.Id == employee.CountyId).FirstOrDefault();
+            return _countyRepository.GetAllCountyAsync().Where(x => x.Id == employee.CountyId).FirstOrDefault();
         }
     }
 }
