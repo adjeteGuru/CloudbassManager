@@ -78,10 +78,10 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
         //this implement the interface member Repository User GetAll()
-        public IEnumerable<User> GetAll()
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            //list Users;
-            return _db.Users.WithoutPasswords();
+            //list Users;         
+            return await _db.Users.AsNoTracking().ToListAsync();
         }
 
         //this method use linq "SingleOrDefault" statement with lambda function to compile the correct id

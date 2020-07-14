@@ -3,6 +3,7 @@
 using Cloudbass.DataAccess.Repositories.Contracts.Inputs.User;
 using Cloudbass.Database.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,10 +14,8 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
         User Authenticate(string name, string password);
 
         //this will return the collection of users as ienumerable
-        IEnumerable<User> GetAll();
+        Task<IEnumerable<User>> GetAllUsersAsync();
 
-        //this method return a single user by ID and take the "ID" as a parameter
-        // User GetById(int id);
         Task<User> GetUserAsync(string email, CancellationToken cancellationToken = default);
 
         Task<User> CreateUserAsync(User user);

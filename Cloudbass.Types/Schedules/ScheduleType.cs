@@ -19,7 +19,7 @@ namespace Cloudbass.Types.Schedules
             descriptor.Field(x => x.Status).Type<StringType>();
 
 
-            descriptor.Field<JobResolver>(x => x.GetJobOnSched(default, default));
+            //descriptor.Field<JobResolver>(x => x.GetJobOnSched(default, default));
 
         }
     }

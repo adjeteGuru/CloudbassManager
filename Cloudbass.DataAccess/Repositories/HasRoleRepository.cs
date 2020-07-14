@@ -39,9 +39,9 @@ namespace Cloudbass.DataAccess.Repositories
             return _db.HasRoles.FirstAsync(x => x.Employee.FullName == employeeName || x.Role.Name == roleName);
         }
 
-        public IQueryable<HasRole> GetHasRoles()
+        public async Task<IEnumerable<HasRole>> GetAllHasRolesAsync()
         {
-            return _db.HasRoles.AsQueryable();
+            return await _db.HasRoles.AsNoTracking().ToListAsync();
         }
 
         // this GetHasRolesAsync method takes a list of hasRole ids and returns a dictionary of hasRoles

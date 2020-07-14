@@ -10,6 +10,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     public interface ICrewRepository
     {
         Task<IEnumerable<Crew>> GetCrewAsync();
+        //IQueryable<Crew> GetAllCrewsAsync();
         Task<Crew> CreateCrewAsync(Crew crew);
     }
 }

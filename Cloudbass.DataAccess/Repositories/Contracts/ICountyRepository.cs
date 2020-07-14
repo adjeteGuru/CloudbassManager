@@ -11,7 +11,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     public interface ICountyRepository
     {
 
-        IQueryable<County> GetAllCountyAsync();
+        Task<IEnumerable<County>> GetAllCountyAsync();
 
         Task<County> GetCountyByIdAsync(int countyId);
         Task<IReadOnlyDictionary<int, County>> GetCountiesByIdAsync(

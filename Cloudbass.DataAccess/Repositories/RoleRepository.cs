@@ -26,9 +26,9 @@ namespace Cloudbass.DataAccess.Repositories
             return addedRole.Entity;
         }
 
-        public IQueryable<Role> GetAllRole()
+        public async Task<IEnumerable<Role>> GetAllRolesAsync()
         {
-            return _db.Roles.AsQueryable();
+            return await _db.Roles.AsNoTracking().ToListAsync();
         }
 
         public async Task<IReadOnlyDictionary<int, Role>> GetRolesByIdAsync(

@@ -11,20 +11,20 @@ namespace Cloudbass.DataAccess.Resolvers
 {
     public class EmployeeResolver
     {
-        private readonly IEmployeeRepository _employeeRepository;
-        public EmployeeResolver([Service] IEmployeeRepository employeeRepository)
-        {
-            _employeeRepository = employeeRepository;
-        }
-        //public IEnumerable<Employee> GetEmplyees(Client client, IResolverContext ctx)
-        //{
-        //    return _employeeRepository.GetAll().Where(x => x.CountyId == client.Id);
-        //}
+        //    private readonly IEmployeeRepository _employeeRepository;
+        //    public EmployeeResolver([Service] IEmployeeRepository employeeRepository)
+        //    {
+        //        _employeeRepository = employeeRepository;
+        //    }
+        //    //public IEnumerable<Employee> GetEmplyees(Client client, IResolverContext ctx)
+        //    //{
+        //    //    return _employeeRepository.GetAll().Where(x => x.CountyId == client.Id);
+        //    //}
 
-        public Employee GetEmployee(/*HasRole hasRole,*/ User user, IResolverContext ctx)
-        {
-            return _employeeRepository.GetAllEmployee().Where(x => /*x.Id == hasRole.EmployeeId ||*/ x.Id == user.EmployeeId).FirstOrDefault();
-        }
+        //    public Employee GetEmployee(/*HasRole hasRole,*/ User user, IResolverContext ctx)
+        //    {
+        //        return _employeeRepository.GetAllEmployeesAsync().Where(x => /*x.Id == hasRole.EmployeeId ||*/ x.Id == user.EmployeeId).FirstOrDefault();
+        //    }
 
         //public Employee GetEmployee(User user, IResolverContext ctx)
         //{

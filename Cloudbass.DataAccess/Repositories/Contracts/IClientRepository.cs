@@ -11,7 +11,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public interface IClientRepository
     {
-        IQueryable<Client> GetAllClients();
+        Task<IEnumerable<Client>> GetAllClientsAsync();
         Task<Client> GetClientByIdAsync(Guid clientId);
         Task<IReadOnlyDictionary<Guid, Client>> GetClientsByIdAsync(
             IReadOnlyList<Guid> ids, CancellationToken cancellationToken);

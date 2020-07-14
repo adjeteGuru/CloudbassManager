@@ -36,9 +36,9 @@ namespace Cloudbass.DataAccess.Repositories
             return await _db.Jobs.FindAsync(jobId);
         }
 
-        public IQueryable<Job> GetAllJobs()
+        public async Task<IEnumerable<Job>> GetAllJobsAsync()
         {
-            return _db.Jobs.AsQueryable();
+            return await _db.Jobs.AsNoTracking().ToListAsync();
         }
 
         // this GetJobsAsync method takes a list of job ids and returns a dictionary of jobs

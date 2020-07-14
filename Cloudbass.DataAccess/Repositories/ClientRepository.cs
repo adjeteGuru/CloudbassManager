@@ -125,9 +125,9 @@ namespace Cloudbass.DataAccess.Repositories
         //    return clientToUpdate;
         //}
 
-        public IQueryable<Client> GetAllClients()
+        public async Task<IEnumerable<Client>> GetAllClientsAsync()
         {
-            return _db.Clients.AsQueryable();
+            return await _db.Clients.AsNoTracking().ToListAsync();
         }
 
         public async Task<Client> GetClientByIdAsync(Guid clientId)

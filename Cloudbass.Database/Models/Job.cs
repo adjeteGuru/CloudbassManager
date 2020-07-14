@@ -39,6 +39,7 @@ namespace Cloudbass.Database.Models
 
         public Guid CreatedBy { get; set; }
         public ICollection<Schedule> Schedules { get; set; }
+        //public List<Schedule> Schedules { get; set; }
 
         //[GraphQLIgnore]
         //public ICollection<Crew> Crews { get; set; }

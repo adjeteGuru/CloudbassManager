@@ -29,9 +29,9 @@ namespace Cloudbass.DataAccess.Repositories
 
         }
 
-        public IQueryable<Employee> GetAllEmployee()
+        public async Task<IEnumerable<Employee>> GetAllEmployeesAsync()
         {
-            return _db.Employees.AsQueryable();
+            return await _db.Employees.AsNoTracking().ToListAsync();
         }
 
         public async Task<IReadOnlyDictionary<Guid, Employee>> GetEmployeesByIdAsync(

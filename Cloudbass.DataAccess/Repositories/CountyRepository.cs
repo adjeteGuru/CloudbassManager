@@ -27,11 +27,12 @@ namespace Cloudbass.DataAccess.Repositories
             return addedCounty.Entity;
         }
 
-        public IQueryable<County> GetAllCountyAsync()
+        public async Task<IEnumerable<County>> GetAllCountyAsync()
         {
             //return await _db.Counties.AsNoTracking().ToListAsync();
-            return _db.Counties.AsQueryable();
+            return await _db.Counties.AsNoTracking().ToListAsync();
         }
+
 
 
         public async Task<IReadOnlyDictionary<int, County>> GetCountiesByIdAsync(

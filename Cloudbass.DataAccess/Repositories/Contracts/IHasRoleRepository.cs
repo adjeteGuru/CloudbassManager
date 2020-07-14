@@ -10,7 +10,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public interface IHasRoleRepository
     {
-        IQueryable<HasRole> GetHasRoles();
+        Task<IEnumerable<HasRole>> GetAllHasRolesAsync();
 
         Task<HasRole> GetHasRoleByIdAsync(int id);
 

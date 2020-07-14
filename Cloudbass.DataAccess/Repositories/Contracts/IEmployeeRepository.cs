@@ -11,7 +11,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     public interface IEmployeeRepository
     {
 
-        IQueryable<Employee> GetAllEmployee();
+        Task<IEnumerable<Employee>> GetAllEmployeesAsync();
         Task<Employee> GetEmployeeByCountyAsync(string countyName);
 
         Task<Employee> GetEmployeeByIdAsync(Guid id);

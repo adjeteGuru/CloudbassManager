@@ -12,7 +12,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public interface IJobRepository
     {
-        IQueryable<Job> GetAllJobs();
+        Task<IEnumerable<Job>> GetAllJobsAsync();
 
         Task<Job> GetJobAsync(Guid jobId);
         Task<IEnumerable<Job>> GetJobByClientIdAsync(Guid clientId);

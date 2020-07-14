@@ -2,10 +2,12 @@
 using Cloudbass.DataAccess.Repositories.Contracts.Inputs;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Cloudbass.DataAccess.Repositories
 {
@@ -26,9 +28,9 @@ namespace Cloudbass.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public IQueryable<Schedule> GetAll()
+        public async Task<IEnumerable<Schedule>> GetAllSchedulesAsync()
         {
-            return _db.Schedules.AsQueryable();
+            return await _db.Schedules.AsNoTracking().ToListAsync();
         }
 
         public Schedule GetSchedule(int id)

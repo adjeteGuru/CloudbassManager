@@ -10,8 +10,8 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public interface IRoleRepository
     {
-        //public Role GetRole(int id);
-        IQueryable<Role> GetAllRole();
+
+        Task<IEnumerable<Role>> GetAllRolesAsync();
 
         Task<IReadOnlyDictionary<int, Role>> GetRolesByIdAsync(
             IReadOnlyList<int> ids, CancellationToken cancellation);

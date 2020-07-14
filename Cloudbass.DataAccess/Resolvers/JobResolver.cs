@@ -11,37 +11,37 @@ namespace Cloudbass.DataAccess.Resolvers
 {
     public class JobResolver
     {
-        private readonly IJobRepository _jobRepository;
+        //private readonly IJobRepository _jobRepository;
 
-        public JobResolver([Service] IJobRepository jobRepository)
-        {
-            _jobRepository = jobRepository;
-        }
+        //public JobResolver([Service] IJobRepository jobRepository)
+        //{
+        //    _jobRepository = jobRepository;
+        //}
 
-        public Job GetJobOnSched(Schedule schedule, IResolverContext ctx)
-        {
-            return _jobRepository.GetAllJobs().Where(x => x.Id == schedule.JobId).FirstOrDefault();
-        }
+        //public Job GetJobOnSched(Schedule schedule, IResolverContext ctx)
+        //{
+        //    return _jobRepository.GetAllJobsAsync().Where(x => x.Id == schedule.JobId).FirstOrDefault();
+        //}
 
-        public Job GetJobOnCrew(Crew crew, IResolverContext ctx)
-        {
-            return _jobRepository.GetAllJobs().Where(x => x.Id == crew.JobId).FirstOrDefault();
-        }
+        //public Job GetJobOnCrew(Crew crew, IResolverContext ctx)
+        //{
+        //    return _jobRepository.GetAllJobsAsync().Where(x => x.Id == crew.JobId).FirstOrDefault();
+        //}
 
-        public Job GetJobForClient(Guid clientId, int lastJob, IResolverContext ctx)
-        {
-            return _jobRepository.GetAllJobs()
-                .Where(x => x.ClientId == clientId)
-                .OrderByDescending(x => x.CreatedAt)
-                .Take(lastJob)
-                .FirstOrDefault();
+        //public Job GetJobForClient(Guid clientId, int lastJob, IResolverContext ctx)
+        //{
+        //    return _jobRepository.GetAllJobsAsync()
+        //        .Where(x => x.ClientId == clientId)
+        //        .OrderByDescending(x => x.CreatedAt)
+        //        .Take(lastJob)
+        //        .FirstOrDefault();
 
-        }
+        //}
 
-        public IEnumerable<Job> GetJobs(Client client, IResolverContext ctx)
-        {
-            return _jobRepository.GetAllJobs().Where(x => x.ClientId == client.Id);
-        }
+        //public IEnumerable<Job> GetJobs(Client client, IResolverContext ctx)
+        //{
+        //    return _jobRepository.GetAllJobsAsync().Where(x => x.ClientId == client.Id);
+        //}
 
 
     }

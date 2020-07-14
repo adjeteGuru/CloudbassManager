@@ -53,31 +53,31 @@ namespace CloudbassManager.Queries
 
         [UsePaging(SchemaType = typeof(ClientType))]
         [UseFiltering]
-        public IQueryable<Client> Clients => _clientRepository.GetAllClients();
+        public Task<IEnumerable<Client>> Clients => _clientRepository.GetAllClientsAsync();
 
 
 
         [UsePaging(SchemaType = typeof(JobType))]
         [UseFiltering]
-        public IQueryable<Job> Jobs => _jobRepository.GetAllJobs();
+        public Task<IEnumerable<Job>> Jobs => _jobRepository.GetAllJobsAsync();
 
 
         [UsePaging(SchemaType = typeof(ScheduleType))]
         [UseFiltering]
-        public IQueryable<Schedule> Schedules => _scheduleRepository.GetAll();
+        public Task<IEnumerable<Schedule>> Schedules => _scheduleRepository.GetAllSchedulesAsync();
 
 
         [UsePaging(SchemaType = typeof(CountyType))]
         [UseFiltering]
-        public IQueryable<County> Counties => _countyRepository.GetAllCountyAsync();
+        public Task<IEnumerable<County>> Counties => _countyRepository.GetAllCountyAsync();
 
         [UsePaging(SchemaType = typeof(RoleType))]
         [UseFiltering]
-        public IQueryable<Role> Roles => _roleRepository.GetAllRole();
+        public Task<IEnumerable<Role>> Roles => _roleRepository.GetAllRolesAsync();
 
-        //[UsePaging(SchemaType = typeof(HasRoleType))]
-        //[UseFiltering]
-        //public IQueryable<HasRole> HasRoles => _hasRoleRepository.GetAll();
+        [UsePaging(SchemaType = typeof(HasRoleType))]
+        [UseFiltering]
+        public Task<IEnumerable<HasRole>> HasRoles => _hasRoleRepository.GetAllHasRolesAsync();
 
         //[UsePaging(SchemaType = typeof(CrewType))]
         //[UseFiltering]
@@ -85,6 +85,6 @@ namespace CloudbassManager.Queries
 
         [UsePaging(SchemaType = typeof(EmployeeType))]
         [UseFiltering]
-        public IQueryable<Employee> Employees => _employeeRepository.GetAllEmployee();
+        public Task<IEnumerable<Employee>> Employees => _employeeRepository.GetAllEmployeesAsync();
     }
 }

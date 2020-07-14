@@ -23,9 +23,9 @@ namespace Cloudbass.Types.Employees
             //descriptor.Field(x => x.CountyId).Type<IdType>();
             descriptor.Field(x => x.Photo).Type<StringType>();
 
-            descriptor.Field<CountyResolver>(x => x.GetCounty(default, default));
+            //descriptor.Field<CountyResolver>(x => x.GetCounty(default, default));
 
-            descriptor.Field<UserResolver>(x => x.GetUsers(default, default));
+            //descriptor.Field<UserResolver>(x => x.GetUsers(default, default));
         }
     }
 }
