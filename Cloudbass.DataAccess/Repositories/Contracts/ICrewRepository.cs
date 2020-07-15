@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cloudbass.DataAccess.Repositories.Contracts
@@ -10,7 +11,10 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     public interface ICrewRepository
     {
         Task<IEnumerable<Crew>> GetCrewAsync();
-        //IQueryable<Crew> GetAllCrewsAsync();
+
+        Task<Crew> GetCrewMemberByIdAsync(int id);
+        Task<IReadOnlyDictionary<int, Crew>> GetCrewMembersByIdAsync(
+           IReadOnlyList<int> ids, CancellationToken cancellationToken);
         Task<Crew> CreateCrewAsync(Crew crew);
     }
 }

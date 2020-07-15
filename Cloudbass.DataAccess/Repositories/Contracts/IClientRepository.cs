@@ -18,11 +18,5 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
         Task<Client> CreateClientAsync(Client client, CancellationToken cancellationToken);
         Task<Client> UpdateClientAsync(Client client, CancellationToken cancellationToken);
 
-        //public Client GetClient(int id);
-        //Client Create(CreateClientInput input);
-        //Client Delete(DeleteClientInput input);
-        //Client Update(UpdateClientInput input, int id);
-
-
     }
 }

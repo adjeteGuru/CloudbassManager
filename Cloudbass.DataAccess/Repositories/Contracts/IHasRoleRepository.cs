@@ -11,14 +11,10 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     public interface IHasRoleRepository
     {
         Task<IEnumerable<HasRole>> GetAllHasRolesAsync();
-
         Task<HasRole> GetHasRoleByIdAsync(int id);
-
         Task<IReadOnlyDictionary<int, HasRole>> GetHasRolesByIdAsync(
            IReadOnlyList<int> ids, CancellationToken cancellationToken);
-
         Task<HasRole> CreateHasRoleAsync(HasRole hasRole, CancellationToken cancellationToken);
-
         Task<HasRole> GetHasRoleByRoleOrEmployee(string employeeName, string roleName);
     }
 }

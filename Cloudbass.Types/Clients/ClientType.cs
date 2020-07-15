@@ -37,7 +37,7 @@ namespace Cloudbass.Types
             //    JobRepository jobRepository = ctx.Service<JobRepository>();
             //    IDataLoader dataLoader = ctx.BatchDataLoader<Guid, Job>(
             //        "JobByClientId",
-            //        jobRepository.GetJobsByClientIdAsync);
+            //        jobRepository.GetJobAsync(jobId));
 
             //    return dataLoader.LoadAsync(ctx.Parent<Client>().Id);
 

@@ -26,21 +26,23 @@ namespace Cloudbass.Database
         public DbSet<County> Counties { get; set; }
         public DbSet<Employee> Employees { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Crew>()
-                .HasKey(t => new { t.JobId, t.HasRoleId });
+        public DbSet<Crew> CrewMembers { get; set; }
 
-            modelBuilder.Entity<Crew>()
-                .HasOne(pt => pt.Job)
-                .WithMany(p => p.CrewMembers)
-                .HasForeignKey(pt => pt.JobId);
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Crew>()
+        //        .HasKey(t => new { t.JobId, t.HasRoleId });
 
-            modelBuilder.Entity<Crew>()
-                .HasOne(pt => pt.HasRole)
-                .WithMany(t => t.CrewMembers)
-                .HasForeignKey(pt => pt.HasRoleId);
-        }
+        //    modelBuilder.Entity<Crew>()
+        //        .HasOne(pt => pt.Job)
+        //        .WithMany(p => p.CrewMembers)
+        //        .HasForeignKey(pt => pt.JobId);
+
+        //    modelBuilder.Entity<Crew>()
+        //        .HasOne(pt => pt.HasRole)
+        //        .WithMany(t => t.CrewMembers)
+        //        .HasForeignKey(pt => pt.HasRoleId);
+        //}
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{

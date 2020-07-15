@@ -11,7 +11,7 @@ namespace Cloudbass.Database
     {
         public static void EnsureSeedData(this CloudbassContext db)
         {
-            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any() || !db.Schedules.Any() || !db.Employees.Any() || !db.Counties.Any())
+            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any() || !db.Schedules.Any() || !db.Employees.Any() || !db.Counties.Any() || !db.HasRoles.Any() || !db.Roles.Any())
             {
                 string salt = Guid.NewGuid().ToString("N");
 
@@ -51,58 +51,39 @@ namespace Cloudbass.Database
                 db.SaveChanges();
 
 
-                //var employees = new List<Employee>
+
+                var roles = new List<Role>
+                {
+                    new Role
+                    {
+                        Name = "Camera Operator"
+
+                    },
+
+                    new Role
+                    {
+                        Name = "Rigger"
+
+                    }
+                };
+
+                db.Roles.AddRange(roles);
+                db.SaveChanges();
+
+
+
+                //var hasRoles = new List<HasRole>
                 //{
-                //    new Employee
+                //    new HasRole
                 //    {
-                //         FullName= "Ben Davies",
-                //         Email ="ben.davies@cloudbass.com",
-                //         CountyId = 1,
-                //          Users= new List<User>
-                //          { 
-                //           new User
-                //           {
-                //               Name = "Admin",
-                //               Password= Convert.ToBase64String(hash),
-                //               Salt = salt,
-                //           }
-                //          }
+                //       Rate= 25,
+                //       TotalDays = 2,
                 //    }
                 //};
 
-                //db.Employees.AddRange(employees);
+                //db.HasRoles.AddRange(hasRoles);
                 //db.SaveChanges();
 
-
-                //var users = new List<User>
-                //{
-                //    new User
-
-                //    {   Name = "Admin",
-                //        Password= Convert.ToBase64String(hash),
-                //        Salt = salt,
-
-                //    }
-                //};
-
-                //db.Users.AddRange(users);
-                //db.SaveChanges();
-
-
-
-
-                //var employees = new List<Employee>
-                //{
-                //    new Employee
-                //    {
-                //         FullName= "Ben Davies",
-                //         Email ="ben.davies@cloudbass.com",
-                //         CountyId = 1,
-                //    }
-                //};
-
-                //db.Employees.AddRange(employees);
-                //db.SaveChanges();
 
 
                 var clients = new List<Client>
@@ -152,18 +133,18 @@ namespace Cloudbass.Database
                                         CommercialLead = "Luke Davies",
 
                                         Schedules= new List<Schedule>
-                                                   {
+                                        {
 
-                                                        new Schedule
-                                                        {
-                                                            Name="MUTV-Travel",
-                                                            Description="first phase of the setting",
-                                                            StartDate=DateTime.Parse("2020-05-11"),
-                                                            EndDate=DateTime.Parse("2020-05-13"),
-                                                            Status = Status.Active
-                                                        }
+                                             new Schedule
+                                             {
+                                                 Name="MUTV-Travel",
+                                                 Description="first phase of the setting",
+                                                 StartDate=DateTime.Parse("2020-05-11"),
+                                                 EndDate=DateTime.Parse("2020-05-13"),
+                                                 Status = Status.Active
+                                             }
 
-                                                   }
+                                        }
 
 
 

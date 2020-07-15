@@ -11,6 +11,7 @@ using Cloudbass.DataAccess.Repositories;
 using System;
 using GreenDonut;
 using Cloudbass.Types.Schedules;
+using Cloudbass.Types.Crews;
 
 namespace Cloudbass.Types.Jobs
 {
@@ -40,6 +41,20 @@ namespace Cloudbass.Types.Jobs
 
                 return dataloader.LoadAsync(ctx.Parent<Job>().ClientId);
             });
+
+
+            //crew resolver
+            descriptor.Field("members").Type<NonNullType<CrewType>>()
+                .Resolver(ctx =>
+            {
+                var crewRepository = ctx.Service<CrewRepository>();
+                IDataLoader dataloader = ctx.BatchDataLoader<int, Crew>(
+                    "CrewMemberById",
+                    crewRepository.GetCrewMembersByIdAsync);
+
+                return dataloader.LoadAsync(ctx.Parent<Crew>().Id);
+            });
+
 
 
 

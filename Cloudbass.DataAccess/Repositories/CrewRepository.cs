@@ -1,10 +1,12 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cloudbass.DataAccess.Repositories
@@ -23,12 +25,27 @@ namespace Cloudbass.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
+        public async Task<IReadOnlyDictionary<int, Crew>> GetCrewMembersByIdAsync(
+            IReadOnlyList<int> ids, CancellationToken cancellationToken)
+        {
+            var list = await _db.CrewMembers.AsQueryable()
+                .Where(x => ids.Contains(x.Id))
+                .ToListAsync(cancellationToken);
+            return list.ToDictionary(x => x.Id);
+
+        }
+
         public IQueryable<Crew> GetAllCrewAsync()
         {
             throw new NotImplementedException();
         }
 
         public Task<IEnumerable<Crew>> GetCrewAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Crew> GetCrewMemberByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
