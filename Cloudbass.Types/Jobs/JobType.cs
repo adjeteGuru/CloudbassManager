@@ -12,6 +12,7 @@ using System;
 using GreenDonut;
 using Cloudbass.Types.Schedules;
 using Cloudbass.Types.Crews;
+using Cloudbass.Types.HasRoles;
 
 namespace Cloudbass.Types.Jobs
 {
@@ -43,17 +44,50 @@ namespace Cloudbass.Types.Jobs
             });
 
 
-            //crew resolver
-            descriptor.Field("members").Type<NonNullType<CrewType>>()
-                .Resolver(ctx =>
-            {
-                var crewRepository = ctx.Service<CrewRepository>();
-                IDataLoader dataloader = ctx.BatchDataLoader<int, Crew>(
-                    "CrewMemberById",
-                    crewRepository.GetCrewMembersByIdAsync);
+            ////crew resolver
+            //descriptor.Field("members").Type<NonNullType<CrewType>>()
+            //    .Resolver(ctx =>
+            //{
+            //    var crewRepository = ctx.Service<CrewRepository>();
+            //    IDataLoader dataloader = ctx.BatchDataLoader<int, Crew>(
+            //        "CrewMemberById",
+            //        crewRepository.GetCrewMembersByIdAsync);                   
 
-                return dataloader.LoadAsync(ctx.Parent<Crew>().Id);
-            });
+            //    return dataloader.LoadAsync(ctx.Parent<Crew>().Id);
+            //});
+
+
+            ////first
+            //descriptor.Field("employeesByJob")
+            //    .Argument("job", x => x.Type<NonNullType<StringType>>())
+            //    .Type<NonNullType<ListType<NonNullType<CrewType>>>>()
+            //    .Resolver(ctx =>
+            //    {
+            //        var crewRepository = ctx.Service<CrewRepository>();
+
+            //        IDataLoader<int, Crew[]> dataloader =
+            //        ctx.GroupDataLoader<int, Crew>(
+            //            "employeesByJob",
+            //            crewRepository.GetEmployeesByJob);
+
+            //        return dataloader.LoadAsync(ctx.Argument<Guid>("job"));
+            //    });
+
+            //second
+            descriptor.Field("employeesByJob")
+                .Argument("job", x => x.Type<NonNullType<StringType>>())
+                .Type<NonNullType<ListType<NonNullType<HasRoleType>>>>()
+                .Resolver(ctx =>
+                {
+                    var hasRoleRepository = ctx.Service<HasRoleRepository>();
+
+                    IDataLoader<int, HasRole[]> dataloader =
+                    ctx.GroupDataLoader<int, HasRole>(
+                        "employeesByJob",
+                        hasRoleRepository.GetEmployeesByJob);
+
+                    return dataloader.LoadAsync(ctx.Argument<Guid>("job"));
+                });//end
 
 
 

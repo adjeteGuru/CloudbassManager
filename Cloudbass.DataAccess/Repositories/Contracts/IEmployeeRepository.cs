@@ -23,6 +23,10 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
           IReadOnlyList<string> emails,
           CancellationToken cancellationToken);
 
+        //on test
+        Task<ILookup<Guid, Employee>> GetEmployeesByJob(
+       IReadOnlyList<Guid> onjobs);
+
         Task<Employee> CreateEmployeeAsync(Employee employee, CancellationToken cancellationToken);
 
         Task<Employee> UpdateEmployeeAsync(Employee employee, CancellationToken cancellationToken);

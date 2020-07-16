@@ -45,6 +45,21 @@ namespace Cloudbass.Types
 
 
 
+            descriptor.Field("job").Type<JobType>().Resolver(async ctx =>
+            {
+                Guid? id = ctx.Parent<Job>().Id;
+                if (id.HasValue)
+                {
+                    JobRepository jobRepository = ctx.Service<JobRepository>();
+
+                    IDataLoader<Guid, Job> dataLoader = ctx.CacheDataLoader<Guid, Job>(
+                        "JobById",
+                        jobRepository.GetJobAsync);
+
+                    return await dataLoader.LoadAsync(ctx.Parent<Job>().Id);
+                }
+                return null;
+            });
 
 
         }
