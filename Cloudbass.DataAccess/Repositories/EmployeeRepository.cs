@@ -66,10 +66,7 @@ namespace Cloudbass.DataAccess.Repositories
             return updatedEmployee.Entity;
         }
 
-        public Task<Employee> GetEmployeeByCountyAsync(string countyName)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public async Task<Employee> GetEmployeeByIdAsync(Guid id)
         {
@@ -86,6 +83,27 @@ namespace Cloudbass.DataAccess.Repositories
             return employees.ToLookup(x => x.Id);
 
 
+        }
+
+        public async Task<ILookup<string, Employee>> GetEmployeesByCounty(
+            IReadOnlyList<string> counties)
+        {
+            var filterEmployee = await _db.Employees
+                .Where(x => counties.Contains(x.County.Name))
+                .ToListAsync();
+              
+            return filterEmployee.ToLookup(x => x.County.Name);
+        }
+
+        public async Task<IReadOnlyDictionary<string, Employee>> GetEmployeesByNameAsync(
+            IReadOnlyList<string> nameList, CancellationToken cancellationToken)
+        {
+            var list = await _db.Employees.AsQueryable()
+                .Where(x => nameList.Contains(x.FullName))
+                .ToListAsync(cancellationToken)
+                .ConfigureAwait(false);
+
+            return list.ToDictionary(x => x.FullName);
         }
 
 

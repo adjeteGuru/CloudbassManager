@@ -51,7 +51,7 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
         //search employees involved in a job
-        public async Task<ILookup<int, Crew>> GetEmployeesByJob(
+        public async Task<ILookup<int, Crew>> GetEmployeesByJobC(
             IReadOnlyList<Guid> onjobs)
         {
             var employees = await _db.CrewMembers

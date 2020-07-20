@@ -61,12 +61,11 @@ namespace Cloudbass.DataAccess.Repositories
 
         //this method helps filter Jobs by client
         public async Task<ILookup<Guid, Job>> GetJobsByClientIdAsync(
-            IEnumerable<Guid> clientIds, CancellationToken cancellationToken)
+            IReadOnlyList<Guid> clientIds, CancellationToken cancellationToken)
         {
-            var filterJobs = await _db.Jobs.AsQueryable()
+            var filterJobs = await _db.Jobs
                  .Where(x => clientIds.Contains(x.ClientId))
-                 .ToListAsync(cancellationToken)
-                 .ConfigureAwait(false);
+                 .ToListAsync(cancellationToken);                 
             return filterJobs.ToLookup(x => x.ClientId);
         }
 

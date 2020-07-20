@@ -1,4 +1,5 @@
 ﻿using Cloudbass.Database.Models;
+using GreenDonut;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,11 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
         Task<IReadOnlyDictionary<int, HasRole>> GetHasRolesByIdAsync(
            IReadOnlyList<int> ids, CancellationToken cancellationToken);
 
-        //on test
-        Task<ILookup<int, HasRole>> GetEmployeesByJob(
-      IReadOnlyList<Guid> onjobs);
+      //  //on test
+      //  Task<ILookup<int, HasRole>> GetEmployeesByJob(
+      //IReadOnlyList<Guid> onjobs);
         Task<HasRole> CreateHasRoleAsync(HasRole hasRole, CancellationToken cancellationToken);
         Task<HasRole> GetHasRoleByRoleOrEmployee(string employeeName, string roleName);
+        //Task<IReadOnlyList<Result<HasRole>>> GetHasRoleByIdAsync(IReadOnlyList<int> keys);
     }
 }

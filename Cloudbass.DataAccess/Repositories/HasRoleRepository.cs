@@ -1,6 +1,7 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
+using GreenDonut;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -56,14 +57,16 @@ namespace Cloudbass.DataAccess.Repositories
             return list.ToDictionary(x => x.Id);
         }
 
+       
+
         //search employees involved in a job
-        public async Task<ILookup<int, HasRole>> GetEmployeesByJob(
-            IReadOnlyList<Guid> onjobs)
-        {
-            var employees = await _db.HasRoles
-                 .Where(x => onjobs.Contains(x.EmployeeId))
-                 .ToListAsync();
-            return employees.ToLookup(x => x.Id);
-        }
+        //public async Task<ILookup<int, HasRole>> GetEmployeesByJob(
+        //    IReadOnlyList<int> onjobs)
+        //{
+        //    var employees = await _db.CrewMembers
+        //         .Where(x => onjobs.Contains(x.HasRoleId))
+        //         .ToListAsync();
+        //    return employees.ToLookup(x => x.HasRoleId);
+        //}
     }
 }

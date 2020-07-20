@@ -38,6 +38,9 @@ namespace Cloudbass.Types.Crews
                 return dataloader.LoadAsync(ctx.Parent<Crew>().HasRoleId);
             });
 
+
+
+
             descriptor.Ignore(t => t.JobId);
             descriptor.Ignore(t => t.HasRoleId);
 

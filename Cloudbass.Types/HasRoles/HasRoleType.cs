@@ -24,7 +24,7 @@ namespace Cloudbass.Types.HasRoles
             //invoke the resolver to allow data fetching with N+1 problems eradicated             
             descriptor.Field("employee").Type<NonNullType<EmployeeType>>().Resolver(ctx =>
             {
-                EmployeeRepository employeeRepository = ctx.Service<EmployeeRepository>();
+                var employeeRepository = ctx.Service<EmployeeRepository>();
                 IDataLoader dataloader = ctx.BatchDataLoader<Guid, Employee>(
                     "EmployeeById",
                     employeeRepository.GetEmployeesByIdAsync);
@@ -36,7 +36,7 @@ namespace Cloudbass.Types.HasRoles
 
             descriptor.Field("role").Type<NonNullType<RoleType>>().Resolver(ctx =>
            {
-               RoleRepository roleRepository = ctx.Service<RoleRepository>();
+               var roleRepository = ctx.Service<RoleRepository>();
                IDataLoader dataLoader = ctx.BatchDataLoader<int, Role>(
                    "RoleById",
                    roleRepository.GetRolesByIdAsync);
