@@ -31,26 +31,28 @@ namespace Cloudbass.Types.Jobs
             descriptor.Field(x => x.Coordinator).Type<StringType>();
             descriptor.Field(x => x.Paid).Type<BooleanType>();
             descriptor.Field(x => x.CommercialLead).Type<StringType>();
-            descriptor.Field(x => x.Status).Type<StringType>();
+            //descriptor.Field(x => x.Status).Type<StringType>();
+            descriptor.Field(x => x.Status).Type<EnumType<Status>>();
 
-            
+
             //this resolver allows to fetch Employee who has logged the job (with N+1 problems eradicated) 
             descriptor.Field("client").Type<NonNullType<ClientType>>().Resolver(ctx =>
 
             {
-                    var clientRepository = ctx.Service<ClientRepository>();
+                var clientRepository = ctx.Service<ClientRepository>();
 
-                    IDataLoader dataloader = ctx.BatchDataLoader<Guid, Client>(
-                        "ClientById",
-                        clientRepository.GetClientsByIdAsync);
+                IDataLoader dataloader = ctx.BatchDataLoader<Guid, Client>(
+                    "ClientById",
+                    clientRepository.GetClientsByIdAsync);
 
-                    return dataloader.LoadAsync(ctx.Parent<Job>().ClientId);
+                return dataloader.LoadAsync(ctx.Parent<Job>().ClientId);
 
-                });
+            });
+
 
 
             //this resolver allows to fetch Employee who has logged the job (with N+1 problems eradicated)
-            descriptor.Field("crearedBy").Type<NonNullType<EmployeeType>>().Resolver(ctx =>
+            descriptor.Field("createdBy").Type<NonNullType<EmployeeType>>().Resolver(ctx =>
             {
                 var employeeRepository = ctx.Service<EmployeeRepository>();
 
@@ -62,7 +64,27 @@ namespace Cloudbass.Types.Jobs
             });
 
 
+            //descriptor.Field("scheduleTo").Type<JobType>()
+            //         .Resolver(async ctx =>
+            //         {
+            //             Guid? id = ctx.Parent<Job>().Id;
+            //             if (id.HasValue)
+            //             {
+            //                 JobRepository jobRepository = ctx.Service<JobRepository>();
 
+            //                 IDataLoader<Guid, Job> dataLoader = ctx.CacheDataLoader<Guid, Job>(
+            //                      "JobById",
+            //                      jobRepository.GetJobAsync);
+
+            //                 return await dataLoader.LoadAsync(ctx.Parent<Job>().Id);
+            //             }
+
+            //             return null;
+
+            //         });
+
+            descriptor.Ignore(t => t.ClientId);
+            descriptor.Ignore(t => t.Id);
 
 
             ////crew resolver
@@ -99,27 +121,7 @@ namespace Cloudbass.Types.Jobs
 
 
 
-            descriptor.Field("job").Type<JobType>()
-                      .Resolver(async ctx =>
-            {
-                Guid? id = ctx.Parent<Job>().Id;
-                if (id.HasValue)
-                {
-                    JobRepository jobRepository = ctx.Service<JobRepository>();
 
-                    IDataLoader<Guid, Job> dataLoader = ctx.CacheDataLoader<Guid, Job>(
-                        "JobById",
-                        jobRepository.GetJobAsync);
-
-                    return await dataLoader.LoadAsync(ctx.Parent<Job>().Id);
-                }
-
-                return null;
-
-            });
-
-            descriptor.Ignore(t => t.ClientId);
-            descriptor.Ignore(t => t.Id);
 
 
             //descriptor.Field("schedule").Type<NonNullType<ScheduleType>>().Resolver(ctx =>

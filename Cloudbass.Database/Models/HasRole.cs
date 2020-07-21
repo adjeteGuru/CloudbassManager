@@ -16,8 +16,14 @@ namespace Cloudbass.Database.Models
         public Nullable<decimal> TotalDays { get; set; }
         public Nullable<decimal> Rate { get; set; }
 
-        //public ICollection<Crew> CrewMembers { get; set; }
+
         [GraphQLIgnore]
         public List<Crew> CrewMembers { get; } = new List<Crew>();
+
+        //public ICollection<Crew> CrewMembers { get; set; }
+
+        public IReadOnlyList<Job> InvolvedIn { get; set; }
+
+        //public IReadOnlyList<Role> CanDo { get; set; }
     }
 }

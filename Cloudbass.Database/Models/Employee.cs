@@ -30,7 +30,7 @@ namespace Cloudbass.Database.Models
         // public ICollection<HasRole> HasRoles { get; set; }
         public ICollection<User> Users { get; set; }
 
-
+        public IReadOnlyList<Role> CanDo { get; set; }
 
 
     }

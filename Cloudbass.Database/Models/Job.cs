@@ -50,5 +50,8 @@ namespace Cloudbass.Database.Models
         [GraphQLIgnore]
         public List<Crew> CrewMembers { get; } = new List<Crew>();
 
+        //public IReadOnlyList<HasRole> InvolvedIn { get; set; }
+
+
     }
 }
