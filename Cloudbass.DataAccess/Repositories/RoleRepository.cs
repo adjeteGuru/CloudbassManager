@@ -31,8 +31,13 @@ namespace Cloudbass.DataAccess.Repositories
             return await _db.Roles.AsNoTracking().ToListAsync();
         }
 
-        public async Task<IReadOnlyDictionary<int, Role>> GetRolesByIdAsync(
-            IReadOnlyList<int> ids, CancellationToken cancellation)
+        public async Task<Role> GetRoleByIdAsync(Guid roleId)
+        {
+            return await _db.Roles.FindAsync(roleId);
+        }
+
+        public async Task<IReadOnlyDictionary<Guid, Role>> GetRolesByIdAsync(
+            IReadOnlyList<Guid> ids, CancellationToken cancellation)
         {
             var list = await _db.Roles.AsQueryable()
                 .Where(x => ids.Contains(x.Id))

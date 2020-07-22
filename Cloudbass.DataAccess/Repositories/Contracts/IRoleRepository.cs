@@ -13,8 +13,9 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 
         Task<IEnumerable<Role>> GetAllRolesAsync();
 
-        Task<IReadOnlyDictionary<int, Role>> GetRolesByIdAsync(
-            IReadOnlyList<int> ids, CancellationToken cancellation);
+        Task<Role> GetRoleByIdAsync(Guid roleId);
+        Task<IReadOnlyDictionary<Guid, Role>> GetRolesByIdAsync(
+            IReadOnlyList<Guid> ids, CancellationToken cancellation);
         Task<Role> CreateRoleAsync(Role role, CancellationToken cancellation);
     }
 }

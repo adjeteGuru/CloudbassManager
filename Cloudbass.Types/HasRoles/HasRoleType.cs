@@ -41,7 +41,7 @@ namespace Cloudbass.Types.HasRoles
             descriptor.Field("role").Type<NonNullType<RoleType>>().Resolver(ctx =>
            {
                var roleRepository = ctx.Service<RoleRepository>();
-               IDataLoader dataLoader = ctx.BatchDataLoader<int, Role>(
+               IDataLoader dataLoader = ctx.BatchDataLoader<Guid, Role>(
                    "RoleById",
                    roleRepository.GetRolesByIdAsync);
 

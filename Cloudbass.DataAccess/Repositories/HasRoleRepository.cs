@@ -30,7 +30,7 @@ namespace Cloudbass.DataAccess.Repositories
 
 
 
-        public async Task<HasRole> GetHasRoleByIdAsync(int id)
+        public async Task<HasRole> GetHasRoleByIdAsync(Guid id)
         {
             return await _db.HasRoles.FindAsync(id);
         }
@@ -47,8 +47,8 @@ namespace Cloudbass.DataAccess.Repositories
 
         // this GetHasRolesAsync method takes a list of hasRole ids and returns a dictionary of hasRoles
         //with their ids as keys.
-        public async Task<IReadOnlyDictionary<int, HasRole>> GetHasRolesByIdAsync(
-            IReadOnlyList<int> ids, CancellationToken cancellationToken)
+        public async Task<IReadOnlyDictionary<Guid, HasRole>> GetHasRolesByIdAsync(
+            IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
         {
             var list = await _db.HasRoles.AsQueryable()
                 .Where(x => ids.Contains(x.Id))
@@ -57,7 +57,7 @@ namespace Cloudbass.DataAccess.Repositories
             return list.ToDictionary(x => x.Id);
         }
 
-       
+
 
         //search employees involved in a job
         //public async Task<ILookup<int, HasRole>> GetEmployeesByJob(

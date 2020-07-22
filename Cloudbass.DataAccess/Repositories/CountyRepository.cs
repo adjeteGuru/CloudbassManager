@@ -35,8 +35,8 @@ namespace Cloudbass.DataAccess.Repositories
 
 
 
-        public async Task<IReadOnlyDictionary<int, County>> GetCountiesByIdAsync(
-            IReadOnlyList<int> ids, CancellationToken cancellationToken)
+        public async Task<IReadOnlyDictionary<Guid, County>> GetCountiesByIdAsync(
+            IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
         {
             var list = await _db.Counties.AsQueryable()
                 .Where(x => ids.Contains(x.Id))
@@ -45,7 +45,7 @@ namespace Cloudbass.DataAccess.Repositories
             return list.ToDictionary(x => x.Id);
         }
 
-        public async Task<County> GetCountyByIdAsync(int countyId)
+        public async Task<County> GetCountyByIdAsync(Guid countyId)
         {
             return await _db.Counties.SingleOrDefaultAsync(x => x.Id == countyId);
         }

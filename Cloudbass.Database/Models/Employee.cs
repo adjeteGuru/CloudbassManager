@@ -24,7 +24,7 @@ namespace Cloudbass.Database.Models
         public string Bared { get; set; }
 
         public Uri? Photo { get; set; }
-        public int CountyId { get; set; }
+        public Guid CountyId { get; set; }
         public County County { get; set; }
 
         // public ICollection<HasRole> HasRoles { get; set; }

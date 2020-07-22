@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Cloudbass.Types.Roles
 {
-    public class RoleByIdDataLoader : BatchDataLoader<int, Role>
+    public class RoleByIdDataLoader : BatchDataLoader<Guid, Role>
     {
         private readonly IRoleRepository _roleRepository;
         public RoleByIdDataLoader(IRoleRepository roleRepository)
@@ -18,8 +18,8 @@ namespace Cloudbass.Types.Roles
         }
 
 
-        protected override async Task<IReadOnlyDictionary<int, Role>> LoadBatchAsync(
-            IReadOnlyList<int> keys, CancellationToken cancellationToken)
+        protected override async Task<IReadOnlyDictionary<Guid, Role>> LoadBatchAsync(
+            IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
         {
             return await _roleRepository
                 .GetRolesByIdAsync(keys, cancellationToken)

@@ -25,8 +25,8 @@ namespace Cloudbass.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IReadOnlyDictionary<int, Crew>> GetCrewMembersByIdAsync(
-            IReadOnlyList<int> ids, CancellationToken cancellationToken)
+        public async Task<IReadOnlyDictionary<Guid, Crew>> GetCrewMembersByIdAsync(
+            IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
         {
             var list = await _db.CrewMembers.AsQueryable()
                 .Where(x => ids.Contains(x.Id))
@@ -45,13 +45,13 @@ namespace Cloudbass.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Crew> GetCrewMemberByIdAsync(int id)
+        public Task<Crew> GetCrewMemberByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
         //search employees involved in a job
-        public async Task<ILookup<int, Crew>> GetEmployeesByJobC(
+        public async Task<ILookup<Guid, Crew>> GetEmployeesByJobC(
             IReadOnlyList<Guid> onjobs)
         {
             var employees = await _db.CrewMembers

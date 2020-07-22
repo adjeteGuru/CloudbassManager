@@ -13,9 +13,9 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 
         Task<IEnumerable<County>> GetAllCountyAsync();
 
-        Task<County> GetCountyByIdAsync(int countyId);
-        Task<IReadOnlyDictionary<int, County>> GetCountiesByIdAsync(
-            IReadOnlyList<int> ids, CancellationToken cancellationToken);
+        Task<County> GetCountyByIdAsync(Guid countyId);
+        Task<IReadOnlyDictionary<Guid, County>> GetCountiesByIdAsync(
+            IReadOnlyList<Guid> ids, CancellationToken cancellationToken);
         Task<County> CreateCountyAsync(County county, CancellationToken cancellationToken);
     }
 }

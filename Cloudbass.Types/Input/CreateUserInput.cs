@@ -18,7 +18,7 @@ namespace Cloudbass.Types.Input
              string alergy,
              string bared,
              bool? isAdmin,
-             int countyId
+             Guid countyId
 
             )
         {
@@ -53,7 +53,7 @@ namespace Cloudbass.Types.Input
         public string NextOfKin { get; }
         public string Bared { get; }
         public string Alergy { get; }
-        public int CountyId { get; }
+        public Guid CountyId { get; }
 
     }
 }

@@ -35,7 +35,7 @@ namespace Cloudbass.Types.Employees
             {
                 var countyRepository = ctx.Service<CountyRepository>();
 
-                IDataLoader dataLoader = ctx.BatchDataLoader<int, County>(
+                IDataLoader dataLoader = ctx.BatchDataLoader<Guid, County>(
                     "CountyById",
                     countyRepository.GetCountiesByIdAsync);
 

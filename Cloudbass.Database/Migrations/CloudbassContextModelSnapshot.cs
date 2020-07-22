@@ -47,10 +47,9 @@ namespace Cloudbass.Database.Migrations
 
             modelBuilder.Entity("Cloudbass.Database.Models.County", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -62,13 +61,12 @@ namespace Cloudbass.Database.Migrations
 
             modelBuilder.Entity("Cloudbass.Database.Models.Crew", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("HasRoleId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("HasRoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("JobId")
                         .HasColumnType("uniqueidentifier");
@@ -94,8 +92,8 @@ namespace Cloudbass.Database.Migrations
                     b.Property<string>("Bared")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CountyId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CountyId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -121,10 +119,9 @@ namespace Cloudbass.Database.Migrations
 
             modelBuilder.Entity("Cloudbass.Database.Models.HasRole", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
@@ -132,8 +129,8 @@ namespace Cloudbass.Database.Migrations
                     b.Property<decimal?>("Rate")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("TotalDays")
                         .HasColumnType("decimal(18,2)");
@@ -165,14 +162,17 @@ namespace Cloudbass.Database.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("HasRoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
@@ -196,30 +196,35 @@ namespace Cloudbass.Database.Migrations
 
                     b.HasIndex("ClientId");
 
+                    b.HasIndex("HasRoleId");
+
                     b.ToTable("Jobs");
                 });
 
             modelBuilder.Entity("Cloudbass.Database.Models.Role", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployeeId");
+
                     b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Cloudbass.Database.Models.Schedule", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -335,6 +340,17 @@ namespace Cloudbass.Database.Migrations
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Cloudbass.Database.Models.HasRole", null)
+                        .WithMany("InvolvedIn")
+                        .HasForeignKey("HasRoleId");
+                });
+
+            modelBuilder.Entity("Cloudbass.Database.Models.Role", b =>
+                {
+                    b.HasOne("Cloudbass.Database.Models.Employee", null)
+                        .WithMany("CanDo")
+                        .HasForeignKey("EmployeeId");
                 });
 
             modelBuilder.Entity("Cloudbass.Database.Models.Schedule", b =>

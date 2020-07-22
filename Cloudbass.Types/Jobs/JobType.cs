@@ -31,9 +31,11 @@ namespace Cloudbass.Types.Jobs
             descriptor.Field(x => x.Coordinator).Type<StringType>();
             descriptor.Field(x => x.Paid).Type<BooleanType>();
             descriptor.Field(x => x.CommercialLead).Type<StringType>();
-            //descriptor.Field(x => x.Status).Type<StringType>();
+            //descriptor.Field(x => x.CreatedBy).Type<StringType>();
             descriptor.Field(x => x.Status).Type<EnumType<Status>>();
 
+            descriptor.Field(x => x.CrewMembers)
+                .Type<ListType<CrewType>>();
 
             //this resolver allows to fetch Employee who has logged the job (with N+1 problems eradicated) 
             descriptor.Field("client").Type<NonNullType<ClientType>>().Resolver(ctx =>
@@ -50,15 +52,46 @@ namespace Cloudbass.Types.Jobs
             });
 
 
+            //
+            //descriptor.Field("schedule").Type<NonNullType<ScheduleType>>().Resolver(ctx =>
+
+            //{
+            //    var scheduleRepository = ctx.Service<ScheduleRepository>();
+
+            //    IDataLoader dataloader = ctx.BatchDataLoader<Guid, Schedule>(
+            //        "ScheduleById",
+            //        scheduleRepository.GetSchedulesByJob);
+
+            //    return dataloader.LoadAsync(ctx.Parent<Job>().Id);
+
+            //});
+
+
+            descriptor.Field("schedulesByJob")
+              .Argument("job", a => a.Type<NonNullType<StringType>>())
+              .Type<NonNullType<ListType<NonNullType<ScheduleType>>>>()
+              .Resolver(ctx =>
+              {
+                  var scheduleRepository = ctx.Service<ScheduleRepository>();
+
+                  IDataLoader userDataLoader =
+                      ctx.GroupDataLoader<string, Schedule>(
+                          "schedulesByJob",
+                          scheduleRepository.GetSchedulesByJob);
+
+                  return userDataLoader.LoadAsync(ctx.Argument<string>("job"));
+              });
+
+
 
             //this resolver allows to fetch Employee who has logged the job (with N+1 problems eradicated)
             descriptor.Field("createdBy").Type<NonNullType<EmployeeType>>().Resolver(ctx =>
             {
                 var employeeRepository = ctx.Service<EmployeeRepository>();
 
-                IDataLoader dataLoader = ctx.BatchDataLoader<Guid, Employee>(
-                    "EmployeeById",
-                    employeeRepository.GetEmployeesByIdAsync);
+                IDataLoader dataLoader = ctx.BatchDataLoader<string, Employee>(
+                    "ByName",
+                    employeeRepository.GetEmployeesByNameAsync);
 
                 return dataLoader.LoadAsync(ctx.Parent<Job>().CreatedBy);
             });

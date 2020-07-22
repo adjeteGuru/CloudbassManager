@@ -37,7 +37,7 @@ namespace Cloudbass.Database.Models
         public Client Client { get; set; }
         public Status Status { get; set; }
 
-        public Guid CreatedBy { get; set; }
+        public string CreatedBy { get; set; }
         public ICollection<Schedule> Schedules { get; set; }
         //public List<Schedule> Schedules { get; set; }
 

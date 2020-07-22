@@ -19,6 +19,8 @@ namespace Cloudbass.Database
                 byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes("Cloudba55" + salt));
 
                 Guid employeeId = Guid.NewGuid();
+                Guid countyId = Guid.NewGuid();
+                //Guid roleId = Guid.NewGuid();
 
                 var counties = new List<County>
                                 {
@@ -41,7 +43,12 @@ namespace Cloudbass.Database
                                                        Salt = salt,
                                                    }
                                                }
+
+
+
                                            }
+
+
                                        }
 
                                     }
@@ -76,8 +83,10 @@ namespace Cloudbass.Database
                 //{
                 //    new HasRole
                 //    {
+                //        //EmployeeId=employeeId,
+                //    //RoleId = roleId,
                 //       Rate= 25,
-                //       TotalDays = 2,
+                //       TotalDays = 3,
                 //    }
                 //};
 
@@ -122,7 +131,7 @@ namespace Cloudbass.Database
 
                                     new Job
                                     {
-                                         Name = "MUTV",
+                                        Name = "MUTV",
                                         Description = "Accademy football",
                                         Location = "Old traford",
                                         Coordinator = "James",
