@@ -24,12 +24,43 @@ namespace Cloudbass.Database
 
                 var counties = new List<County>
                                 {
+
+                                    //new County
+                                    //{
+                                    //    Name="Nottinghamshire",
+
+
+
+                                    //     Employees=new List<Employee>
+                                    //   {
+
+                                    //       new Employee
+                                    //        {
+                                    //            FullName = "Mike Bob",
+                                    //            Email = "mike.bob@gmail.com",
+
+                                    //        },
+
+
+                                    //     }
+                                    //},
+
+
                                     new County
                                     {
                                         Name = "Derbyshire",
 
                                        Employees=new List<Employee>
                                        {
+
+                                           //new Employee
+                                           // {
+                                           //     FullName = "Mike Bob",
+                                           //     Email = "mike.bob@gmail.com",
+
+                                           // },
+
+
                                            new Employee
                                            {
                                                FullName= "Ben Davies",

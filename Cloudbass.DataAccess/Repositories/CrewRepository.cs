@@ -59,5 +59,14 @@ namespace Cloudbass.DataAccess.Repositories
                 .ToListAsync();
             return employees.ToLookup(x => x.Id);
         }
+
+        public async Task<ILookup<Guid, Crew>> GetCrewMembersInvolvedByJob(
+            IReadOnlyList<Guid> onjobs)
+        {
+            var crewMembers = await _db.CrewMembers
+                 .Where(x => onjobs.Contains(x.HasRole.Employee.Id))
+                 .ToListAsync();
+            return crewMembers.ToLookup(x => x.HasRole.Employee.Id);
+        }
     }
 }

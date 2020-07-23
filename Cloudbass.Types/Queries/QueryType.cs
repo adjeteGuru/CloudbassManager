@@ -1,6 +1,8 @@
 ﻿using Cloudbass.DataAccess.Repositories;
 using Cloudbass.Database.Models;
+using Cloudbass.Types.Counties;
 using Cloudbass.Types.Crews;
+using Cloudbass.Types.Employees;
 using Cloudbass.Types.HasRoles;
 using Cloudbass.Types.Jobs;
 using GreenDonut;
@@ -17,25 +19,25 @@ namespace Cloudbass.Types.Queries
     {
         protected override void Configure(IObjectTypeDescriptor descriptor)
         {
-            descriptor.Field("jobs")
-               .UsePaging<JobType>()
-               .Resolver(ctx => ctx.Service<JobRepository>().GetAllJobsAsync());
+            descriptor.Field("employee")
+               .UsePaging<EmployeeType>()
+               .Resolver(ctx => ctx.Service<EmployeeRepository>().GetAllEmployeesAsync());
 
 
             ////second
-            //descriptor.Field("employeesByJob")
-            //    .Argument("job", x => x.Type<NonNullType<StringType>>())
-            //    .Type<NonNullType<ListType<NonNullType<HasRoleType>>>>()
-            //    .Resolver(ctx =>
-            //    {
-            //        var hasRoleRepository = ctx.Service<HasRoleRepository>();
+            descriptor.Field("employeesByCounty")
+                .Argument("countys", x => x.Type<NonNullType<StringType>>())
+                .Type<NonNullType<ListType<NonNullType<EmployeeType>>>>()
+                .Resolver(ctx =>
+                {
+                    var employeeRepository = ctx.Service<EmployeeRepository>();
 
-            //        IDataLoader<string, HasRole[]> dataloader = ctx.GroupDataLoader<string, HasRole>(
-            //            "employeesByJob",
-            //            hasRoleRepository.GetHasRolesByIdAsync);
+                    IDataLoader<string, Employee[]> dataloader = ctx.GroupDataLoader<string, Employee>(
+                        "employeesByCounty",
+                        employeeRepository.GetEmployeesByCounty);
 
-            //        return dataloader.LoadAsync(ctx.Argument<Guid>("job"));
-            //    });//end
+                    return dataloader.LoadAsync(ctx.Argument<string>("countys"));
+                });//end
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Cloudbass.DataAccess.Repositories
 
         public async Task<IEnumerable<County>> GetAllCountyAsync()
         {
-            //return await _db.Counties.AsNoTracking().ToListAsync();
+
             return await _db.Counties.AsNoTracking().ToListAsync();
         }
 
@@ -49,5 +49,14 @@ namespace Cloudbass.DataAccess.Repositories
         {
             return await _db.Counties.SingleOrDefaultAsync(x => x.Id == countyId);
         }
+
+        //public async Task<ILookup<string, County>> GetEmployeesByCounty(
+        //    IReadOnlyList<string> employees)
+        //{
+        //    var county = await _db.Counties
+        //        .Where(x => employees.Contains(x.Countys))
+        //        .ToListAsync();
+        //    return employees.ToLookup(x=>x.);
+        //}
     }
 }

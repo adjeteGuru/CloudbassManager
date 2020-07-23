@@ -39,7 +39,7 @@ namespace Cloudbass.Types.Employees
                     "CountyById",
                     countyRepository.GetCountiesByIdAsync);
 
-                return dataLoader.LoadAsync(ctx.Parent<Employee>().Id);
+                return dataLoader.LoadAsync(ctx.Parent<Employee>().CountyId);
             });
 
 

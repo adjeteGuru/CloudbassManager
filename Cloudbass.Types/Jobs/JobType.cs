@@ -67,6 +67,7 @@ namespace Cloudbass.Types.Jobs
             //});
 
 
+            //schedule
             descriptor.Field("schedulesByJob")
               .Argument("job", a => a.Type<NonNullType<StringType>>())
               .Type<NonNullType<ListType<NonNullType<ScheduleType>>>>()
@@ -81,6 +82,42 @@ namespace Cloudbass.Types.Jobs
 
                   return userDataLoader.LoadAsync(ctx.Argument<string>("job"));
               });
+
+
+            //hasRole
+            descriptor.Field("hasRoleInvolved")
+            //.Argument("job", a => a.Type<NonNullType<IdType>>())
+            .Type<NonNullType<ListType<NonNullType<HasRoleType>>>>()
+            .Resolver(ctx =>
+            {
+                var hasRoleRepository = ctx.Service<HasRoleRepository>();
+
+                IDataLoader userDataLoader =
+                    ctx.GroupDataLoader<Guid, HasRole>(
+                        "hasRoleInvolved",
+                        hasRoleRepository.GetEmployeesInvoledInJob);
+
+                //return userDataLoader.LoadAsync(ctx.Argument<Guid>("job"));
+                return userDataLoader.LoadAsync(ctx.Parent<Job>().Id);
+            });
+
+
+            //crew
+            descriptor.Field("crewMembersInvolved")
+            //.Argument("job", a => a.Type<NonNullType<IdType>>())
+            .Type<NonNullType<ListType<NonNullType<CrewType>>>>()
+            .Resolver(ctx =>
+            {
+                var crewRepository = ctx.Service<CrewRepository>();
+
+                IDataLoader userDataLoader =
+                    ctx.GroupDataLoader<Guid, Crew>(
+                        "crewMembersInvolved",
+                        crewRepository.GetCrewMembersInvolvedByJob);
+
+                //return userDataLoader.LoadAsync(ctx.Argument<Guid>("job"));
+                return userDataLoader.LoadAsync(ctx.Parent<Job>().Id);
+            });
 
 
 
@@ -117,7 +154,7 @@ namespace Cloudbass.Types.Jobs
             //         });
 
             descriptor.Ignore(t => t.ClientId);
-            descriptor.Ignore(t => t.Id);
+            //descriptor.Ignore(t => t.Id);
 
 
             ////crew resolver

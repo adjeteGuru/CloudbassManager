@@ -35,14 +35,12 @@ namespace Cloudbass.Types.Crews
                     "EmployeeRoleById",
                     hasRoleRepository.GetHasRolesByIdAsync);
 
-                return dataloader.LoadAsync(ctx.Parent<Crew>().HasRoleId);
+                return dataloader.LoadAsync(ctx.Parent<Crew>().HasRole.Employee.Id);
             });
 
 
-
-
-            descriptor.Ignore(t => t.JobId);
-            descriptor.Ignore(t => t.HasRoleId);
+            //descriptor.Ignore(t => t.JobId);
+            //descriptor.Ignore(t => t.HasRoleId);
 
         }
     }

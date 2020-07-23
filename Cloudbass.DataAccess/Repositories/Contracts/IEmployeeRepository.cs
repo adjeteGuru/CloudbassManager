@@ -13,9 +13,6 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 
         Task<IEnumerable<Employee>> GetAllEmployeesAsync();
 
-        Task<ILookup<string, Employee>> GetEmployeesByCounty(
-           IReadOnlyList<string> counties);
-
         Task<Employee> GetEmployeeByIdAsync(Guid id);
         Task<IReadOnlyDictionary<Guid, Employee>> GetEmployeesByIdAsync(
            IReadOnlyList<Guid> ids,
@@ -30,8 +27,12 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
           CancellationToken cancellationToken);
 
         //on test
-        Task<ILookup<Guid, Employee>> GetEmployeesByJob(
-       IReadOnlyList<Guid> onjobs);
+        // Task<ILookup<string, Employee>> GetEmployeesByJob(
+        //IReadOnlyList<string> onjobs);
+
+        Task<ILookup<string, Employee>> GetEmployeesByCounty(
+         IReadOnlyList<string> onjobs);
+
 
         Task<Employee> CreateEmployeeAsync(Employee employee, CancellationToken cancellationToken);
 
