@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cloudbass.Database.Migrations
 {
     [DbContext(typeof(CloudbassContext))]
-    [Migration("20200721231553_InitialCreate")]
+    [Migration("20200724002809_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -173,9 +173,6 @@ namespace Cloudbass.Database.Migrations
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("HasRoleId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
@@ -198,8 +195,6 @@ namespace Cloudbass.Database.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("HasRoleId");
-
                     b.ToTable("Jobs");
                 });
 
@@ -209,15 +204,10 @@ namespace Cloudbass.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
 
                     b.ToTable("Roles");
                 });
@@ -323,7 +313,7 @@ namespace Cloudbass.Database.Migrations
             modelBuilder.Entity("Cloudbass.Database.Models.HasRole", b =>
                 {
                     b.HasOne("Cloudbass.Database.Models.Employee", "Employee")
-                        .WithMany()
+                        .WithMany("HasRoles")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -342,17 +332,6 @@ namespace Cloudbass.Database.Migrations
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Cloudbass.Database.Models.HasRole", null)
-                        .WithMany("InvolvedIn")
-                        .HasForeignKey("HasRoleId");
-                });
-
-            modelBuilder.Entity("Cloudbass.Database.Models.Role", b =>
-                {
-                    b.HasOne("Cloudbass.Database.Models.Employee", null)
-                        .WithMany("CanDo")
-                        .HasForeignKey("EmployeeId");
                 });
 
             modelBuilder.Entity("Cloudbass.Database.Models.Schedule", b =>

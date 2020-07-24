@@ -30,7 +30,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
         // Task<ILookup<string, Employee>> GetEmployeesByJob(
         //IReadOnlyList<string> onjobs);
 
-        Task<ILookup<string, Employee>> GetEmployeesByCounty(
+        Task<ILookup<string, Employee>> GetEmployeesByFullName(
          IReadOnlyList<string> onjobs);
 
 

@@ -25,25 +25,10 @@ namespace Cloudbass.Database
                 var counties = new List<County>
                                 {
 
-                                    //new County
-                                    //{
-                                    //    Name="Nottinghamshire",
-
-
-
-                                    //     Employees=new List<Employee>
-                                    //   {
-
-                                    //       new Employee
-                                    //        {
-                                    //            FullName = "Mike Bob",
-                                    //            Email = "mike.bob@gmail.com",
-
-                                    //        },
-
-
-                                    //     }
-                                    //},
+                                    new County
+                                    {
+                                        Name="Nottinghamshire"
+                                    },
 
 
                                     new County
@@ -53,12 +38,21 @@ namespace Cloudbass.Database
                                        Employees=new List<Employee>
                                        {
 
-                                           //new Employee
-                                           // {
-                                           //     FullName = "Mike Bob",
-                                           //     Email = "mike.bob@gmail.com",
+                                           new Employee
+                                           {
+                                                FullName = "Mike Bob",
+                                                Email = "mike.bob@gmail.com",
+                                                Users= new List<User>
+                                                {
+                                                   new User
+                                                   {
+                                                       Name = "SuperAdmin",
+                                                       Password= Convert.ToBase64String(hash),
+                                                       Salt = salt,
+                                                   }
+                                                }
 
-                                           // },
+                                           },
 
 
                                            new Employee
@@ -75,10 +69,7 @@ namespace Cloudbass.Database
                                                    }
                                                }
 
-
-
                                            }
-
 
                                        }
 

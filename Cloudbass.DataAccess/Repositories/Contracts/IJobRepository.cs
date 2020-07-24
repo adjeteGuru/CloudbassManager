@@ -1,5 +1,6 @@
 ﻿using Cloudbass.Database;
 using Cloudbass.Database.Models;
+using GreenDonut;
 using HotChocolate;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,14 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     public interface IJobRepository
     {
         Task<IEnumerable<Job>> GetAllJobsAsync();
-        Task<Job> GetJobAsync(Guid jobId);
+        Task<Job> GetJobByIdAsync(Guid jobId);
 
         Task<IEnumerable<Job>> GetJobByClientIdAsync(Guid clientId);
         Task<IReadOnlyDictionary<Guid, Job>> GetJobsByIdAsync(
             IReadOnlyList<Guid> ids, CancellationToken cancellationToken);
         Task<ILookup<Guid, Job>> GetJobsByClientIdAsync(
          IReadOnlyList<Guid> clientIds, CancellationToken cancellationToken);
+        //Task<IReadOnlyList<Result<Job>>> GetJobAsync(IReadOnlyList<string> keys);
 
         // Task<ILookup<Guid, Job>> GetJobsByClientIdAsync(
         //IEnumerable<Guid> clientIds, CancellationToken cancellationToken);

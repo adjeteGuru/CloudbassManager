@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotChocolate;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,5 +12,6 @@ namespace Cloudbass.Database.Models
         public HasRole HasRole { get; set; }
         public Guid JobId { get; set; }
         public Job Job { get; set; }
+
     }
 }

@@ -38,7 +38,14 @@ namespace Cloudbass.Database.Models
         public Status Status { get; set; }
 
         public string CreatedBy { get; set; }
-        public ICollection<Schedule> Schedules { get; set; }
+
+        [GraphQLIgnore]
+        public List<Schedule> Schedules { get; set; } = new List<Schedule>();
+
+        [GraphQLIgnore]
+        public List<Crew> CrewMembers { get; set; } = new List<Crew>();
+
+
         //public List<Schedule> Schedules { get; set; }
 
         //[GraphQLIgnore]
@@ -47,8 +54,7 @@ namespace Cloudbass.Database.Models
         //[GraphQLIgnore]
         //public List<Crew> EngagedIn { get; } = new List<Crew>();
 
-        [GraphQLIgnore]
-        public List<Crew> CrewMembers { get; } = new List<Crew>();
+
 
         //public IReadOnlyList<HasRole> InvolvedIn { get; set; }
 

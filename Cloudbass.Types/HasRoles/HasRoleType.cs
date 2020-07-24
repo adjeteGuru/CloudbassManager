@@ -22,8 +22,8 @@ namespace Cloudbass.Types.HasRoles
             descriptor.Field(x => x.Rate).Type<FloatType>();
             descriptor.Field(x => x.TotalDays).Type<FloatType>();
 
-            descriptor.Field(x => x.InvolvedIn)
-                .Type<ListType<JobType>>();
+            //descriptor.Field(x => x.InvolvedIn)
+            //    .Type<ListType<JobType>>();
 
             //invoke the resolver to allow data fetching with N+1 problems eradicated             
             descriptor.Field("employee").Type<NonNullType<EmployeeType>>().Resolver(ctx =>

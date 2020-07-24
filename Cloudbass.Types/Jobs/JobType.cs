@@ -120,6 +120,21 @@ namespace Cloudbass.Types.Jobs
             });
 
 
+            //trial
+            descriptor.Field("employeesByFullName")
+                .Argument("fullname", x => x.Type<NonNullType<StringType>>())
+                .Type<NonNullType<ListType<NonNullType<EmployeeType>>>>()
+                .Resolver(ctx =>
+                {
+                    var employeeRepository = ctx.Service<EmployeeRepository>();
+
+                    IDataLoader dataLoader = ctx.GroupDataLoader<string, Employee>(
+                        "employeesByFullName",
+                        employeeRepository.GetEmployeesByFullName);
+                    return dataLoader.LoadAsync(ctx.Argument<string>("fullname"));
+                });
+
+
 
             //this resolver allows to fetch Employee who has logged the job (with N+1 problems eradicated)
             descriptor.Field("createdBy").Type<NonNullType<EmployeeType>>().Resolver(ctx =>

@@ -85,14 +85,14 @@ namespace Cloudbass.DataAccess.Repositories
 
         //}
 
-        public async Task<ILookup<string, Employee>> GetEmployeesByCounty(
+        public async Task<ILookup<string, Employee>> GetEmployeesByFullName(
             IReadOnlyList<string> onjobs)
         {
             var filterEmployee = await _db.Employees
-                .Where(x => onjobs.Contains(x.Countys))
+                .Where(x => onjobs.Contains(x.FullName))
                 .ToListAsync();
 
-            return filterEmployee.ToLookup(x => x.Countys);
+            return filterEmployee.ToLookup(x => x.FullName);
         }
 
         public async Task<IReadOnlyDictionary<string, Employee>> GetEmployeesByNameAsync(

@@ -18,11 +18,11 @@ namespace Cloudbass.Database.Models
 
 
         [GraphQLIgnore]
-        public List<Crew> CrewMembers { get; } = new List<Crew>();
+        public List<Crew> CrewMembers { get; set; } = new List<Crew>();
 
         //public ICollection<Crew> CrewMembers { get; set; }
 
-        public IReadOnlyList<Job> InvolvedIn { get; set; }
+        //public IReadOnlyList<Job> InvolvedIn { get; set; }
 
         //public IReadOnlyList<Role> CanDo { get; set; }
     }

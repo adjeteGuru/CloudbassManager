@@ -22,18 +22,22 @@ namespace CloudbassManager.Queries
                 .UsePaging<JobType>()
                 .Resolver(ctx => ctx.Service<JobRepository>().GetAllJobsAsync());
 
+            //descriptor.Field("job")
+            //   .UsePaging<JobType>()
+            //   .Resolver(ctx => ctx.Service<JobRepository>().GetJobByIdAsync());
 
-            descriptor.Field("employeesByCounty")
-                .Argument("county", x => x.Type<NonNullType<StringType>>())
+
+            descriptor.Field("employeesByFullName")
+                .Argument("fullname", x => x.Type<NonNullType<StringType>>())
                 .Type<NonNullType<ListType<NonNullType<EmployeeType>>>>()
                 .Resolver(ctx =>
                 {
                     var employeeRepository = ctx.Service<EmployeeRepository>();
 
                     IDataLoader dataLoader = ctx.GroupDataLoader<string, Employee>(
-                        "employeesByCounty",
-                        employeeRepository.GetEmployeesByCounty);
-                    return dataLoader.LoadAsync(ctx.Argument<string>("county"));
+                        "employeesByFullName",
+                        employeeRepository.GetEmployeesByFullName);
+                    return dataLoader.LoadAsync(ctx.Argument<string>("fullname"));
                 });
 
         }

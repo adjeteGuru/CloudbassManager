@@ -25,18 +25,18 @@ namespace Cloudbass.Types.Queries
 
 
             ////second
-            descriptor.Field("employeesByCounty")
-                .Argument("countys", x => x.Type<NonNullType<StringType>>())
+            descriptor.Field("employeesByFullName")
+                .Argument("fullname", x => x.Type<NonNullType<StringType>>())
                 .Type<NonNullType<ListType<NonNullType<EmployeeType>>>>()
                 .Resolver(ctx =>
                 {
                     var employeeRepository = ctx.Service<EmployeeRepository>();
 
                     IDataLoader<string, Employee[]> dataloader = ctx.GroupDataLoader<string, Employee>(
-                        "employeesByCounty",
-                        employeeRepository.GetEmployeesByCounty);
+                        "employeesByFullName",
+                        employeeRepository.GetEmployeesByFullName);
 
-                    return dataloader.LoadAsync(ctx.Argument<string>("countys"));
+                    return dataloader.LoadAsync(ctx.Argument<string>("fullname"));
                 });//end
         }
     }

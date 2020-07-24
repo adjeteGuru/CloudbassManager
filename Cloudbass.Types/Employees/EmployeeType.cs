@@ -28,8 +28,8 @@ namespace Cloudbass.Types.Employees
             //descriptor.Field(x => x.CountyId).Type<IdType>();
             descriptor.Field(x => x.Photo).Type<StringType>();
 
-            descriptor.Field(x => x.CanDo)
-                .Type<ListType<RoleType>>();
+            //descriptor.Field(x => x.CanDo)
+            //    .Type<ListType<RoleType>>();
 
             descriptor.Field("county").Type<NonNullType<CountyType>>().Resolver(ctx =>
             {

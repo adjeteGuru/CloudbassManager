@@ -31,10 +31,11 @@ namespace Cloudbass.DataAccess.Repositories
             return addedJob.Entity;
         }
 
-        public async Task<Job> GetJobAsync(Guid jobId)
+        public async Task<Job> GetJobByIdAsync(Guid jobId)
         {
             return await _db.Jobs.FindAsync(jobId);
         }
+
 
         public async Task<IEnumerable<Job>> GetAllJobsAsync()
         {
@@ -65,7 +66,7 @@ namespace Cloudbass.DataAccess.Repositories
         {
             var filterJobs = await _db.Jobs
                  .Where(x => clientIds.Contains(x.ClientId))
-                 .ToListAsync(cancellationToken);                 
+                 .ToListAsync(cancellationToken);
             return filterJobs.ToLookup(x => x.ClientId);
         }
 
