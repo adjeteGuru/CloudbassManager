@@ -27,18 +27,6 @@ namespace CloudbassManager.Queries
             //   .Resolver(ctx => ctx.Service<JobRepository>().GetJobByIdAsync());
 
 
-            descriptor.Field("employeesByFullName")
-                .Argument("fullname", x => x.Type<NonNullType<StringType>>())
-                .Type<NonNullType<ListType<NonNullType<EmployeeType>>>>()
-                .Resolver(ctx =>
-                {
-                    var employeeRepository = ctx.Service<EmployeeRepository>();
-
-                    IDataLoader dataLoader = ctx.GroupDataLoader<string, Employee>(
-                        "employeesByFullName",
-                        employeeRepository.GetEmployeesByFullName);
-                    return dataLoader.LoadAsync(ctx.Argument<string>("fullname"));
-                });
 
         }
     }

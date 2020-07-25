@@ -17,8 +17,8 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
            IReadOnlyList<Guid> ids, CancellationToken cancellationToken);
 
         //  
-        Task<ILookup<Guid, HasRole>> GetEmployeesInvoledInJob(
-      IReadOnlyList<Guid> onjobs);
+        //  Task<ILookup<Guid, HasRole>> GetEmployeesByJobIdAsync(
+        //IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken);
         Task<HasRole> CreateHasRoleAsync(HasRole hasRole, CancellationToken cancellationToken);
         Task<HasRole> GetHasRoleByRoleOrEmployee(string employeeName, string roleName);
         //Task<IReadOnlyList<Result<HasRole>>> GetHasRoleByIdAsync(IReadOnlyList<int> keys);

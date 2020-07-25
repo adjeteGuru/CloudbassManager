@@ -74,29 +74,29 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
         //search employees involved in a job
-        //public async Task<ILookup<string, Employee>> GetEmployeesByJob(
-        //    IReadOnlyList<string> onjobs)
+        //public async Task<ILookup<Guid, Employee>> GetEmployeesByJobIdAsync(
+        //    IReadOnlyList<Guid> jobIds)
         //{
-        //    var employees = await _db.Employees
-        //        .Where(x => onjobs.Contains(x.Id))
+        //    var list = await _db.Employees
+        //        .Where(x => jobIds.Contains(x.HasRoles.))
         //        .ToListAsync();
         //    return employees.ToLookup(x => x.Id);
 
 
         //}
 
-        public async Task<ILookup<string, Employee>> GetEmployeesByFullName(
-            IReadOnlyList<string> onjobs)
-        {
-            var filterEmployee = await _db.Employees
-                .Where(x => onjobs.Contains(x.FullName))
-                .ToListAsync();
+        //public async Task<ILookup<string, Employee>> GetEmployeesByFullName(
+        //    IReadOnlyList<string> onjobs)
+        //{
+        //    var filterEmployee = await _db.Employees
+        //        .Where(x => onjobs.Contains(x.FullName))
+        //        .ToListAsync();
 
-            return filterEmployee.ToLookup(x => x.FullName);
-        }
+        //    return filterEmployee.ToLookup(x => x.FullName);
+        //}
 
         public async Task<IReadOnlyDictionary<string, Employee>> GetEmployeesByNameAsync(
-            IReadOnlyList<string> nameList, CancellationToken cancellationToken)
+        IReadOnlyList<string> nameList, CancellationToken cancellationToken)
         {
             var list = await _db.Employees.AsQueryable()
                 .Where(x => nameList.Contains(x.FullName))

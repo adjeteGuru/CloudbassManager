@@ -46,8 +46,9 @@ namespace Cloudbass.Types.Crews
             });
 
 
-            //descriptor.Ignore(t => t.JobId);
-            //descriptor.Ignore(t => t.HasRoleId);
+            descriptor.Ignore(t => t.Id);
+            descriptor.Ignore(t => t.JobId);
+            descriptor.Ignore(t => t.HasRoleId);
 
         }
     }

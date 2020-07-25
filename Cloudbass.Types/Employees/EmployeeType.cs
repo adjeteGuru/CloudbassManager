@@ -47,21 +47,6 @@ namespace Cloudbass.Types.Employees
             descriptor.Ignore(t => t.Id);
 
 
-            //job
-            descriptor.Field("findJob")
-              .Argument("jobname", a => a.Type<NonNullType<StringType>>())
-              .Type<NonNullType<ListType<NonNullType<JobType>>>>()
-              .Resolver(ctx =>
-              {
-                  var scheduleRepository = ctx.Service<JobRepository>();
-
-                  IDataLoader userDataLoader =
-                      ctx.GroupDataLoader<string, Job>(
-                          "findJob",
-                          scheduleRepository.GetEmployeesByJobName);
-
-                  return userDataLoader.LoadAsync(ctx.Argument<string>("jobname"));
-              });
 
             //descriptor.Field<CountyResolver>(x => x.GetCounty(default, default));
 
