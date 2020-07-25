@@ -68,7 +68,7 @@ namespace Cloudbass.Types.Jobs
 
 
             //schedule
-            descriptor.Field("schedulesByJob")
+            descriptor.Field("findSchedule")
               .Argument("jobname", a => a.Type<NonNullType<StringType>>())
               .Type<NonNullType<ListType<NonNullType<ScheduleType>>>>()
               .Resolver(ctx =>
@@ -77,7 +77,7 @@ namespace Cloudbass.Types.Jobs
 
                   IDataLoader userDataLoader =
                       ctx.GroupDataLoader<string, Schedule>(
-                          "schedulesByJob",
+                          "findSchedule",
                           scheduleRepository.GetSchedulesByJob);
 
                   return userDataLoader.LoadAsync(ctx.Argument<string>("jobname"));
@@ -122,17 +122,17 @@ namespace Cloudbass.Types.Jobs
 
 
             //trial
-            descriptor.Field("employeesInvolved")
-                .Argument("who", x => x.Type<NonNullType<StringType>>())
+            descriptor.Field("findEmployee")
+                .Argument("fullname", x => x.Type<NonNullType<StringType>>())
                 .Type<NonNullType<ListType<NonNullType<EmployeeType>>>>()
                 .Resolver(ctx =>
                 {
                     var employeeRepository = ctx.Service<EmployeeRepository>();
 
                     IDataLoader dataLoader = ctx.GroupDataLoader<string, Employee>(
-                        "employeesInvolved",
+                        "findEmployee",
                         employeeRepository.GetEmployeesByFullName);
-                    return dataLoader.LoadAsync(ctx.Argument<string>("who"));
+                    return dataLoader.LoadAsync(ctx.Argument<string>("fullname"));
                 });
 
 

@@ -1,5 +1,6 @@
 ﻿using Cloudbass.DataAccess.Repositories;
 using Cloudbass.Database.Models;
+using Cloudbass.Types.Employees;
 using Cloudbass.Types.HasRoles;
 using Cloudbass.Types.Jobs;
 using GreenDonut;
@@ -15,6 +16,10 @@ namespace Cloudbass.Types.Crews
     {
         protected override void Configure(IObjectTypeDescriptor<Crew> descriptor)
         {
+            descriptor.Field(x => x.Id).Type<IdType>();
+            descriptor.Field(x => x.HasRoleId).Type<IdType>();
+            descriptor.Field(x => x.JobId).Type<IdType>();
+
 
             //invoke the resolver to allow data fetching with N+1 problems eradicated             
             descriptor.Field("job").Type<NonNullType<JobType>>().Resolver(ctx =>
@@ -39,8 +44,8 @@ namespace Cloudbass.Types.Crews
             });
 
 
-            descriptor.Ignore(t => t.JobId);
-            descriptor.Ignore(t => t.HasRoleId);
+            //descriptor.Ignore(t => t.JobId);
+            //descriptor.Ignore(t => t.HasRoleId);
 
         }
     }

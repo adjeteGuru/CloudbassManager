@@ -34,6 +34,8 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
          IReadOnlyList<string> onjobs);
 
 
+
+
         Task<Employee> CreateEmployeeAsync(Employee employee, CancellationToken cancellationToken);
 
         Task<Employee> UpdateEmployeeAsync(Employee employee, CancellationToken cancellationToken);
