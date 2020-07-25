@@ -16,14 +16,14 @@ namespace CloudbassManager.Queries
         [UseFiltering]
         public IQueryable<Job> GetJobs([Service] CloudbassContext db) => db.Jobs;
 
-        public IQueryable<Job> GetJobsForClient([Service] CloudbassContext db, int clientId)
+        public IQueryable<Job> GetJobsForClient([Service] CloudbassContext db, Guid clientId)
         {
             return db.Jobs.Where(x => x.ClientId == clientId);
 
         }
 
 
-        public IQueryable<Job> GetJobsForClient([Service] CloudbassContext db, int clientId, int lastJob)
+        public IQueryable<Job> GetJobsForClient([Service] CloudbassContext db, Guid clientId, int lastJob)
         {
             return db.Jobs.Where(x => x.ClientId == clientId)
                  //by decending order

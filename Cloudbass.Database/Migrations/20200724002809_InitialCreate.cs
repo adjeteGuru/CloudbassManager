@@ -11,8 +11,7 @@ namespace Cloudbass.Database.Migrations
                 name: "Clients",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Tel = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -28,8 +27,7 @@ namespace Cloudbass.Database.Migrations
                 name: "Counties",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -41,8 +39,7 @@ namespace Cloudbass.Database.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -65,9 +62,9 @@ namespace Cloudbass.Database.Migrations
                     Paid = table.Column<bool>(nullable: false),
                     Coordinator = table.Column<string>(nullable: true),
                     CommercialLead = table.Column<string>(nullable: true),
-                    ClientId = table.Column<int>(nullable: false),
+                    ClientId = table.Column<Guid>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: false)
+                    CreatedBy = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -92,7 +89,7 @@ namespace Cloudbass.Database.Migrations
                     Alergy = table.Column<string>(nullable: true),
                     Bared = table.Column<string>(nullable: true),
                     Photo = table.Column<string>(nullable: true),
-                    CountyId = table.Column<int>(nullable: false)
+                    CountyId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -109,8 +106,7 @@ namespace Cloudbass.Database.Migrations
                 name: "Schedules",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false),
@@ -133,10 +129,9 @@ namespace Cloudbass.Database.Migrations
                 name: "HasRoles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false),
                     EmployeeId = table.Column<Guid>(nullable: false),
-                    RoleId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<Guid>(nullable: false),
                     TotalDays = table.Column<decimal>(nullable: true),
                     Rate = table.Column<decimal>(nullable: true)
                 },
@@ -185,23 +180,24 @@ namespace Cloudbass.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Crew",
+                name: "CrewMembers",
                 columns: table => new
                 {
-                    HasRoleId = table.Column<int>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
+                    HasRoleId = table.Column<Guid>(nullable: false),
                     JobId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Crew", x => new { x.JobId, x.HasRoleId });
+                    table.PrimaryKey("PK_CrewMembers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Crew_HasRoles_HasRoleId",
+                        name: "FK_CrewMembers_HasRoles_HasRoleId",
                         column: x => x.HasRoleId,
                         principalTable: "HasRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Crew_Jobs_JobId",
+                        name: "FK_CrewMembers_Jobs_JobId",
                         column: x => x.JobId,
                         principalTable: "Jobs",
                         principalColumn: "Id",
@@ -209,9 +205,14 @@ namespace Cloudbass.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Crew_HasRoleId",
-                table: "Crew",
+                name: "IX_CrewMembers_HasRoleId",
+                table: "CrewMembers",
                 column: "HasRoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CrewMembers_JobId",
+                table: "CrewMembers",
+                column: "JobId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_CountyId",
@@ -247,7 +248,7 @@ namespace Cloudbass.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Crew");
+                name: "CrewMembers");
 
             migrationBuilder.DropTable(
                 name: "Schedules");

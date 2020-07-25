@@ -14,6 +14,7 @@ using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CloudbassManager.Mutations
@@ -28,11 +29,13 @@ namespace CloudbassManager.Mutations
         public async Task<CreateUserPayload> CreateUser(
             CreateUserInput input,
             [Service] CloudbassContext db,
-            [Service]ITopicEventSender eventSender)
+            //[Service]IUserRepository userRepository,
+            //[Service]IEmployeeRepository employeeRepository,
+            [Service]ITopicEventSender eventSender
+            /*CancellationToken cancellationToken*/)
         {
             //create a variable for dupication name check
             var nameCheck = await db.Users.FirstOrDefaultAsync(t => t.Name == input.Name);
-
 
             if (string.IsNullOrWhiteSpace(input.Name))
             {
@@ -71,6 +74,7 @@ namespace CloudbassManager.Mutations
             byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(input.Password + salt));
 
             Guid employeeId = Guid.NewGuid();
+
 
             var employee = new Employee
             {
@@ -131,9 +135,14 @@ namespace CloudbassManager.Mutations
 
 
             db.Users.Add(user);
+
             db.Employees.Add(employee);
 
+            //await employeeRepository.CreateEmployeeAsync(employee, cancellationToken).ConfigureAwait(false);
+
+            //await userRepository.CreateUserAsync(user).ConfigureAwait(false);
             await db.SaveChangesAsync();
+
 
             await eventSender.SendAsync("CreateUser", user);
 

@@ -3,16 +3,40 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public interface IEmployeeRepository
     {
-        public Employee GetEmployee(Guid id);
-        IQueryable<Employee> GetAll();
 
-        Task AddEmployeeAsync(Employee employee);
+        Task<IEnumerable<Employee>> GetAllEmployeesAsync();
+
+        Task<Employee> GetEmployeeByIdAsync(Guid id);
+        Task<IReadOnlyDictionary<Guid, Employee>> GetEmployeesByIdAsync(
+           IReadOnlyList<Guid> ids,
+           CancellationToken cancellationToken);
+
+        Task<IReadOnlyDictionary<string, Employee>> GetEmployeesByNameAsync(
+           IReadOnlyList<string> nameList,
+           CancellationToken cancellationToken);
+
+        Task<IReadOnlyDictionary<string, Employee>> GetEmployeesByEmailAsync(
+           IReadOnlyList<string> emails,
+          CancellationToken cancellationToken);
+
+        //on test
+        // Task<ILookup<string, Employee>> GetEmployeesByJob(
+        //IReadOnlyList<string> onjobs);
+
+        Task<ILookup<string, Employee>> GetEmployeesByFullName(
+         IReadOnlyList<string> onjobs);
+
+
+        Task<Employee> CreateEmployeeAsync(Employee employee, CancellationToken cancellationToken);
+
+        Task<Employee> UpdateEmployeeAsync(Employee employee, CancellationToken cancellationToken);
 
     }
 }

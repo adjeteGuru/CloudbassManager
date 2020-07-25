@@ -85,8 +85,21 @@ namespace CloudbassManager
             services.AddTransient<IHasRoleRepository, HasRoleRepository>();
             services.AddTransient<ICountyRepository, CountyRepository>();
             services.AddTransient<ICrewRepository, CrewRepository>();
+
+            services.AddScoped<UserRepository>();
+            services.AddScoped<ClientRepository>();
+            services.AddScoped<JobRepository>();
+            services.AddScoped<EmployeeRepository>();
+            services.AddScoped<RoleRepository>();
+            services.AddScoped<ScheduleRepository>();
+            services.AddScoped<HasRoleRepository>();
+            services.AddScoped<CrewRepository>();
+            services.AddScoped<CountyRepository>();
+
             services.AddControllers();
             services.AddCors();
+
+
 
             // this register the logger with the dependency injection
             services.AddLogging();
@@ -103,9 +116,14 @@ namespace CloudbassManager
             services.AddSingleton<CountyType>();
             services.AddSingleton<HasRoleType>();
             services.AddSingleton<CrewType>();
+            services.AddSingleton<QueryType>();
 
             //this is to record the job not found exception
             services.AddErrorFilter<JobNotFoundExceptionFilter>();
+
+
+            // this enables you to use DataLoader in your resolvers.
+            services.AddDataLoaderRegistry();
 
             //This adds the GraphQL schema and the execution engine to the dependency injection 
             //which is Registering services / repositories

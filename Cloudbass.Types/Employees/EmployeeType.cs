@@ -1,9 +1,14 @@
 ﻿using Cloudbass.DataAccess.Resolvers;
 using Cloudbass.Database.Models;
+using Cloudbass.Types.Roles;
+using Cloudbass.Types.Counties;
 using HotChocolate.Types;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Cloudbass.DataAccess.Repositories;
+using GreenDonut;
+using HotChocolate.Resolvers;
 
 namespace Cloudbass.Types.Employees
 {
@@ -23,9 +28,25 @@ namespace Cloudbass.Types.Employees
             //descriptor.Field(x => x.CountyId).Type<IdType>();
             descriptor.Field(x => x.Photo).Type<StringType>();
 
-            descriptor.Field<CountyResolver>(x => x.GetCounty(default, default));
+            //descriptor.Field(x => x.CanDo)
+            //    .Type<ListType<RoleType>>();
 
-            descriptor.Field<UserResolver>(x => x.GetUsers(default, default));
+            descriptor.Field("county").Type<NonNullType<CountyType>>().Resolver(ctx =>
+            {
+                var countyRepository = ctx.Service<CountyRepository>();
+
+                IDataLoader dataLoader = ctx.BatchDataLoader<Guid, County>(
+                    "CountyById",
+                    countyRepository.GetCountiesByIdAsync);
+
+                return dataLoader.LoadAsync(ctx.Parent<Employee>().CountyId);
+            });
+
+            descriptor.Ignore(t => t.Id);
+
+            //descriptor.Field<CountyResolver>(x => x.GetCounty(default, default));
+
+            //descriptor.Field<UserResolver>(x => x.GetUsers(default, default));
         }
     }
 }

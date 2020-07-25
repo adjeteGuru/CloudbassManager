@@ -38,7 +38,7 @@ namespace Cloudbass.Types
             descriptor.Field(u => u.IsAdmin).Type<NonNullType<BooleanType>>();
 
 
-            descriptor.Field<EmployeeResolver>(x => x.GetEmployee(default, default));
+            //descriptor.Field<EmployeeResolver>(x => x.GetEmployee(default, default));
 
         }
 

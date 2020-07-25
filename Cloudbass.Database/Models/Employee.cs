@@ -24,13 +24,20 @@ namespace Cloudbass.Database.Models
         public string Bared { get; set; }
 
         public Uri? Photo { get; set; }
-        public int CountyId { get; set; }
+        public Guid CountyId { get; set; }
         public County County { get; set; }
 
-        // public ICollection<HasRole> HasRoles { get; set; }
-        public ICollection<User> Users { get; set; }
+        //public string Countys { get; set; }
 
+        [GraphQLIgnore]
+        public List<HasRole> HasRoles { get; set; } = new List<HasRole>();
+        //public ICollection<HasRole> HasRoles { get; set; }
 
+        [GraphQLIgnore]
+        public List<User> Users { get; set; } = new List<User>();
+        //public ICollection<User> Users { get; set; }
+
+        // public IReadOnlyList<Role> CanDo { get; set; }
 
 
     }

@@ -56,9 +56,7 @@ namespace Cloudbass.Database.Models
         [DefaultValue(false)]
         public bool IsAdmin { get; set; }
 
-        // public ICollection<HasRole> HasRoles { get; set; }
 
-        //  public ICollection<Employee> Employees { get; set; }
 
     }
 }

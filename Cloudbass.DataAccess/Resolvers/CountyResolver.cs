@@ -11,15 +11,15 @@ namespace Cloudbass.DataAccess.Resolvers
 {
     public class CountyResolver
     {
-        private readonly ICountyRepository _countyRepository;
-        public CountyResolver([Service] ICountyRepository countyRepository)
-        {
-            _countyRepository = countyRepository;
-        }
+        //private readonly ICountyRepository _countyRepository;
+        //public CountyResolver([Service] ICountyRepository countyRepository)
+        //{
+        //    _countyRepository = countyRepository;
+        //}
 
-        public County GetCounty(Employee employee, IResolverContext ctx)
-        {
-            return _countyRepository.GetAll().Where(x => x.Id == employee.CountyId).FirstOrDefault();
-        }
+        //public County GetCounty(Employee employee, IResolverContext ctx)
+        //{
+        //    return _countyRepository.GetAllCountyAsync().Where(x => x.Id == employee.CountyId).FirstOrDefault();
+        //}
     }
 }

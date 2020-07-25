@@ -7,17 +7,23 @@ namespace Cloudbass.Database.Models
     public class HasRole
     {
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public Guid EmployeeId { get; set; }
         public Employee Employee { get; set; }
-        public int RoleId { get; set; }
+        public Guid RoleId { get; set; }
         public Role Role { get; set; }
         public Nullable<decimal> TotalDays { get; set; }
         public Nullable<decimal> Rate { get; set; }
 
-        //public ICollection<Crew> CrewMembers { get; set; }
+
         [GraphQLIgnore]
-        public List<Crew> CrewMembers { get; } = new List<Crew>();
+        public List<Crew> CrewMembers { get; set; } = new List<Crew>();
+
+        //public ICollection<Crew> CrewMembers { get; set; }
+
+        //public IReadOnlyList<Job> InvolvedIn { get; set; }
+
+        //public IReadOnlyList<Role> CanDo { get; set; }
     }
 }

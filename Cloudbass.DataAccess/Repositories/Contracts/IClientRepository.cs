@@ -4,17 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public interface IClientRepository
     {
-        IQueryable<Client> GetAll();
-        public Client GetClient(int id);
-        Client Create(CreateClientInput input);
-        Client Delete(DeleteClientInput input);
-        Client Update(UpdateClientInput input, int id);
-
+        Task<IEnumerable<Client>> GetAllClientsAsync();
+        Task<Client> GetClientByIdAsync(Guid clientId);
+        Task<IReadOnlyDictionary<Guid, Client>> GetClientsByIdAsync(
+            IReadOnlyList<Guid> ids, CancellationToken cancellationToken);
+        Task<Client> CreateClientAsync(Client client, CancellationToken cancellationToken);
+        Task<Client> UpdateClientAsync(Client client, CancellationToken cancellationToken);
 
     }
 }

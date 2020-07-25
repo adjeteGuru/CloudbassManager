@@ -7,6 +7,13 @@ using HotChocolate;
 using HotChocolate.Resolvers;
 using System.Collections.Generic;
 using System.Linq;
+using Cloudbass.DataAccess.Repositories;
+using System;
+using GreenDonut;
+using Cloudbass.Types.Schedules;
+using Cloudbass.Types.Crews;
+using Cloudbass.Types.HasRoles;
+using Cloudbass.Types.Employees;
 
 namespace Cloudbass.Types.Jobs
 {
@@ -24,12 +31,200 @@ namespace Cloudbass.Types.Jobs
             descriptor.Field(x => x.Coordinator).Type<StringType>();
             descriptor.Field(x => x.Paid).Type<BooleanType>();
             descriptor.Field(x => x.CommercialLead).Type<StringType>();
-            descriptor.Field(x => x.Status).Type<StringType>();
+            //descriptor.Field(x => x.CreatedBy).Type<StringType>();
+            descriptor.Field(x => x.Status).Type<EnumType<Status>>();
+
+            descriptor.Field(x => x.CrewMembers)
+                .Type<ListType<CrewType>>();
+
+            //this resolver allows to fetch Employee who has logged the job (with N+1 problems eradicated) 
+            descriptor.Field("client").Type<NonNullType<ClientType>>().Resolver(ctx =>
+
+            {
+                var clientRepository = ctx.Service<ClientRepository>();
+
+                IDataLoader dataloader = ctx.BatchDataLoader<Guid, Client>(
+                    "ClientById",
+                    clientRepository.GetClientsByIdAsync);
+
+                return dataloader.LoadAsync(ctx.Parent<Job>().ClientId);
+
+            });
+
+
+            //get schedule
+            descriptor.Field("schedule").Type<NonNullType<ScheduleType>>().Resolver(ctx =>
+
+            {
+                var scheduleRepository = ctx.Service<ScheduleRepository>();
+
+                IDataLoader dataloader = ctx.BatchDataLoader<Guid, Schedule>(
+                    "ScheduleById",
+                    scheduleRepository.GetSchedulesByIdAsync);
+
+                return dataloader.LoadAsync(ctx.Parent<Job>().Id);
+
+            });
+
+
+            //schedule
+            descriptor.Field("schedulesByJob")
+              .Argument("jobname", a => a.Type<NonNullType<StringType>>())
+              .Type<NonNullType<ListType<NonNullType<ScheduleType>>>>()
+              .Resolver(ctx =>
+              {
+                  var scheduleRepository = ctx.Service<ScheduleRepository>();
+
+                  IDataLoader userDataLoader =
+                      ctx.GroupDataLoader<string, Schedule>(
+                          "schedulesByJob",
+                          scheduleRepository.GetSchedulesByJob);
+
+                  return userDataLoader.LoadAsync(ctx.Argument<string>("jobname"));
+              });
+
+
+            //hasRole
+            //descriptor.Field("hasRoleInvolved")
+            //.Argument("whohas", a => a.Type<NonNullType<IdType>>())
+            //.Type<NonNullType<ListType<NonNullType<HasRoleType>>>>()
+            //.Resolver(ctx =>
+            //{
+            //    var hasRoleRepository = ctx.Service<HasRoleRepository>();
+
+            //    IDataLoader userDataLoader =
+            //        ctx.GroupDataLoader<Guid, HasRole>(
+            //            "hasRoleInvolved",
+            //            hasRoleRepository.GetEmployeesInvoledInJob);
+
+            //    return userDataLoader.LoadAsync(ctx.Argument<Guid>("whohas"));
+
+            //});
+
+
+            //crew
+            //descriptor.Field("crewMembersInvolved")
+            //.Argument("partOf", a => a.Type<NonNullType<StringType>>())
+            //.Type<NonNullType<ListType<NonNullType<CrewType>>>>()
+            //.Resolver(ctx =>
+            //{
+            //    var crewRepository = ctx.Service<CrewRepository>();
+
+
+            //    IDataLoader userDataLoader =
+            //        ctx.GroupDataLoader<string, Crew>(
+            //            "crewMembersInvolved",
+            //            crewRepository.GetCrewMembersInvolvedByJob);
+
+            //    return userDataLoader.LoadAsync(ctx.Argument<string>("partOf"));
+
+            //});
+
+
+            //trial
+            descriptor.Field("employeesInvolved")
+                .Argument("who", x => x.Type<NonNullType<StringType>>())
+                .Type<NonNullType<ListType<NonNullType<EmployeeType>>>>()
+                .Resolver(ctx =>
+                {
+                    var employeeRepository = ctx.Service<EmployeeRepository>();
+
+                    IDataLoader dataLoader = ctx.GroupDataLoader<string, Employee>(
+                        "employeesInvolved",
+                        employeeRepository.GetEmployeesByFullName);
+                    return dataLoader.LoadAsync(ctx.Argument<string>("who"));
+                });
+
+
+
+            //this resolver allows to fetch Employee who has logged the job (with N+1 problems eradicated)
+            descriptor.Field("createdBy").Type<NonNullType<EmployeeType>>().Resolver(ctx =>
+            {
+                var employeeRepository = ctx.Service<EmployeeRepository>();
+
+                IDataLoader dataLoader = ctx.BatchDataLoader<string, Employee>(
+                    "ByName",
+                    employeeRepository.GetEmployeesByNameAsync);
+
+                return dataLoader.LoadAsync(ctx.Parent<Job>().CreatedBy);
+            });
+
+
+            //descriptor.Field("scheduleTo").Type<JobType>()
+            //         .Resolver(async ctx =>
+            //         {
+            //             Guid? id = ctx.Parent<Job>().Id;
+            //             if (id.HasValue)
+            //             {
+            //                 JobRepository jobRepository = ctx.Service<JobRepository>();
+
+            //                 IDataLoader<Guid, Job> dataLoader = ctx.CacheDataLoader<Guid, Job>(
+            //                      "JobById",
+            //                      jobRepository.GetJobAsync);
+
+            //                 return await dataLoader.LoadAsync(ctx.Parent<Job>().Id);
+            //             }
+
+            //             return null;
+
+            //         });
+
+            descriptor.Ignore(t => t.ClientId);
+            descriptor.Ignore(t => t.Id);
+
+
+            ////crew resolver
+            //descriptor.Field("members").Type<NonNullType<CrewType>>()
+            //    .Resolver(ctx =>
+            //{
+            //    var crewRepository = ctx.Service<CrewRepository>();
+            //    IDataLoader dataloader = ctx.BatchDataLoader<int, Crew>(
+            //        "CrewMemberById",
+            //        crewRepository.GetCrewMembersByIdAsync);                   
+
+            //    return dataloader.LoadAsync(ctx.Parent<Crew>().Id);
+            //});
+
+
+            ////first
+            //descriptor.Field("employeesByJob")
+            //    .Argument("job", x => x.Type<NonNullType<StringType>>())
+            //    .Type<NonNullType<ListType<NonNullType<CrewType>>>>()
+            //    .Resolver(ctx =>
+            //    {
+            //        var crewRepository = ctx.Service<CrewRepository>();
+
+            //        IDataLoader<int, Crew[]> dataloader =
+            //        ctx.GroupDataLoader<int, Crew>(
+            //            "employeesByJob",
+            //            crewRepository.GetEmployeesByJob);
+
+            //        return dataloader.LoadAsync(ctx.Argument<Guid>("job"));
+            //    });
+
+
+
+
+
+
+
+
+
+            //descriptor.Field("schedule").Type<NonNullType<ScheduleType>>().Resolver(ctx =>
+            //{
+            //    ScheduleRepository scheduleRepository = ctx.Service<ScheduleRepository>();
+            //    IDataLoader dataloader = ctx.BatchDataLoader<Guid, Schedule>(
+            //        "ScheduleById",
+            //        scheduleRepository.GetClientsAsync);
+
+            //    return dataloader.LoadAsync(ctx.Parent<Job>().ClientId);
+
+            //});
 
             //able to get the information of clients when we make a query about jobs
-            descriptor.Field<ClientResolver>(t => t.GetClient(default, default));
+            // descriptor.Field<ClientResolver>(t => t.GetClient(default, default));
 
-            descriptor.Field<ScheduleResolver>(x => x.GetSchedules(default, default));
+            // descriptor.Field<ScheduleResolver>(x => x.GetSchedules(default, default));
 
             //descriptor.Field<JobResolver>(x => x.GetJobForClient(clientId, default));
 

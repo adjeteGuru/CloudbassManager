@@ -12,20 +12,19 @@ using System.Threading.Tasks;
 
 namespace Cloudbass.Types.Employees
 {
-    public class EmployeeByEmailDataLoader : BatchDataLoader<string, Employee>
+    public class EmployeeByIdDataLoader : BatchDataLoader<Guid, Employee>
     {
         private readonly IEmployeeRepository _employeeRepository;
-        public EmployeeByEmailDataLoader(IEmployeeRepository employeeRepository)
+        public EmployeeByIdDataLoader(IEmployeeRepository employeeRepository)
         {
             _employeeRepository = employeeRepository;
         }
-        protected override async Task<IReadOnlyDictionary<string, Employee>> LoadBatchAsync(
-            IReadOnlyList<string> keys, CancellationToken cancellationToken)
+        protected override async Task<IReadOnlyDictionary<Guid, Employee>> LoadBatchAsync(
+            IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
         {
             return await _employeeRepository
-                .GetEmployeesByEmailAsync(keys, cancellationToken)
+                .GetEmployeesByIdAsync(keys, cancellationToken)
                 .ConfigureAwait(false);
-
         }
     }
 }
