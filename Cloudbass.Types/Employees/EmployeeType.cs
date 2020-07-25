@@ -42,7 +42,7 @@ namespace Cloudbass.Types.Employees
                 return dataLoader.LoadAsync(ctx.Parent<Employee>().CountyId);
             });
 
-
+            descriptor.Ignore(t => t.Id);
 
             //descriptor.Field<CountyResolver>(x => x.GetCounty(default, default));
 

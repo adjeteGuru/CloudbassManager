@@ -48,9 +48,9 @@ namespace Cloudbass.Types.HasRoles
                return dataLoader.LoadAsync(ctx.Parent<HasRole>().RoleId);
            });
 
-            //descriptor.Ignore(t => t.EmployeeId);
-            //descriptor.Ignore(t => t.RoleId);
-            //descriptor.Ignore(t => t.Id);
+            descriptor.Ignore(t => t.EmployeeId);
+            descriptor.Ignore(t => t.RoleId);
+            descriptor.Ignore(t => t.Id);
 
         }
     }

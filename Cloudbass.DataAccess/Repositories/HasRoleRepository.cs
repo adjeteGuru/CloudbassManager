@@ -64,9 +64,9 @@ namespace Cloudbass.DataAccess.Repositories
             IReadOnlyList<Guid> onjobs)
         {
             var employees = await _db.HasRoles
-                 .Where(x => onjobs.Contains(x.Employee.Id))
+                 .Where(x => onjobs.Contains(x.Id))
                  .ToListAsync();
-            return employees.ToLookup(x => x.Employee.Id);
+            return employees.ToLookup(x => x.Id);
         }
     }
 }

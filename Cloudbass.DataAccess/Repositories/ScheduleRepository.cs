@@ -51,9 +51,9 @@ namespace Cloudbass.DataAccess.Repositories
             IReadOnlyList<string> byjob)
         {
             var schedule = await _db.Schedules
-                 .Where(x => byjob.Contains(x.Job.Name))
+                 .Where(x => byjob.Contains(x.Name))
                  .ToListAsync();
-            return schedule.ToLookup(x => x.Job.Name);
+            return schedule.ToLookup(x => x.Name);
         }
 
 
