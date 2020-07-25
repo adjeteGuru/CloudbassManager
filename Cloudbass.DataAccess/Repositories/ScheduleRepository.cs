@@ -47,13 +47,13 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
 
-        public async Task<ILookup<string, Schedule>> GetSchedulesByJob(
-            IReadOnlyList<string> byjob)
+        public async Task<ILookup<Guid, Schedule>> GetSchedulesByJobIdAsync(
+            IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken)
         {
             var schedule = await _db.Schedules
-                 .Where(x => byjob.Contains(x.Name))
-                 .ToListAsync();
-            return schedule.ToLookup(x => x.Name);
+                 .Where(x => jobIds.Contains(x.JobId))
+                 .ToListAsync(cancellationToken);
+            return schedule.ToLookup(x => x.JobId);
         }
 
 

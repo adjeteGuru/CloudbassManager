@@ -106,6 +106,15 @@ namespace Cloudbass.DataAccess.Repositories
             return list.ToDictionary(x => x.FullName);
         }
 
+        public async Task<ILookup<Guid, Employee>> GetEmployeesByCountyIdAsync(
+            IReadOnlyList<Guid> countyIds, CancellationToken cancellationToken)
+        {
+            var list = await _db.Employees
+                .Where(x => countyIds.Contains(x.CountyId))
+                .ToListAsync(cancellationToken);
+            return list.ToLookup(x => x.CountyId);
+        }
+
 
 
 

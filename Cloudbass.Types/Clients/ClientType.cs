@@ -29,37 +29,24 @@ namespace Cloudbass.Types
 
             //invoke the resolver to allow data fetching          
 
-            //descriptor.Field<JobResolver>(t => t.GetJobs(default, default));
-            //descriptor.Field<JobResolver>(x=>x.GetJobForClient())
 
-            //descriptor.Field("jobs").Type<JobType>().Resolver(ctx =>
-            //{
-            //    JobRepository jobRepository = ctx.Service<JobRepository>();
-            //    IDataLoader dataLoader = ctx.BatchDataLoader<Guid, Job>(
-            //        "JobByClientId",
-            //        jobRepository.GetJobAsync(jobId));
+            descriptor.Field("jobs")
+              .Argument("clientId", a => a.Type<NonNullType<IdType>>())
+              .Type<NonNullType<ListType<NonNullType<JobType>>>>()
+              .Resolver(ctx =>
 
-            //    return dataLoader.LoadAsync(ctx.Parent<Client>().Id);
+              {
 
-            //});
+                  var jobRepository = ctx.Service<JobRepository>();
+
+                  IDataLoader dataLoader = ctx.GroupDataLoader<Guid, Job>(
+                        "JobByIds",
+                        jobRepository.GetJobsByClientIdAsync);
+
+                  return dataLoader.LoadAsync(ctx.Argument<Guid>("clientId"));
 
 
-
-            //descriptor.Field("job").Type<JobType>().Resolver(async ctx =>
-            //{
-            //    Guid? id = ctx.Parent<Job>().Id;
-            //    if (id.HasValue)
-            //    {
-            //        JobRepository jobRepository = ctx.Service<JobRepository>();
-
-            //        IDataLoader<Guid, Job> dataLoader = ctx.CacheDataLoader<Guid, Job>(
-            //            "JobById",
-            //            jobRepository.GetJobsByIdAsync);
-
-            //        return await dataLoader.LoadAsync(ctx.Parent<Job>().Id);
-            //    }
-            //    return null;
-            //});
+              });
 
 
         }

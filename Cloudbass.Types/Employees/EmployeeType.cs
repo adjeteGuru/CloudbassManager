@@ -26,18 +26,19 @@ namespace Cloudbass.Types.Employees
             descriptor.Field(x => x.Bared).Type<StringType>();
             descriptor.Field(x => x.Email).Type<StringType>();
             descriptor.Field(x => x.NextOfKin).Type<StringType>();
-            //descriptor.Field(x => x.CountyId).Type<IdType>();
             descriptor.Field(x => x.Photo).Type<StringType>();
 
-            //descriptor.Field(x => x.CanDo)
-            //    .Type<ListType<RoleType>>();
 
+            //Below is the technique of queueing up ids called batching
             descriptor.Field("county").Type<NonNullType<CountyType>>().Resolver(ctx =>
             {
                 var countyRepository = ctx.Service<CountyRepository>();
 
+                //1- (BatchDataLoader)it waits until all the counties ids are queued.
                 IDataLoader dataLoader = ctx.BatchDataLoader<Guid, County>(
                     "CountyById",
+
+                    //2- Then it fires of the GetCountiesByIdAsync method only when all the ids are collected.
                     countyRepository.GetCountiesByIdAsync);
 
                 return dataLoader.LoadAsync(ctx.Parent<Employee>().CountyId);

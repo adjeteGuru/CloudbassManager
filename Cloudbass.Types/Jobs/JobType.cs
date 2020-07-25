@@ -52,35 +52,23 @@ namespace Cloudbass.Types.Jobs
             });
 
 
-            //get schedule
-            descriptor.Field("schedule").Type<NonNullType<ScheduleType>>().Resolver(ctx =>
 
-            {
-                var scheduleRepository = ctx.Service<ScheduleRepository>();
-
-                IDataLoader dataloader = ctx.BatchDataLoader<Guid, Schedule>(
-                    "ScheduleById",
-                    scheduleRepository.GetSchedulesByIdAsync);
-
-                return dataloader.LoadAsync(ctx.Parent<Job>().Id);
-
-            });
 
 
             //schedule
-            descriptor.Field("findSchedule")
-              .Argument("jobname", a => a.Type<NonNullType<StringType>>())
+            descriptor.Field("schedules")
+              .Argument("jobId", a => a.Type<NonNullType<IdType>>())
               .Type<NonNullType<ListType<NonNullType<ScheduleType>>>>()
               .Resolver(ctx =>
               {
                   var scheduleRepository = ctx.Service<ScheduleRepository>();
 
                   IDataLoader userDataLoader =
-                      ctx.GroupDataLoader<string, Schedule>(
-                          "findSchedule",
-                          scheduleRepository.GetSchedulesByJob);
+                      ctx.GroupDataLoader<Guid, Schedule>(
+                          "ScheduleByIds",
+                          scheduleRepository.GetSchedulesByJobIdAsync);
 
-                  return userDataLoader.LoadAsync(ctx.Argument<string>("jobname"));
+                  return userDataLoader.LoadAsync(ctx.Argument<Guid>("jobId"));
               });
 
 
@@ -103,22 +91,24 @@ namespace Cloudbass.Types.Jobs
 
 
             //crew
-            //descriptor.Field("crewMembersInvolved")
-            //.Argument("partOf", a => a.Type<NonNullType<StringType>>())
-            //.Type<NonNullType<ListType<NonNullType<CrewType>>>>()
-            //.Resolver(ctx =>
-            //{
-            //    var crewRepository = ctx.Service<CrewRepository>();
+            descriptor.Field("crew")
+            .Argument("jobId", a => a.Type<NonNullType<IdType>>())
+            .Type<NonNullType<ListType<NonNullType<CrewType>>>>()
+            .Resolver(ctx =>
+            {
+                var crewRepository = ctx.Service<CrewRepository>();
 
 
-            //    IDataLoader userDataLoader =
-            //        ctx.GroupDataLoader<string, Crew>(
-            //            "crewMembersInvolved",
-            //            crewRepository.GetCrewMembersInvolvedByJob);
+                IDataLoader userDataLoader =
+                    ctx.GroupDataLoader<Guid, Crew>(
 
-            //    return userDataLoader.LoadAsync(ctx.Argument<string>("partOf"));
+                        "crewMemberByIds",
 
-            //});
+                        crewRepository.GetCrewMembersByJobIdAsync);
+
+                return userDataLoader.LoadAsync(ctx.Argument<Guid>("jobId"));
+
+            });
 
 
             //trial

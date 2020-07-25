@@ -17,8 +17,8 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
            IReadOnlyList<Guid> ids, CancellationToken cancellationToken);
 
         //  //on test
-        Task<ILookup<string, Crew>> GetCrewMembersInvolvedByJob(
-      IReadOnlyList<string> onjobs);
+        Task<ILookup<Guid, Crew>> GetCrewMembersByJobIdAsync(
+      IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken);
         Task<Crew> CreateCrewAsync(Crew crew);
     }
 }
