@@ -70,6 +70,20 @@ namespace Cloudbass.DataAccess.Repositories
             return filterJobs.ToLookup(x => x.ClientId);
         }
 
+        public Task<IEnumerable<Job>> GetJobsByEmployeeIdAsync(Guid employeeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        //public async Task<ILookup<Guid, Job>> GetJobsByEmployeeIdAsync(
+        //    IReadOnlyList<Guid> employeeIds, CancellationToken cancellationToken)
+        //{
+        //    var list = await _db.Jobs
+        //        .Where(x => employeeIds.Contains(x.i))
+        //        .ToListAsync(cancellationToken);
+        //    return jobs.ToLookup(x => x.Name);
+        //}
+
 
 
         //public async Task<ILookup<string, Job>> GetEmployeesByJobName(

@@ -11,7 +11,7 @@ namespace Cloudbass.Database
     {
         public static void EnsureSeedData(this CloudbassContext db)
         {
-            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any() || !db.Schedules.Any() || !db.Employees.Any() || !db.Counties.Any() || !db.HasRoles.Any() || !db.Roles.Any())
+            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any() || !db.Schedules.Any() || !db.Employees.Any() || !db.Counties.Any() /*|| !db.HasRoles.Any() || !db.Roles.Any()*/)
             {
                 string salt = Guid.NewGuid().ToString("N");
 
@@ -20,15 +20,15 @@ namespace Cloudbass.Database
 
                 Guid employeeId = Guid.NewGuid();
                 Guid countyId = Guid.NewGuid();
-                //Guid roleId = Guid.NewGuid();
+
 
                 var counties = new List<County>
                                 {
 
-                                    new County
-                                    {
-                                        Name="Nottinghamshire"
-                                    },
+                                    //new County
+                                    //{
+                                    //    Name="Nottinghamshire"
+                                    //},
 
 
                                     new County
@@ -42,6 +42,8 @@ namespace Cloudbass.Database
                                            {
                                                 FullName = "Mike Bob",
                                                 Email = "mike.bob@gmail.com",
+                                                 Role = "Rigger",
+
                                                 Users= new List<User>
                                                 {
                                                    new User
@@ -59,6 +61,8 @@ namespace Cloudbass.Database
                                            {
                                                FullName= "Ben Davies",
                                                Email ="ben.davies@cloudbass.com",
+                                                Role = "Sound Assistant",
+
                                                Users= new List<User>
                                                {
                                                    new User
@@ -81,23 +85,23 @@ namespace Cloudbass.Database
 
 
 
-                var roles = new List<Role>
-                {
-                    new Role
-                    {
-                        Name = "Camera Operator"
+                //var roles = new List<Role>
+                //{
+                //    new Role
+                //    {
+                //        Name = "Camera Operator"
 
-                    },
+                //    },
 
-                    new Role
-                    {
-                        Name = "Rigger"
+                //    new Role
+                //    {
+                //        Name = "Rigger"
 
-                    }
-                };
+                //    }
+                //};
 
-                db.Roles.AddRange(roles);
-                db.SaveChanges();
+                //db.Roles.AddRange(roles);
+                //db.SaveChanges();
 
 
 

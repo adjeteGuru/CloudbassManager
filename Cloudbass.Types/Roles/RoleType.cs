@@ -12,8 +12,8 @@ namespace Cloudbass.Types.Roles
         {
             base.Configure(descriptor);
 
-            descriptor.Field(x => x.Id).Type<NonNullType<IdType>>();
-            descriptor.Field(x => x.Name).Type<NonNullType<StringType>>();
+            //descriptor.Field(x => x.Id).Type<NonNullType<IdType>>();
+            //descriptor.Field(x => x.Name).Type<NonNullType<StringType>>();
         }
     }
 }

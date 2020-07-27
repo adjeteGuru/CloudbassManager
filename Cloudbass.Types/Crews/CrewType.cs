@@ -16,39 +16,41 @@ namespace Cloudbass.Types.Crews
     {
         protected override void Configure(IObjectTypeDescriptor<Crew> descriptor)
         {
-            descriptor.Field(x => x.Id).Type<IdType>();
-            descriptor.Field(x => x.HasRoleId).Type<IdType>();
+            //descriptor.Field(x => x.Id).Type<IdType>();
+            descriptor.Field(x => x.EmployeeId).Type<IdType>();
             descriptor.Field(x => x.JobId).Type<IdType>();
 
 
             //invoke the resolver to allow data fetching with N+1 problems eradicated             
             descriptor.Field("job").Type<NonNullType<JobType>>().Resolver(ctx =>
             {
-                JobRepository jobRepository = ctx.Service<JobRepository>();
+                var jobRepository = ctx.Service<JobRepository>();
 
                 IDataLoader dataloader = ctx.BatchDataLoader<Guid, Job>(
                     "JobById",
 
                     jobRepository.GetJobsByIdAsync);
 
-                return dataloader.LoadAsync(ctx.Parent<Crew>().JobId);
+                return dataloader.LoadAsync(ctx.Parent<Job>().Id);
             });
 
 
-            descriptor.Field("employee").Type<NonNullType<HasRoleType>>().Resolver(ctx =>
+            descriptor.Field("employee").Type<NonNullType<EmployeeType>>().Resolver(ctx =>
             {
-                HasRoleRepository hasRoleRepository = ctx.Service<HasRoleRepository>();
-                IDataLoader dataloader = ctx.BatchDataLoader<Guid, HasRole>(
-                    "EmployeeRoleById",
-                    hasRoleRepository.GetHasRolesByIdAsync);
+                var employeeRepository = ctx.Service<EmployeeRepository>();
 
-                return dataloader.LoadAsync(ctx.Parent<Crew>().Id);
+                IDataLoader dataloader = ctx.BatchDataLoader<Guid, Employee>(
+                    "EmployeeById",
+
+                    employeeRepository.GetEmployeesByIdAsync);
+
+                return dataloader.LoadAsync(ctx.Parent<Employee>().Id);
             });
 
 
-            descriptor.Ignore(t => t.Id);
+            //descriptor.Ignore(t => t.Id);
             descriptor.Ignore(t => t.JobId);
-            descriptor.Ignore(t => t.HasRoleId);
+            descriptor.Ignore(t => t.EmployeeId);
 
         }
     }

@@ -7,9 +7,10 @@ namespace Cloudbass.Database.Models
 {
     public class Client
     {
-
+        //[BsonId]
         public Guid Id { get; set; }
 
+        //[BsonRequired]
         public string Name { get; set; }
 
         public string Tel { get; set; }

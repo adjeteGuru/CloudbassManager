@@ -17,9 +17,6 @@ namespace Cloudbass.Database.Models
             TokenVersion = 0; // Default Value 0
         }
 
-
-        [Key]
-
         public Guid Id { get; set; }
 
         [GraphQLIgnore]

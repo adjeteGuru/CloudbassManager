@@ -11,6 +11,7 @@ namespace Cloudbass.Database.Models
     }
     public class Job
     {
+        //[BsonId]
         public Guid Id { get; set; }
 
         public string Name { get; set; }
@@ -39,24 +40,11 @@ namespace Cloudbass.Database.Models
 
         public string CreatedBy { get; set; }
 
+        public ICollection<Schedule> Schedules { get; set; }
+
+
         [GraphQLIgnore]
-        public List<Schedule> Schedules { get; set; } = new List<Schedule>();
-
-        [GraphQLIgnore]
-        public List<Crew> CrewMembers { get; set; } = new List<Crew>();
-
-
-        //public List<Schedule> Schedules { get; set; }
-
-        //[GraphQLIgnore]
-        //public ICollection<Crew> Crews { get; set; }
-
-        //[GraphQLIgnore]
-        //public List<Crew> EngagedIn { get; } = new List<Crew>();
-
-
-
-        //public IReadOnlyList<HasRole> InvolvedIn { get; set; }
+        public List<Crew> CrewMembers { get; } = new List<Crew>();
 
 
     }

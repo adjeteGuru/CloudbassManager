@@ -11,11 +11,11 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     public interface IRoleRepository
     {
 
-        Task<IEnumerable<Role>> GetAllRolesAsync();
+        //Task<IEnumerable<Role>> GetAllRolesAsync();
 
-        Task<Role> GetRoleByIdAsync(Guid roleId);
-        Task<IReadOnlyDictionary<Guid, Role>> GetRolesByIdAsync(
-            IReadOnlyList<Guid> ids, CancellationToken cancellation);
-        Task<Role> CreateRoleAsync(Role role, CancellationToken cancellation);
+        //Task<Role> GetRoleByIdAsync(Guid roleId);
+        //Task<IReadOnlyDictionary<Guid, Role>> GetRolesByIdAsync(
+        //    IReadOnlyList<Guid> ids, CancellationToken cancellation);
+        //Task<Role> CreateRoleAsync(Role role, CancellationToken cancellation);
     }
 }

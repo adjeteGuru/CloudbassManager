@@ -20,54 +20,62 @@ namespace Cloudbass.DataAccess.Repositories
             _db = db;
         }
 
-        public Task<Crew> CreateCrewAsync(Crew crew)
+        public async Task<Crew> CreateCrewAsync(Crew crew)
         {
-            throw new NotImplementedException();
+            var addedCrew = await _db.Crew.AddAsync(crew);
+            await _db.SaveChangesAsync();
+            return addedCrew.Entity;
         }
 
-        public async Task<IReadOnlyDictionary<Guid, Crew>> GetCrewMembersByIdAsync(
-            IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Crew>> GetCrewAsync()
         {
-            var list = await _db.CrewMembers.AsQueryable()
-                .Where(x => ids.Contains(x.Id))
-                .ToListAsync(cancellationToken);
-            return list.ToDictionary(x => x.Id);
-
+            return await _db.Crew
+                 .AsNoTracking().ToListAsync();
         }
 
-        public IQueryable<Crew> GetAllCrewAsync()
-        {
-            throw new NotImplementedException();
-        }
+        //public async Task<IReadOnlyDictionary<Guid, Crew>> GetCrewMembersByIdAsync(
+        //    IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
+        //{
+        //    var list = await _db.CrewMembers.AsQueryable()
+        //        .Where(x => ids.Contains(x.Id))
+        //        .ToListAsync(cancellationToken);
+        //    return list.ToDictionary(x => x.Id);
 
-        public Task<IEnumerable<Crew>> GetCrewAsync()
-        {
-            throw new NotImplementedException();
-        }
+        //}
 
-        public Task<Crew> GetCrewMemberByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        //public IQueryable<Crew> GetAllCrewAsync()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<IEnumerable<Crew>> GetCrewAsync()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<Crew> GetCrewMemberByIdAsync(Guid id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         //search employees involved in a job
-        public async Task<ILookup<Guid, Crew>> GetEmployeesByJobC(
-            IReadOnlyList<Guid> onjobs)
-        {
-            var employees = await _db.CrewMembers
-                .Where(x => onjobs.Contains(x.HasRole.EmployeeId))
-                .ToListAsync();
-            return employees.ToLookup(x => x.Id);
-        }
+        //public async Task<ILookup<Guid, Crew>> GetEmployeesByJobC(
+        //    IReadOnlyList<Guid> onjobs)
+        //{
+        //    var employees = await _db.CrewMembers
+        //        .Where(x => onjobs.Contains(x.HasRole.EmployeeId))
+        //        .ToListAsync();
+        //    return employees.ToLookup(x => x.Id);
+        //}
 
-        public async Task<ILookup<Guid, Crew>> GetCrewMembersByJobIdAsync(
-            IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken)
-        {
-            var list = await _db.CrewMembers
-                .Where(x => jobIds.Contains(x.JobId))
-                .ToListAsync(cancellationToken);
-            return list.ToLookup(x => x.JobId);
+        //public async Task<ILookup<Guid, Crew>> GetCrewMembersByJobIdAsync(
+        //    IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken)
+        //{
+        //    var list = await _db.c
+        //        .Where(x => jobIds.Contains(x.JobId))
+        //        .ToListAsync(cancellationToken);
+        //    return list.ToLookup(x => x.JobId);
 
-        }
+        //}
     }
 }

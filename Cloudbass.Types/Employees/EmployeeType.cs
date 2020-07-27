@@ -23,6 +23,7 @@ namespace Cloudbass.Types.Employees
             descriptor.Field(x => x.FullName).Type<StringType>();
             descriptor.Field(x => x.PostNominals).Type<StringType>();
             descriptor.Field(x => x.Alergy).Type<StringType>();
+            descriptor.Field(x => x.Role).Type<StringType>();
             descriptor.Field(x => x.Bared).Type<StringType>();
             descriptor.Field(x => x.Email).Type<StringType>();
             descriptor.Field(x => x.NextOfKin).Type<StringType>();
@@ -44,7 +45,29 @@ namespace Cloudbass.Types.Employees
                 return dataLoader.LoadAsync(ctx.Parent<Employee>().CountyId);
             });
 
+
+            //////jobs
+            //descriptor.Field("Jobs")
+            //.Argument("employeeId", a => a.Type<NonNullType<IdType>>())
+            //.Type<NonNullType<ListType<NonNullType<JobType>>>>()
+            //.Resolver(ctx =>
+            //{
+            //    var jobRepository = ctx.Service<JobRepository>();
+
+
+            //    IDataLoader userDataLoader =
+            //        ctx.GroupDataLoader<Guid, Job>(
+
+            //            "GetJobsByEmployeeId",
+
+            //            jobRepository.GetJobsByEmployeeIdAsync);
+
+            //    return userDataLoader.LoadAsync(ctx.Argument<Guid>("employeeId"));
+
+            //});
+
             descriptor.Ignore(t => t.Id);
+
 
 
 

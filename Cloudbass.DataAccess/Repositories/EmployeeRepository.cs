@@ -85,15 +85,15 @@ namespace Cloudbass.DataAccess.Repositories
 
         //}
 
-        //public async Task<ILookup<string, Employee>> GetEmployeesByFullName(
-        //    IReadOnlyList<string> onjobs)
-        //{
-        //    var filterEmployee = await _db.Employees
-        //        .Where(x => onjobs.Contains(x.FullName))
-        //        .ToListAsync();
+        public async Task<ILookup<Guid, Employee>> GetEmployeesByJobIdAsync(
+            IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken)
+        {
+            var filterEmployee = await _db.Employees
+                .Where(x => jobIds.Contains(x.Id))
+                .ToListAsync();
 
-        //    return filterEmployee.ToLookup(x => x.FullName);
-        //}
+            return filterEmployee.ToLookup(x => x.Id);
+        }
 
         public async Task<IReadOnlyDictionary<string, Employee>> GetEmployeesByNameAsync(
         IReadOnlyList<string> nameList, CancellationToken cancellationToken)

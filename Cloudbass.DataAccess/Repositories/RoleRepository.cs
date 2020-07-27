@@ -19,31 +19,31 @@ namespace Cloudbass.DataAccess.Repositories
             _db = db;
         }
 
-        public async Task<Role> CreateRoleAsync(Role role, CancellationToken cancellation)
-        {
-            var addedRole = await _db.Roles.AddAsync(role);
-            await _db.SaveChangesAsync();
-            return addedRole.Entity;
-        }
+        //public async Task<Role> CreateRoleAsync(Role role, CancellationToken cancellation)
+        //{
+        //    var addedRole = await _db.Roles.AddAsync(role);
+        //    await _db.SaveChangesAsync();
+        //    return addedRole.Entity;
+        //}
 
-        public async Task<IEnumerable<Role>> GetAllRolesAsync()
-        {
-            return await _db.Roles.AsNoTracking().ToListAsync();
-        }
+        //public async Task<IEnumerable<Role>> GetAllRolesAsync()
+        //{
+        //    return await _db.Roles.AsNoTracking().ToListAsync();
+        //}
 
-        public async Task<Role> GetRoleByIdAsync(Guid roleId)
-        {
-            return await _db.Roles.FindAsync(roleId);
-        }
+        //public async Task<Role> GetRoleByIdAsync(Guid roleId)
+        //{
+        //    return await _db.Roles.FindAsync(roleId);
+        //}
 
-        public async Task<IReadOnlyDictionary<Guid, Role>> GetRolesByIdAsync(
-            IReadOnlyList<Guid> ids, CancellationToken cancellation)
-        {
-            var list = await _db.Roles.AsQueryable()
-                .Where(x => ids.Contains(x.Id))
-                .ToListAsync(cancellation);
-            return list.ToDictionary(x => x.Id);
-        }
+        //public async Task<IReadOnlyDictionary<Guid, Role>> GetRolesByIdAsync(
+        //    IReadOnlyList<Guid> ids, CancellationToken cancellation)
+        //{
+        //    var list = await _db.Roles.AsQueryable()
+        //        .Where(x => ids.Contains(x.Id))
+        //        .ToListAsync(cancellation);
+        //    return list.ToDictionary(x => x.Id);
+        //}
 
 
         //public IQueryable<Role> GetAllRole()
