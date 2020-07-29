@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cloudbass.Database.Migrations
 {
     [DbContext(typeof(CloudbassContext))]
-    [Migration("20200727210054_InitialC")]
-    partial class InitialC
+    [Migration("20200728223033_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,14 +69,9 @@ namespace Cloudbass.Database.Migrations
                     b.Property<Guid>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("EmployeeId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("JobId", "EmployeeId");
 
                     b.HasIndex("EmployeeId");
-
-                    b.HasIndex("EmployeeId1");
 
                     b.ToTable("Crew");
                 });
@@ -254,10 +249,6 @@ namespace Cloudbass.Database.Migrations
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Cloudbass.Database.Models.Employee", null)
-                        .WithMany("CrewMembers")
-                        .HasForeignKey("EmployeeId1");
 
                     b.HasOne("Cloudbass.Database.Models.Job", "Job")
                         .WithMany("CrewMembers")

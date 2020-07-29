@@ -37,7 +37,7 @@ namespace Cloudbass.Types.Employees
 
                 //1- (BatchDataLoader)it waits until all the counties ids are queued.
                 IDataLoader dataLoader = ctx.BatchDataLoader<Guid, County>(
-                    "CountyById",
+                    "GetCountyById",
 
                     //2- Then it fires of the GetCountiesByIdAsync method only when all the ids are collected.
                     countyRepository.GetCountiesByIdAsync);
@@ -66,7 +66,7 @@ namespace Cloudbass.Types.Employees
 
             //});
 
-            descriptor.Ignore(t => t.Id);
+            //descriptor.Ignore(t => t.Id);
 
 
 

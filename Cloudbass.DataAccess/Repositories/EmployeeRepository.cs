@@ -73,26 +73,17 @@ namespace Cloudbass.DataAccess.Repositories
             return await _db.Employees.FindAsync(id);
         }
 
-        //search employees involved in a job
-        //public async Task<ILookup<Guid, Employee>> GetEmployeesByJobIdAsync(
-        //    IReadOnlyList<Guid> jobIds)
-        //{
-        //    var list = await _db.Employees
-        //        .Where(x => jobIds.Contains(x.HasRoles.))
-        //        .ToListAsync();
-        //    return employees.ToLookup(x => x.Id);
 
 
-        //}
-
-        public async Task<ILookup<Guid, Employee>> GetEmployeesByJobIdAsync(
+        //this is to track and fetch every employee involved in selected jobId
+        public async Task<ILookup<Guid, Crew>> GetEmployeesByJobIdAsync(
             IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken)
         {
-            var filterEmployee = await _db.Employees
-                .Where(x => jobIds.Contains(x.Id))
+            var filterEmployee = await _db.Crew
+                .Where(x => jobIds.Contains(x.JobId))
                 .ToListAsync();
 
-            return filterEmployee.ToLookup(x => x.Id);
+            return filterEmployee.ToLookup(x => x.JobId);
         }
 
         public async Task<IReadOnlyDictionary<string, Employee>> GetEmployeesByNameAsync(
@@ -118,19 +109,5 @@ namespace Cloudbass.DataAccess.Repositories
 
 
 
-        //public Task AddEmployeeAsync(Employee employee)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public IQueryable<Employee> GetAll()
-        //{
-        //    return _db.Employees.AsQueryable();
-        //}
-
-        //public Employee GetEmployee(Guid id)
-        //{
-        //    return _db.Employees.SingleOrDefault(x => x.Id == id);
-        //}
     }
 }

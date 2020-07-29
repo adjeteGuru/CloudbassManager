@@ -40,7 +40,7 @@ namespace Cloudbass.Types
                   var jobRepository = ctx.Service<JobRepository>();
 
                   IDataLoader dataLoader = ctx.GroupDataLoader<Guid, Job>(
-                        "JobByIds",
+                        "GetJobsByClientId",
                         jobRepository.GetJobsByClientIdAsync);
 
                   return dataLoader.LoadAsync(ctx.Argument<Guid>("clientId"));

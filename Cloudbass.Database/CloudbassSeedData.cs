@@ -38,23 +38,23 @@ namespace Cloudbass.Database
                                        Employees=new List<Employee>
                                        {
 
-                                           new Employee
-                                           {
-                                                FullName = "Mike Bob",
-                                                Email = "mike.bob@gmail.com",
-                                                 Role = "Rigger",
+                                           //new Employee
+                                           //{
+                                           //     FullName = "Mike Bob",
+                                           //     Email = "mike.bob@gmail.com",
+                                           //      Role = "Rigger",
 
-                                                Users= new List<User>
-                                                {
-                                                   new User
-                                                   {
-                                                       Name = "SuperAdmin",
-                                                       Password= Convert.ToBase64String(hash),
-                                                       Salt = salt,
-                                                   }
-                                                }
+                                           //     Users= new List<User>
+                                           //     {
+                                           //        new User
+                                           //        {
+                                           //            Name = "SuperAdmin",
+                                           //            Password= Convert.ToBase64String(hash),
+                                           //            Salt = salt,
+                                           //        }
+                                           //     }
 
-                                           },
+                                           //},
 
 
                                            new Employee
@@ -123,14 +123,14 @@ namespace Cloudbass.Database
 
                 var clients = new List<Client>
                 {
-                    new Client
-                    {
-                        Name = "ITV",
-                        ToContact = "Alexander Cooper",
-                        Email = "alexander@gmail.com",
-                        Address = "PO Box 12 london",
-                        Tel = "02051122345"
-                    },
+                    //new Client
+                    //{
+                    //    Name = "ITV",
+                    //    ToContact = "Alexander Cooper",
+                    //    Email = "alexander@gmail.com",
+                    //    Address = "PO Box 12 london",
+                    //    Tel = "02051122345"
+                    //},
                     new Client
                     {
                         Name = "BBC",
@@ -141,19 +141,19 @@ namespace Cloudbass.Database
 
                                 Jobs= new List<Job>
                                 {
-                                    new Job
-                                    {
-                                         Name = "SPL",
-                                        Description = "friendly",
-                                        Location = "Scotland celtic park",
-                                        Coordinator = "Dixon",
-                                        CreatedAt = DateTime.Parse("2020-04-18"),
-                                        StartDate = DateTime.Parse("2020-05-10"),
-                                        EndDate = DateTime.Parse("2020-05-13"),
+                                    //new Job
+                                    //{
+                                    //     Name = "SPL",
+                                    //    Description = "friendly",
+                                    //    Location = "Scotland celtic park",
+                                    //    Coordinator = "Dixon",
+                                    //    CreatedAt = DateTime.Parse("2020-04-18"),
+                                    //    StartDate = DateTime.Parse("2020-05-10"),
+                                    //    EndDate = DateTime.Parse("2020-05-13"),
 
-                                        CommercialLead = "Francis Akai",
+                                    //    CommercialLead = "Francis Akai",
 
-                                    },
+                                    //},
 
                                     new Job
                                     {

@@ -116,7 +116,7 @@ namespace CloudbassManager
             services.AddSingleton<CountyType>();
             services.AddSingleton<HasRoleType>();
             services.AddSingleton<CrewType>();
-            services.AddSingleton<QueryType>();
+
 
             //this is to record the job not found exception
             services.AddErrorFilter<JobNotFoundExceptionFilter>();

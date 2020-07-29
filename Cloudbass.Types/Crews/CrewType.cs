@@ -27,7 +27,7 @@ namespace Cloudbass.Types.Crews
                 var jobRepository = ctx.Service<JobRepository>();
 
                 IDataLoader dataloader = ctx.BatchDataLoader<Guid, Job>(
-                    "JobById",
+                    "GetJobsById",
 
                     jobRepository.GetJobsByIdAsync);
 
@@ -40,17 +40,20 @@ namespace Cloudbass.Types.Crews
                 var employeeRepository = ctx.Service<EmployeeRepository>();
 
                 IDataLoader dataloader = ctx.BatchDataLoader<Guid, Employee>(
-                    "EmployeeById",
+                    "GetEmployeesById",
 
                     employeeRepository.GetEmployeesByIdAsync);
 
-                return dataloader.LoadAsync(ctx.Parent<Employee>().Id);
+                return dataloader.LoadAsync(ctx.Parent<Crew>().EmployeeId);
             });
+
+            descriptor.Field(x => x.EmployeeId)
+                .Type<ListType<EmployeeType>>();
 
 
             //descriptor.Ignore(t => t.Id);
-            descriptor.Ignore(t => t.JobId);
-            descriptor.Ignore(t => t.EmployeeId);
+            //descriptor.Ignore(t => t.JobId);
+            //descriptor.Ignore(t => t.EmployeeId);
 
         }
     }

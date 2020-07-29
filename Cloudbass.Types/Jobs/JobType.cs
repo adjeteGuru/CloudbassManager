@@ -44,7 +44,7 @@ namespace Cloudbass.Types.Jobs
                 var clientRepository = ctx.Service<ClientRepository>();
 
                 IDataLoader dataloader = ctx.BatchDataLoader<Guid, Client>(
-                    "ClientById",
+                    "GetClientsById",
                     clientRepository.GetClientsByIdAsync);
 
                 return dataloader.LoadAsync(ctx.Parent<Job>().ClientId);
@@ -62,7 +62,8 @@ namespace Cloudbass.Types.Jobs
 
                   IDataLoader userDataLoader =
                       ctx.GroupDataLoader<Guid, Schedule>(
-                          "ScheduleByIds",
+                          "GetSchedulesByJobId",
+
                           scheduleRepository.GetSchedulesByJobIdAsync);
 
                   return userDataLoader.LoadAsync(ctx.Argument<Guid>("jobId"));
@@ -72,16 +73,16 @@ namespace Cloudbass.Types.Jobs
             ////employee
             descriptor.Field("employees")
             .Argument("jobId", a => a.Type<NonNullType<IdType>>())
-            .Type<NonNullType<ListType<NonNullType<EmployeeType>>>>()
+            .Type<NonNullType<ListType<NonNullType<CrewType>>>>()
             .Resolver(ctx =>
             {
                 var employeeRepository = ctx.Service<EmployeeRepository>();
 
 
                 IDataLoader userDataLoader =
-                    ctx.GroupDataLoader<Guid, Employee>(
+                    ctx.GroupDataLoader<Guid, Crew>(
 
-                        "EmployeesByIds",
+                        "GetEmployeesByIJobd",
 
                         employeeRepository.GetEmployeesByJobIdAsync);
 
@@ -89,8 +90,20 @@ namespace Cloudbass.Types.Jobs
 
             });
 
+            //this resolver allows to fetch Employee who has logged the job (with N+1 problems eradicated)
+            descriptor.Field("crewMembers").Type<NonNullType<CrewType>>().Resolver(ctx =>
+            {
+                var employeeRepository = ctx.Service<CrewRepository>();
 
-            //////crew
+                IDataLoader dataLoader = ctx.BatchDataLoader<Guid, Crew>(
+                    "GetEmployeeInvolved",
+                    employeeRepository.GetCrewMembersByIdAsync);
+
+                return dataLoader.LoadAsync(ctx.Parent<Job>().CrewMembers);
+            });
+
+
+            ////crew
             //descriptor.Field("crew")
             //.Argument("jobId", a => a.Type<NonNullType<IdType>>())
             //.Type<NonNullType<ListType<NonNullType<CrewType>>>>()
@@ -118,15 +131,15 @@ namespace Cloudbass.Types.Jobs
                 var employeeRepository = ctx.Service<EmployeeRepository>();
 
                 IDataLoader dataLoader = ctx.BatchDataLoader<string, Employee>(
-                    "ByName",
+                    "GetEmployeeByName",
                     employeeRepository.GetEmployeesByNameAsync);
 
                 return dataLoader.LoadAsync(ctx.Parent<Job>().CreatedBy);
             });
 
 
-            descriptor.Ignore(t => t.ClientId);
-            descriptor.Ignore(t => t.Id);
+            //descriptor.Ignore(t => t.ClientId);
+            //descriptor.Ignore(t => t.Id);
 
 
             //able to get the information of clients when we make a query about jobs

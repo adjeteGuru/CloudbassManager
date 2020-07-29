@@ -30,8 +30,8 @@ namespace Cloudbass.Database.Models
 
 
 
-        [GraphQLIgnore]
-        public List<Crew> CrewMembers { get; } = new List<Crew>();
+        //[GraphQLIgnore]
+        //public List<Crew> CrewMembers { get; } = new List<Crew>();
         //public ICollection<HasRole> HasRoles { get; set; }
 
         [GraphQLIgnore]

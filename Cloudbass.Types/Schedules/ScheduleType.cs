@@ -24,13 +24,14 @@ namespace Cloudbass.Types.Schedules
             descriptor.Field(x => x.Status).Type<EnumType<Status>>();
 
             //this resolver allows to fetch Employee who has logged the job (with N+1 problems eradicated) 
-            descriptor.Field("job").Type<NonNullType<JobType>>().Resolver(ctx =>
+            descriptor.Field("jobs").Type<NonNullType<JobType>>().Resolver(ctx =>
 
             {
                 var jobRepository = ctx.Service<JobRepository>();
 
                 IDataLoader dataloader = ctx.BatchDataLoader<Guid, Job>(
-                    "JobById",
+                    "GetJobById",
+
                     jobRepository.GetJobsByIdAsync);
 
                 return dataloader.LoadAsync(ctx.Parent<Schedule>().JobId);

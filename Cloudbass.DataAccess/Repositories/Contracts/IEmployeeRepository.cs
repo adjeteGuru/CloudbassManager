@@ -30,7 +30,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
         Task<ILookup<Guid, Employee>> GetEmployeesByCountyIdAsync(
        IReadOnlyList<Guid> countyIds, CancellationToken cancellationToken);
 
-        Task<ILookup<Guid, Employee>> GetEmployeesByJobIdAsync(
+        Task<ILookup<Guid, Crew>> GetEmployeesByJobIdAsync(
          IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken);
 
 

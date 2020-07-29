@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Cloudbass.Database.Migrations
 {
-    public partial class InitialC : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -119,8 +119,7 @@ namespace Cloudbass.Database.Migrations
                 columns: table => new
                 {
                     EmployeeId = table.Column<Guid>(nullable: false),
-                    JobId = table.Column<Guid>(nullable: false),
-                    EmployeeId1 = table.Column<Guid>(nullable: true)
+                    JobId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -131,12 +130,6 @@ namespace Cloudbass.Database.Migrations
                         principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Crew_Employees_EmployeeId1",
-                        column: x => x.EmployeeId1,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Crew_Jobs_JobId",
                         column: x => x.JobId,
@@ -176,11 +169,6 @@ namespace Cloudbass.Database.Migrations
                 name: "IX_Crew_EmployeeId",
                 table: "Crew",
                 column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Crew_EmployeeId1",
-                table: "Crew",
-                column: "EmployeeId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_CountyId",

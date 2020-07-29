@@ -67,14 +67,9 @@ namespace Cloudbass.Database.Migrations
                     b.Property<Guid>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("EmployeeId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("JobId", "EmployeeId");
 
                     b.HasIndex("EmployeeId");
-
-                    b.HasIndex("EmployeeId1");
 
                     b.ToTable("Crew");
                 });
@@ -252,10 +247,6 @@ namespace Cloudbass.Database.Migrations
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Cloudbass.Database.Models.Employee", null)
-                        .WithMany("CrewMembers")
-                        .HasForeignKey("EmployeeId1");
 
                     b.HasOne("Cloudbass.Database.Models.Job", "Job")
                         .WithMany("CrewMembers")
