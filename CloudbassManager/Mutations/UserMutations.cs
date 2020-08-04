@@ -22,12 +22,20 @@ namespace CloudbassManager.Mutations
     [ExtendObjectType(Name = "Mutation")]
     public class UserMutations
     {
+        private readonly IUserRepository _userRepository;
+        private readonly IEmployeeRepository _employeeRepository;
+        public UserMutations(IUserRepository userRepository, IEmployeeRepository employeeRepository)
+        {
+            _userRepository = userRepository;
+            _employeeRepository = employeeRepository;
+        }
 
         /// <summary>
         /// Creates a user.
         /// </summary>
         public async Task<CreateUserPayload> CreateUser(
             CreateUserInput input,
+            //User use, Employee employe,
             [Service] CloudbassContext db,
             //[Service]IUserRepository userRepository,
             //[Service]IEmployeeRepository employeeRepository,
@@ -35,27 +43,27 @@ namespace CloudbassManager.Mutations
             /*CancellationToken cancellationToken*/)
         {
             //create a variable for dupication name check
-            var nameCheck = await db.Users.FirstOrDefaultAsync(t => t.Name == input.Name);
+            //var nameCheck = await db.Users.FirstOrDefaultAsync(t => t.Name == input.Name);
 
-            if (string.IsNullOrWhiteSpace(input.Name))
-            {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage("The name cannot be empty.")
-                        .SetCode("NAME_EMPTY")
-                        .Build());
-            }
+            //if (string.IsNullOrWhiteSpace(input.Name))
+            //{
+            //    throw new QueryException(
+            //        ErrorBuilder.New()
+            //            .SetMessage("The name cannot be empty.")
+            //            .SetCode("NAME_EMPTY")
+            //            .Build());
+            //}
 
             //check dupication of the new entry
-            if (nameCheck != null)
-            {
-                // throw error if the new username is already taken
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage("Name \"" + input.Name + "\" is already taken")
-                        .SetCode("NAME_EXIST")
-                        .Build());
-            }
+            //if (nameCheck != null)
+            //{
+            //    // throw error if the new username is already taken
+            //    throw new QueryException(
+            //        ErrorBuilder.New()
+            //            .SetMessage("Name \"" + input.Name + "\" is already taken")
+            //            .SetCode("NAME_EXIST")
+            //            .Build());
+            //}
 
 
 
@@ -106,17 +114,17 @@ namespace CloudbassManager.Mutations
 
 
             //create a variable for exiting email check
-            var emailCheck = await db.Users.FirstOrDefaultAsync(x => x.Email == input.Email);
+            //var emailCheck = await db.Users.FirstOrDefaultAsync(x => x.Email == input.Email);
 
             //check dupication of the new entry
-            if (emailCheck != null)
-            {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage(input.Email + " is already been taken! Please chose different email.")
-                        .SetCode("EMAIL_EXIST")
-                        .Build());
-            }
+            //if (emailCheck != null)
+            //{
+            //    throw new QueryException(
+            //        ErrorBuilder.New()
+            //            .SetMessage(input.Email + " is already been taken! Please chose different email.")
+            //            .SetCode("EMAIL_EXIST")
+            //            .Build());
+            //}
 
             if (!string.IsNullOrWhiteSpace(input.Email))
             {
@@ -138,10 +146,12 @@ namespace CloudbassManager.Mutations
 
             db.Employees.Add(employee);
 
-            //await employeeRepository.CreateEmployeeAsync(employee, cancellationToken).ConfigureAwait(false);
+            //await employeeRepository.CreateEmployeeAsync(employee/*, cancellationToken*/).ConfigureAwait(false);
 
             //await userRepository.CreateUserAsync(user).ConfigureAwait(false);
             await db.SaveChangesAsync();
+
+
 
 
             await eventSender.SendAsync("CreateUser", user);

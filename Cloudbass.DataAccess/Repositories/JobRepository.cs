@@ -24,8 +24,20 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
         //To create
-        public async Task<Job> CreateJobAsync(Job job, CancellationToken cancellationToken)
+        public async Task<Job> CreateJobAsync(Job job/*, CancellationToken cancellationToken*/)
         {
+            //    //Duplication job check
+            var checkDuplication = await _db.Jobs.FirstOrDefaultAsync(x => x.Name == job.Name && x.StartDate == job.StartDate);
+
+            if (checkDuplication != null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("Name " + job.Name + " is already scheduled on same Date " + job.StartDate)
+                       .SetCode("NAME_EXIST")
+                       .Build());
+            }
+
             var addedJob = await _db.Jobs.AddAsync(job);
             await _db.SaveChangesAsync();
             return addedJob.Entity;

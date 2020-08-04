@@ -65,6 +65,7 @@ namespace Cloudbass.Database
                     ((BaseEntity)entity.Entity).CreatedAt = now;
                 }
                 ((BaseEntity)entity.Entity).UpdatedAt = now;
+
             }
         }
 

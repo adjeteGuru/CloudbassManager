@@ -9,7 +9,7 @@ namespace Cloudbass.Database.Models
     {
         InQuotation, Active, Cancelled, Completed
     }
-    public class Job
+    public class Job /*: BaseEntity*/
     {
         //[BsonId]
         public Guid Id { get; set; }
@@ -20,7 +20,7 @@ namespace Cloudbass.Database.Models
 
         public string Location { get; set; }
 
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public DateTime? StartDate { get; set; }
 

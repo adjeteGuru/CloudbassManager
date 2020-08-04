@@ -176,11 +176,12 @@ namespace Cloudbass.DataAccess.Repositories
         public async Task<User> CreateUserAsync(User user)
         {
             var addedUser = await _db.Users.AddAsync(user);
+            //_db.SaveChanges();
             await _db.SaveChangesAsync()
             .ConfigureAwait(false);
             return addedUser.Entity;
         }
 
-       
+
     }
 }
