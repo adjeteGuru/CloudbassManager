@@ -1,12 +1,14 @@
 ﻿using Cloudbass.Database.Models;
 using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Cloudbass.DataAccess.Repositories.Contracts
+namespace Cloudbass.Types.Jobs
 {
     public class UpdateJobInput
     {
         public UpdateJobInput(string name, string description, string location, DateTime? createdAt, DateTime? startDate, DateTime? tXDate,
-          DateTime? endDate, bool paid, string coordinator, string commercialLead, int clientId, Status status)
+          DateTime? endDate, bool paid, string coordinator, string commercialLead, Guid clientId, Status status, string createdBy)
         {
             Name = name;
             Location = location;
@@ -20,10 +22,11 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
             CommercialLead = commercialLead;
             ClientId = clientId;
             Status = status;
+            CreatedBy = createdBy;
         }
 
 
-        public Guid Id { get; set; }
+        //public Guid Id { get; set; }
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -43,7 +46,9 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 
         public string CommercialLead { get; set; }
 
-        public int ClientId { get; set; }
+        public Guid ClientId { get; set; }
+
+        public string CreatedBy { get; set; }
 
         public Status Status { get; set; }
 

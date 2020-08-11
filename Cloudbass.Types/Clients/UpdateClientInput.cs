@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cloudbass.DataAccess.Repositories.Contracts.Inputs
+namespace Cloudbass.Types.Clients
 {
     public class UpdateClientInput
     {

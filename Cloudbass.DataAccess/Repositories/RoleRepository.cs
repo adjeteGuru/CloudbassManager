@@ -21,10 +21,12 @@ namespace Cloudbass.DataAccess.Repositories
 
         //public async Task<Role> CreateRoleAsync(Role role, CancellationToken cancellation)
         //{
-        //    var addedRole = await _db.Roles.AddAsync(role);
+        //    var addedRole = await _db.Roles.AddAsync(role)
+        //        .ConfigureAwait(false);
         //    await _db.SaveChangesAsync();
         //    return addedRole.Entity;
         //}
+
 
         //public async Task<IEnumerable<Role>> GetAllRolesAsync()
         //{
@@ -45,15 +47,5 @@ namespace Cloudbass.DataAccess.Repositories
         //    return list.ToDictionary(x => x.Id);
         //}
 
-
-        //public IQueryable<Role> GetAllRole()
-        //{
-        //    return _db.Roles.AsQueryable();
-        //}
-
-        //public Role GetRole(int id)
-        //{
-        //    return _db.Roles.SingleOrDefault(x => x.Id == id);
-        //}
     }
 }

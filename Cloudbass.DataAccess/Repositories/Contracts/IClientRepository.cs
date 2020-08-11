@@ -1,4 +1,4 @@
-﻿using Cloudbass.DataAccess.Repositories.Contracts.Inputs;
+﻿
 using Cloudbass.Database.Models;
 using System;
 using System.Collections.Generic;

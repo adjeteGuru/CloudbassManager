@@ -1,9 +1,10 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
-using Cloudbass.Types.Input.Job;
+using Cloudbass.Types.Jobs;
 using Cloudbass.Types.Payload;
 using HotChocolate;
+using HotChocolate.Execution;
 using HotChocolate.Subscriptions;
 using HotChocolate.Types;
 using System;
@@ -17,26 +18,20 @@ namespace CloudbassManager.Mutations
     [ExtendObjectType(Name = "Mutation")]
     public class JobMutations
     {
-        private readonly IJobRepository _jobRepository;
-        public JobMutations(IJobRepository jobRepository)
+        //CREATE
+        public async Task<CreateJobPayload> AddJobAsync(
+            CreateJobInput input,
+            [Service] ITopicEventSender eventSender,
+             [Service] IJobRepository jobRepository,
+            CancellationToken cancellationToken)
         {
-            _jobRepository = jobRepository ?? throw new ArgumentNullException(nameof(jobRepository));
-        }
 
-
-
-        public async Task<Job> CreateJobAsync(JobInput input,
-            //[Service] IJobRepository jobRepository,
-            [Service] ITopicEventSender eventSender
-            /*CancellationToken cancellationToken*/)
-        {
             var addedJob = new Job
             {
 
                 Name = input.Name,
                 Description = input.Description,
                 Location = input.Location,
-                //CreatedAt = input.CreatedAt,
                 StartDate = input.StartDate,
                 EndDate = input.EndDate,
                 TXDate = input.TXDate,
@@ -44,33 +39,107 @@ namespace CloudbassManager.Mutations
                 Coordinator = input.Coordinator,
                 CommercialLead = input.CommercialLead,
                 ClientId = input.ClientId,
-                Status = input.Status
+                Status = input.Status,
+                CreatedBy = input.CreatedBy
             };
 
 
-            await
-            _jobRepository.CreateJobAsync(addedJob/*, cancellationToken*/);
+            await jobRepository.CreateJobAsync(addedJob, cancellationToken).ConfigureAwait(false);
 
-            await eventSender.SendAsync("CreateJob", addedJob);
+            await eventSender.SendAsync(addedJob, cancellationToken).ConfigureAwait(false);
 
-            return addedJob;
+            return new CreateJobPayload(addedJob);
+        }
+
+
+        //UPDATE
+        public async Task<UpdateJobPayload> UpdateJobAsync(
+            UpdateJobInput input, Guid id,
+           [Service] ITopicEventSender eventSender,
+           [Service] IJobRepository jobRepository,
+           CancellationToken cancellationToken)
+        {
+
+            var jobToUpdate = await jobRepository.GetJobByIdAsync(id);
+
+
+
+            if (jobToUpdate == null)
+            {
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage("matching Job id not found in database.")
+                        .SetCode("JOB_NOT_FOUND")
+                        .Build());
+            }
+
+            if (!string.IsNullOrWhiteSpace(input.Name))
+            {
+                jobToUpdate.Name = input.Name;
+            }
+
+            if (!string.IsNullOrWhiteSpace(input.Description))
+            {
+                jobToUpdate.Description = input.Description;
+            }
+
+            if (!string.IsNullOrWhiteSpace(input.Location))
+            {
+                jobToUpdate.Coordinator = input.Location;
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(input.Coordinator))
+            {
+                jobToUpdate.Coordinator = input.Coordinator;
+            }
+
+            if (!string.IsNullOrWhiteSpace(input.CommercialLead))
+            {
+                jobToUpdate.CommercialLead = input.CommercialLead;
+            }
+
+
+
+            if (!string.IsNullOrWhiteSpace(input.Status.ToString()))
+            {
+                jobToUpdate.Status = input.Status;
+            }
+
+            if (input.StartDate != null)
+            {
+                jobToUpdate.StartDate = input.StartDate;
+            }
+
+            if (input.TXDate != null)
+            {
+                jobToUpdate.TXDate = input.TXDate;
+            }
+
+            if (input.EndDate != null)
+            {
+                jobToUpdate.EndDate = input.EndDate;
+            }
+
+            bool? paid = false;
+            if (paid == true)
+            {
+                jobToUpdate.Paid = input.Paid;
+            }
+
+            if (!string.IsNullOrWhiteSpace(input.CreatedBy))
+            {
+                jobToUpdate.CommercialLead = input.CreatedBy;
+            }
+
+
+            await jobRepository.UpdateJobAsync(jobToUpdate, cancellationToken).ConfigureAwait(false);
+
+            await eventSender.SendAsync(jobToUpdate, cancellationToken).ConfigureAwait(false);
+
+            return new UpdateJobPayload(jobToUpdate);
 
         }
 
-        //public Job CreateJob(CreateJobInput input)
-        //{
-        //    return _jobRepository.Create(input);
-        //}
-
-        //public Job DeleteJob(DeleteJobInput input)
-        //{
-        //    return _jobRepository.Delete(input);
-        //}
-
-
-        //public Job UpdateJob(UpdateJobInput input, Guid id)
-        //{
-        //    return _jobRepository.Update(input, id);
-        //}
     }
 }

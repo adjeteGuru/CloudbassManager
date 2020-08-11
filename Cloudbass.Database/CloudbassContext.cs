@@ -28,7 +28,7 @@ namespace Cloudbass.Database
 
         // public DbSet<Role> Roles { get; set; }
 
-        public DbSet<Crew> Crew { get; set; }
+        public DbSet<Crew> Crews { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Crew>()

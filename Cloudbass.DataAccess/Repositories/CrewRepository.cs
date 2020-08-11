@@ -22,21 +22,26 @@ namespace Cloudbass.DataAccess.Repositories
 
         public async Task<Crew> CreateCrewAsync(Crew crew)
         {
-            var addedCrew = await _db.Crew.AddAsync(crew);
+            var addedCrew = await _db.Crews.AddAsync(crew);
             await _db.SaveChangesAsync();
             return addedCrew.Entity;
         }
 
         public async Task<IEnumerable<Crew>> GetCrewAsync()
         {
-            return await _db.Crew
+            return await _db.Crews
                  .AsNoTracking().ToListAsync();
+        }
+
+        public Task<Crew> GetCrewMemberByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<IReadOnlyDictionary<Guid, Crew>> GetCrewMembersByIdAsync(
             IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
         {
-            var list = await _db.Crew.AsQueryable()
+            var list = await _db.Crews.AsQueryable()
                 .Where(x => ids.Contains(x.EmployeeId))
                 .ToListAsync();
             return list.ToDictionary(x => x.EmployeeId);

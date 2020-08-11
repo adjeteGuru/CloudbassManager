@@ -14,7 +14,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 
         Task<Crew> CreateCrewAsync(Crew crew);
 
-        //Task<Crew> GetCrewMemberAsync(Crew crew);
+        Task<Crew> GetCrewMemberByIdAsync(Guid id);
 
         Task<IReadOnlyDictionary<Guid, Crew>> GetCrewMembersByIdAsync(
            IReadOnlyList<Guid> ids, CancellationToken cancellationToken);

@@ -1,5 +1,5 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
-using Cloudbass.DataAccess.Repositories.Contracts.Inputs;
+
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using Cloudbass.Utilities.CustomException;
@@ -24,7 +24,7 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
         //To create
-        public async Task<Job> CreateJobAsync(Job job/*, CancellationToken cancellationToken*/)
+        public async Task<Job> CreateJobAsync(Job job, CancellationToken cancellationToken)
         {
             //    //Duplication job check
             var checkDuplication = await _db.Jobs.FirstOrDefaultAsync(x => x.Name == job.Name && x.StartDate == job.StartDate);
@@ -82,150 +82,45 @@ namespace Cloudbass.DataAccess.Repositories
             return filterJobs.ToLookup(x => x.ClientId);
         }
 
-        public Task<IEnumerable<Job>> GetJobsByEmployeeIdAsync(Guid employeeId)
+        public async Task<Job> UpdateJobAsync(Job job, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var jobToUpdate = await _db.Jobs.FindAsync(job.Id);
+            _db.Jobs.Update(jobToUpdate);
+            await _db.SaveChangesAsync();
+            return jobToUpdate;
+
+
         }
 
-        //public async Task<ILookup<Guid, Job>> GetJobsByEmployeeIdAsync(
-        //    IReadOnlyList<Guid> employeeIds, CancellationToken cancellationToken)
+
+
+        public async Task<Job> DeleteJobAsync(Job job, CancellationToken cancellationToken)
+        {
+            //create a variable and check if job id match id field from the db
+            var jobToDelete = await _db.Jobs.FirstOrDefaultAsync(x => x.Id == job.Id);
+
+            if (jobToDelete == null)
+            {
+                throw new JobNotFoundException() { JobId = job.Id };
+            }
+
+            _db.Jobs.Remove(jobToDelete);
+
+            await _db.SaveChangesAsync();
+
+            return jobToDelete;
+        }
+
+
+
+        //public async Task<Job> CreateJobMembersAsync(Guid id, Guid hasRoleId, CancellationToken cancellationToken)
         //{
-        //    var list = await _db.Jobs
-        //        .Where(x => employeeIds.Contains(x.i))
-        //        .ToListAsync(cancellationToken);
-        //    return jobs.ToLookup(x => x.Name);
-        //}
+        //var jobToAllocate = await _db.Jobs.Where(x => x.Id == id).FirstOrDefaultAsync();
+        //var crewMembers = _db.Jobs.
 
-
-
-        //public async Task<ILookup<string, Job>> GetEmployeesByJobName(
-        //   IReadOnlyList<string> onjobs, CancellationToken cancellationToken)
-        //{
-        //    var jobs = await _db.Jobs
-        //        .Where(x => onjobs.Contains(x.Name))
-        //        .ToListAsync(cancellationToken);
-        //    return jobs.ToLookup(x => x.Name);
-        //}
-
-        //public Task UpdateJobAsync(Job job, CancellationToken cancellationToken)
-        //{
         //    throw new NotImplementedException();
         //}
 
-        ////this create an object and assigned inputs data to store into job db as new record
-        //public Job Create(CreateJobInput input)
-        //{
-        //    //Duplication job check
-        //    var checkDuplication = _db.Jobs.FirstOrDefault(x => x.StartDate == input.StartDate && x.Name == input.Name);
-
-        //    if (checkDuplication != null)
-        //    {
-        //        throw new QueryException(
-        //           ErrorBuilder.New()
-        //               .SetMessage("Name " + input.Name + " is already scheduled on same Date " + input.StartDate)
-        //               .SetCode("NAME_EXIST")
-        //               .Build());
-        //    }
-
-        //    var job = new Job
-        //    {
-        //        Name = input.Name,
-
-        //        Description = input.Description,
-        //        Location = input.Location,
-        //        CreatedAt = input.CreatedAt,
-        //        StartDate = input.StartDate,
-        //        EndDate = input.EndDate,
-        //        TXDate = input.TXDate,
-        //        Paid = input.Paid,
-        //        Coordinator = input.Coordinator,
-        //        CommercialLead = input.CommercialLead,
-        //        ClientId = input.ClientId,
-        //        Status = input.Status
-
-        //    };
-
-        //    _db.Jobs.Add(job);
-
-        //    _db.SaveChanges();
-
-        //    return job;
-        //}
-
-
-        //public Job Delete(DeleteJobInput input)
-        //{
-        //    //create a variable and check if input id match id field from the db
-        //    var jobToDelete = _db.Jobs.FirstOrDefault(x => x.Id == input.Id);
-
-        //    if (jobToDelete == null)
-        //    {
-        //        throw new JobNotFoundException() { JobId = input.Id };
-        //    }
-
-        //    _db.Jobs.Remove(jobToDelete);
-
-        //    _db.SaveChanges();
-
-        //    return jobToDelete;
-        //}
-
-        //public Job Update(UpdateJobInput input, Guid id)
-        //{
-        //    //quick search for input id from identical db id 
-        //    var jobToUpdate = _db.Jobs.Find(id);
-
-        //    if (jobToUpdate == null)
-        //    {
-        //        throw new JobNotFoundException() { JobId = input.Id };
-        //    }
-
-        //    if (!string.IsNullOrWhiteSpace(input.Name))
-        //    {
-        //        jobToUpdate.Name = input.Name;
-        //    }
-
-        //    if (!string.IsNullOrWhiteSpace(input.Description))
-        //    {
-        //        jobToUpdate.Description = input.Description;
-        //    }
-
-        //    if (!string.IsNullOrWhiteSpace(input.Coordinator))
-        //    {
-        //        jobToUpdate.Coordinator = input.Coordinator;
-        //    }
-
-        //    if (!string.IsNullOrWhiteSpace(input.CommercialLead))
-        //    {
-        //        jobToUpdate.CommercialLead = input.CommercialLead;
-        //    }
-
-        //    if (!string.IsNullOrWhiteSpace(input.Status.ToString()))
-        //    {
-        //        jobToUpdate.Status = input.Status;
-        //    }
-
-        //    if (input.StartDate != null)
-        //    {
-        //        jobToUpdate.StartDate = input.StartDate;
-        //    }
-
-        //    if (input.TXDate != null)
-        //    {
-        //        jobToUpdate.TXDate = input.TXDate;
-        //    }
-
-        //    if (input.EndDate != null)
-        //    {
-        //        jobToUpdate.EndDate = input.EndDate;
-        //    }
-
-        //    _db.Jobs.Update(jobToUpdate);
-
-        //    _db.SaveChanges();
-
-        //    return jobToUpdate;
-        //}
 
 
         //public IEnumerable<Job> GetJobsForClient(int clientId, int lastJob)

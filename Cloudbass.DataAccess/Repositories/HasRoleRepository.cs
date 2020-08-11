@@ -22,9 +22,11 @@ namespace Cloudbass.DataAccess.Repositories
 
         //public async Task<HasRole> CreateHasRoleAsync(HasRole hasRole, CancellationToken cancellationToken)
         //{
-        //    var addedHasRole = await _db.HasRoles.AddAsync(hasRole);
-        //    await _db.SaveChangesAsync()
+        //    var addedHasRole = await _db.HasRoles.AddAsync(hasRole)
+
         //        .ConfigureAwait(false);
+        //    await _db.SaveChangesAsync();
+        //    //_db.SaveChangesAsync();
         //    return addedHasRole.Entity;
         //}
 
@@ -59,14 +61,26 @@ namespace Cloudbass.DataAccess.Repositories
 
 
 
-        //search employees involved in a job
-        //public async Task<ILookup<Guid, HasRole>> GetEmployeesByJobIdAsync(
-        //    IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken)
+        ////search employees involved in a job
+        //public async Task<ILookup<Guid, HasRole>> GetEmployeesInvoledInJob(
+        //    IReadOnlyList<Guid> onjobs)
         //{
         //    var employees = await _db.HasRoles
-        //         .Where(x => jobIds.Contains(x.EmployeeId))
-        //         .ToListAsync(cancellationToken);
-        //    return employees.ToLookup(x => x.EmployeeId);
+        //         .Where(x => onjobs.Contains(x.Id))
+        //         .ToListAsync();
+        //    return employees.ToLookup(x => x.Id);
         //}
+
+        //public async Task<ILookup<Guid, Crew>> GetEmployeesByJobIdAsync(
+        //    IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken)
+        //{
+        //    var filterEmployee = await _db.Crews
+        //        .Where(x => jobIds.Contains(x.JobId))
+        //        .ToListAsync();
+
+        //    return filterEmployee.ToLookup(x => x.JobId);
+        //}
+
+
     }
 }

@@ -20,11 +20,11 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
         public async Task<Employee> CreateEmployeeAsync(
-            Employee employee, CancellationToken cancellationToken)
+           Employee employee, CancellationToken cancellationToken)
         {
-            var addedEmployee = await _db.Employees.AddAsync(employee);
-            await _db.SaveChangesAsync()
+            var addedEmployee = await _db.Employees.AddAsync(employee)
                 .ConfigureAwait(false);
+            await _db.SaveChangesAsync();
             return addedEmployee.Entity;
 
         }
@@ -42,7 +42,6 @@ namespace Cloudbass.DataAccess.Repositories
                  .Where(x => ids.Contains(x.Id))
                  .ToListAsync(cancellationToken)
                  .ConfigureAwait(false);
-
             return list.ToDictionary(x => x.Id);
         }
 
@@ -80,7 +79,7 @@ namespace Cloudbass.DataAccess.Repositories
         public async Task<ILookup<Guid, Crew>> GetEmployeesByJobIdAsync(
             IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken)
         {
-            var filterEmployee = await _db.Crew
+            var filterEmployee = await _db.Crews
                 .Where(x => jobIds.Contains(x.JobId))
                 .ToListAsync();
 

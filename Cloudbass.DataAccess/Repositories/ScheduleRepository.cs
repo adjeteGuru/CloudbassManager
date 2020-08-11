@@ -1,5 +1,4 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
-using Cloudbass.DataAccess.Repositories.Contracts.Inputs;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using Microsoft.EntityFrameworkCore;
@@ -57,43 +56,10 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
 
-
         public async Task<Schedule> UpdateScheduleAsync(Schedule schedule, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-
-
-        //public Schedule CreateSchedule(CreateScheduleInput input)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Schedule DeleteSchedule(DeleteScheduleInput input)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-
-        //public Schedule GetSchedule(Guid id)
-        //{
-        //    return _db.Schedules.FirstOrDefault(x => x.Id == id);
-        //}
-
-        //public Schedule GetSchedulesForJob(Guid jobId)
-        //{
-        //    return _db.Schedules.Where(x => x.JobId == jobId);
-        //}
-
-        //public Schedule UpdateSchedule(UpdateJobInput input, Guid id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public IEnumerable<Schedule> GetSchedulesForJob(Guid jobId)
-        //{
-        //    return _db.Schedules.Where(x => x.JobId == jobId);
-        //}
     }
 }
