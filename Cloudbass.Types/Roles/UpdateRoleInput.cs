@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cloudbass.Types.Counties
+namespace Cloudbass.Types.Roles
 {
-    public class CreateCountyInput
+    public class UpdateRoleInput
     {
-        public CreateCountyInput(string name)
+        public UpdateRoleInput(string name)
         {
             Name = name;
         }

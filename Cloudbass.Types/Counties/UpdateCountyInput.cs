@@ -6,9 +6,10 @@ namespace Cloudbass.Types.Counties
 {
     public class UpdateCountyInput
     {
-        public UpdateCountyInput()
+        public UpdateCountyInput(string name)
         {
-
+            Name = name;
         }
+        public string Name { get; set; }
     }
 }

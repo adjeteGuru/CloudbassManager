@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cloudbass.Types.Counties
+namespace Cloudbass.Types.Roles
 {
-    public class CreateCountyInput
+    public class CreateRoleInput
     {
-        public CreateCountyInput(string name)
+        public CreateRoleInput(string name)
         {
             Name = name;
         }
+
         public string Name { get; }
     }
 }
