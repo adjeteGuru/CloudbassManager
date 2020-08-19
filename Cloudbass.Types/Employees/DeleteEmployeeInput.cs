@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cloudbass.Types.Counties
+namespace Cloudbass.Types.Employees
 {
-    public class DeleteCountyInput
+    public class DeleteEmployeeInput
     {
         public Guid Id { get; set; }
     }
