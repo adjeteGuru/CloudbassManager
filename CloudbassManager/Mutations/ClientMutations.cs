@@ -1,6 +1,5 @@
 ﻿using Cloudbass.DataAccess.Repositories;
 using Cloudbass.DataAccess.Repositories.Contracts;
-using Cloudbass.DataAccess.Repositories.Contracts.Inputs;
 using Cloudbass.Database.Models;
 using HotChocolate.Types;
 using System;
