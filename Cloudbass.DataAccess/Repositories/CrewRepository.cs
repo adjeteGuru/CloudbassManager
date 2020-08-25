@@ -20,7 +20,7 @@ namespace Cloudbass.DataAccess.Repositories
             _db = db;
         }
 
-        public async Task<Crew> CreateCrewAsync(Crew crew)
+        public async Task<Crew> CreateCrewAsync(Crew crew, CancellationToken cancellationToken)
         {
             var addedCrew = await _db.Crews.AddAsync(crew);
             await _db.SaveChangesAsync();

@@ -85,7 +85,7 @@ namespace CloudbassManager.Mutations
 
             if (!string.IsNullOrWhiteSpace(input.Location))
             {
-                jobToUpdate.Coordinator = input.Location;
+                jobToUpdate.Location = input.Location;
             }
 
 
@@ -129,7 +129,7 @@ namespace CloudbassManager.Mutations
 
             if (!string.IsNullOrWhiteSpace(input.CreatedBy))
             {
-                jobToUpdate.CommercialLead = input.CreatedBy;
+                jobToUpdate.CreatedBy = input.CreatedBy;
             }
 
 

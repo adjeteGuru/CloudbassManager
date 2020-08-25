@@ -50,13 +50,15 @@ namespace Cloudbass.DataAccess.Repositories
             return await _db.Counties.SingleOrDefaultAsync(x => x.Id == countyId);
         }
 
-        //public async Task<ILookup<string, County>> GetEmployeesByCounty(
-        //    IReadOnlyList<string> employees)
-        //{
-        //    var county = await _db.Counties
-        //        .Where(x => employees.Contains(x.Countys))
-        //        .ToListAsync();
-        //    return employees.ToLookup(x=>x.);
-        //}
+        public async Task<County> UpdateCountyAsync(
+            County county, CancellationToken cancellationToken)
+        {
+            var countyToUpdate = await _db.Counties.FindAsync(county.Id);
+            var updatedCounty = _db.Counties.Update(countyToUpdate);
+            await _db.SaveChangesAsync();
+            return updatedCounty.Entity;
+        }
+
+
     }
 }

@@ -12,7 +12,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
     {
         Task<IEnumerable<Crew>> GetCrewAsync();
 
-        Task<Crew> CreateCrewAsync(Crew crew);
+        Task<Crew> CreateCrewAsync(Crew crew, CancellationToken cancellationToken);
 
         Task<Crew> GetCrewMemberByIdAsync(Guid id);
 

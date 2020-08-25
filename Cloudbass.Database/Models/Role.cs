@@ -7,8 +7,8 @@ namespace Cloudbass.Database.Models
 {
     public class Role
     {
-        //public Guid Id { get; set; }
-        //public string Name { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
 
 
         //[GraphQLIgnore]
