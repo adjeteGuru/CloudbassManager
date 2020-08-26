@@ -10,7 +10,6 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public interface IEmployeeRepository
     {
-
         Task<IEnumerable<Employee>> GetAllEmployeesAsync();
 
         Task<Employee> GetEmployeeByIdAsync(Guid id);
@@ -26,19 +25,17 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
            IReadOnlyList<string> emails,
           CancellationToken cancellationToken);
 
-        //on test
         Task<ILookup<Guid, Employee>> GetEmployeesByCountyIdAsync(
        IReadOnlyList<Guid> countyIds, CancellationToken cancellationToken);
 
         Task<ILookup<Guid, Crew>> GetEmployeesByJobIdAsync(
          IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken);
 
-
-
-
         Task<Employee> CreateEmployeeAsync(Employee employee, CancellationToken cancellationToken);
 
         Task<Employee> UpdateEmployeeAsync(Employee employee, CancellationToken cancellationToken);
+
+        Task<Employee> DeleteEmployeeAsync(Employee employee, CancellationToken cancellationToken);
 
     }
 }

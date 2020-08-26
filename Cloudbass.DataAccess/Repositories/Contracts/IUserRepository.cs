@@ -1,6 +1,4 @@
 ﻿
-
-using Cloudbass.DataAccess.Repositories.Contracts.Inputs.User;
 using Cloudbass.Database.Models;
 using System;
 using System.Collections.Generic;
@@ -25,7 +23,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 
         //Task UpdatePasswordAsync(string email, string newPAsswordHash, string salt, CancellationToken cancellationToken = default);
 
-        //User Delete(DeleteUserInput input);
+        Task<User> DeleteUserAsync(User user, CancellationToken cancellationToken);
 
     }
 }

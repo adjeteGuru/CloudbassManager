@@ -1,6 +1,8 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
+using HotChocolate;
+using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -62,17 +64,16 @@ namespace Cloudbass.DataAccess.Repositories
             var employeeToUpdate = await _db.Employees.FindAsync(employee.Id);
             var updatedEmployee = _db.Employees.Update(employeeToUpdate);
             await _db.SaveChangesAsync()
-                .ConfigureAwait(false);
+               .ConfigureAwait(false);
             return updatedEmployee.Entity;
-        }
 
+        }
 
 
         public async Task<Employee> GetEmployeeByIdAsync(Guid id)
         {
             return await _db.Employees.FindAsync(id);
         }
-
 
 
         //this is to track and fetch every employee involved in selected jobId
@@ -106,8 +107,23 @@ namespace Cloudbass.DataAccess.Repositories
             return list.ToLookup(x => x.CountyId);
         }
 
+        public async Task<Employee> DeleteEmployeeAsync(Employee employee, CancellationToken cancellationToken)
+        {
+            var employeeToDelete = await _db.Employees.FindAsync(employee.Id);
 
+            if (employeeToDelete == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("Employee not found in database.")
+                       .SetCode("EMPLOYEE_NOT_FOUND")
+                       .Build());
+            }
 
+            _db.Employees.Remove(employeeToDelete);
 
+            await _db.SaveChangesAsync();
+            return employeeToDelete;
+        }
     }
 }

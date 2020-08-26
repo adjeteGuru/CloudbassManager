@@ -1,6 +1,8 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
+using HotChocolate;
+using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,25 @@ namespace Cloudbass.DataAccess.Repositories
                 .ConfigureAwait(false);
             await _db.SaveChangesAsync();
             return addedCounty.Entity;
+        }
+
+        public async Task<County> DeleteCountyAsync(County county, CancellationToken cancellationToken)
+        {
+            var countyToDelete = await _db.Counties.FindAsync(county.Id);
+
+            if (countyToDelete == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("County not found in database.")
+                       .SetCode("COUNTY_NOT_FOUND")
+                       .Build());
+            }
+
+            _db.Counties.Remove(countyToDelete);
+
+            await _db.SaveChangesAsync();
+            return countyToDelete;
         }
 
         public async Task<IEnumerable<County>> GetAllCountyAsync()
