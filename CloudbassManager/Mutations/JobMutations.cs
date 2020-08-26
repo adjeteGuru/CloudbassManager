@@ -2,7 +2,6 @@
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using Cloudbass.Types.Jobs;
-using Cloudbass.Types.Payload;
 using HotChocolate;
 using HotChocolate.Execution;
 using HotChocolate.Subscriptions;

@@ -10,6 +10,7 @@ using Cloudbass.Types.HasRoles;
 using Cloudbass.Types.Jobs;
 using Cloudbass.Types.Roles;
 using Cloudbass.Types.Schedules;
+using Cloudbass.Types.Users;
 using Cloudbass.Utilities.Filters;
 using CloudbassManager.Mutations;
 using CloudbassManager.Queries;
