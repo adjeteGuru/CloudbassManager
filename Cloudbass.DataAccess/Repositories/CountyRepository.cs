@@ -1,6 +1,8 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
+using HotChocolate;
+using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,6 +29,25 @@ namespace Cloudbass.DataAccess.Repositories
             return addedCounty.Entity;
         }
 
+        public async Task<County> DeleteCountyAsync(County county, CancellationToken cancellationToken)
+        {
+            var countyToDelete = await _db.Counties.FindAsync(county.Id);
+
+            if (countyToDelete == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("County not found in database.")
+                       .SetCode("COUNTY_NOT_FOUND")
+                       .Build());
+            }
+
+            _db.Counties.Remove(countyToDelete);
+
+            await _db.SaveChangesAsync();
+            return countyToDelete;
+        }
+
         public async Task<IEnumerable<County>> GetAllCountyAsync()
         {
 
@@ -50,13 +71,15 @@ namespace Cloudbass.DataAccess.Repositories
             return await _db.Counties.SingleOrDefaultAsync(x => x.Id == countyId);
         }
 
-        //public async Task<ILookup<string, County>> GetEmployeesByCounty(
-        //    IReadOnlyList<string> employees)
-        //{
-        //    var county = await _db.Counties
-        //        .Where(x => employees.Contains(x.Countys))
-        //        .ToListAsync();
-        //    return employees.ToLookup(x=>x.);
-        //}
+        public async Task<County> UpdateCountyAsync(
+            County county, CancellationToken cancellationToken)
+        {
+            var countyToUpdate = await _db.Counties.FindAsync(county.Id);
+            var updatedCounty = _db.Counties.Update(countyToUpdate);
+            await _db.SaveChangesAsync();
+            return updatedCounty.Entity;
+        }
+
+
     }
 }

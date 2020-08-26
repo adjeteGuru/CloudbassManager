@@ -2,8 +2,7 @@
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using Cloudbass.Types.Employees;
-using Cloudbass.Types.Input;
-using Cloudbass.Types.Payload;
+using Cloudbass.Types.Users;
 using HotChocolate;
 using HotChocolate.Execution;
 using HotChocolate.Subscriptions;

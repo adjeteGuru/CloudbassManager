@@ -1,6 +1,8 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
+using HotChocolate;
+using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,6 +25,25 @@ namespace Cloudbass.DataAccess.Repositories
         public async Task<Schedule> CreateScheduleAsync(Schedule schedule, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Schedule> DeleteScheduleAsync(Schedule schedule, CancellationToken cancellationToken)
+        {
+            var scheduleToDelete = await _db.Schedules.FindAsync(schedule.Id);
+
+            if (scheduleToDelete == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("Schedule not found in database.")
+                       .SetCode("SCHEDULE_NOT_FOUND")
+                       .Build());
+            }
+
+            _db.Schedules.Remove(scheduleToDelete);
+
+            await _db.SaveChangesAsync();
+            return scheduleToDelete;
         }
 
         public async Task<IEnumerable<Schedule>> GetAllSchedulesAsync()
@@ -58,7 +79,10 @@ namespace Cloudbass.DataAccess.Repositories
 
         public async Task<Schedule> UpdateScheduleAsync(Schedule schedule, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var scheduleToUpdate = await _db.Schedules.FindAsync(schedule.Id);
+            _db.Schedules.Update(scheduleToUpdate);
+            await _db.SaveChangesAsync();
+            return scheduleToUpdate;
         }
 
     }

@@ -1,5 +1,4 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
-using Cloudbass.DataAccess.Repositories.Contracts.Inputs;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using HotChocolate;
@@ -165,6 +164,23 @@ namespace Cloudbass.DataAccess.Repositories
             return updatedClient.Entity;
         }
 
+        public async Task<Client> DeleteClientAsync(Client client, CancellationToken cancellationToken)
+        {
+            var clientToDelete = await _db.Clients.FindAsync(client.Id);
 
+            if (clientToDelete == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("Client not found in database.")
+                       .SetCode("CLIENT_NOT_FOUND")
+                       .Build());
+            }
+
+            _db.Clients.Remove(clientToDelete);
+
+            await _db.SaveChangesAsync();
+            return clientToDelete;
+        }
     }
 }

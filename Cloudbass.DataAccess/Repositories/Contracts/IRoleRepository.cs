@@ -17,5 +17,6 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
         //Task<IReadOnlyDictionary<Guid, Role>> GetRolesByIdAsync(
         //    IReadOnlyList<Guid> ids, CancellationToken cancellation);
         //Task<Role> CreateRoleAsync(Role role, CancellationToken cancellation);
+        //Task<Employee> DeleteEmployeeAsync(Employee employee, CancellationToken cancellationToken);
     }
 }

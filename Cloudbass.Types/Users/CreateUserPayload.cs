@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cloudbass.Types.Payload
+namespace Cloudbass.Types.Users
 {
-    public class UpdateUserPayload
+    public class CreateUserPayload
     {
-        public UpdateUserPayload(User user)
+        public CreateUserPayload(User user)
         {
             User = user;
         }

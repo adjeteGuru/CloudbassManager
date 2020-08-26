@@ -23,5 +23,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
         Task<Schedule> CreateScheduleAsync(Schedule schedule, CancellationToken cancellationToken);
         Task<Schedule> UpdateScheduleAsync(Schedule schedule, CancellationToken cancellationToken);
 
+        Task<Schedule> DeleteScheduleAsync(Schedule schedule, CancellationToken cancellationToken);
+
     }
 }

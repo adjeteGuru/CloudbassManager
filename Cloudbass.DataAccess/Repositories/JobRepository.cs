@@ -88,11 +88,7 @@ namespace Cloudbass.DataAccess.Repositories
             _db.Jobs.Update(jobToUpdate);
             await _db.SaveChangesAsync();
             return jobToUpdate;
-
-
         }
-
-
 
         public async Task<Job> DeleteJobAsync(Job job, CancellationToken cancellationToken)
         {

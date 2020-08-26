@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cloudbass.Types.Payload
+namespace Cloudbass.Types.Users
 {
     public class LoginPayload
     {

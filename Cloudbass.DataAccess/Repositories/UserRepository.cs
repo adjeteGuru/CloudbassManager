@@ -1,5 +1,4 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
-using Cloudbass.DataAccess.Repositories.Contracts.Inputs.User;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using Cloudbass.Utilities;
@@ -97,24 +96,6 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
 
-        public User Delete(DeleteUserInput input)
-        {
-
-            var userToDelete = _db.Users.Find(input);
-
-            if (userToDelete == null)
-            {
-                throw new QueryException(
-                   ErrorBuilder.New()
-                       .SetMessage("User not found in database.")
-                       .SetCode("USER_NOT_FOUND")
-                       .Build());
-            }
-            _db.Users.Remove(userToDelete);
-            _db.SaveChanges();
-            return userToDelete;
-        }
-
         public async Task<User> GetUserAsync(string email, CancellationToken cancellationToken)
         {
             return await _db.Users.AsQueryable()
@@ -176,12 +157,29 @@ namespace Cloudbass.DataAccess.Repositories
         public async Task<User> CreateUserAsync(User user)
         {
             var addedUser = await _db.Users.AddAsync(user);
-            //_db.SaveChanges();
+
             await _db.SaveChangesAsync()
             .ConfigureAwait(false);
             return addedUser.Entity;
         }
 
 
+        public async Task<User> DeleteUserAsync(User user, CancellationToken cancellationToken)
+        {
+            var userToDelete = await _db.Users.FindAsync(user.Id);
+
+            if (userToDelete == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("User not found in database.")
+                       .SetCode("USER_NOT_FOUND")
+                       .Build());
+            }
+            _db.Users.Remove(userToDelete);
+
+            await _db.SaveChangesAsync();
+            return userToDelete;
+        }
     }
 }
