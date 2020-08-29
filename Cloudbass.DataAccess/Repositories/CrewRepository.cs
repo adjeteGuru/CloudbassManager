@@ -1,6 +1,8 @@
 ﻿using Cloudbass.DataAccess.Repositories.Contracts;
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
+using HotChocolate;
+using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,15 +29,38 @@ namespace Cloudbass.DataAccess.Repositories
             return addedCrew.Entity;
         }
 
+        public async Task<Crew> DeleteCrewAsync(Crew crew, CancellationToken cancellationToken)
+        {
+            var crewToDelete = await _db.Crews.FindAsync(crew.JobId, crew.EmployeeId);
+
+
+            if (crewToDelete == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("Crew not found in database.")
+                       .SetCode("CREW_NOT_FOUND")
+                       .Build());
+            }
+
+            _db.Crews.Remove(crewToDelete);
+
+            await _db.SaveChangesAsync();
+            return crewToDelete;
+        }
+
         public async Task<IEnumerable<Crew>> GetCrewAsync()
         {
             return await _db.Crews
                  .AsNoTracking().ToListAsync();
         }
 
-        public Task<Crew> GetCrewMemberByIdAsync(Guid id)
+
+        public async Task<Crew> GetCrewMemberByIdAsync(Guid jobId, Guid employeeId)
         {
-            throw new NotImplementedException();
+            // return await _db.Crews.FindAsync(jobId, employeeId);
+            return await _db.Crews.SingleOrDefaultAsync(x => x.EmployeeId == x.JobId && x.JobId == x.EmployeeId);
+
         }
 
         public async Task<IReadOnlyDictionary<Guid, Crew>> GetCrewMembersByIdAsync(

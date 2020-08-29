@@ -100,5 +100,21 @@ namespace CloudbassManager.Mutations
 
         }
 
+        //delete
+
+        public async Task<Client> DeleteClientAsync(
+           [Service] IClientRepository clientRepository,
+           [Service] ITopicEventSender eventSender,
+           DeleteClientInput input, CancellationToken cancellationToken)
+        {
+            var clientToDelete = await clientRepository.GetClientByIdAsync(input.Id);
+            await clientRepository.DeleteClientAsync(clientToDelete, cancellationToken).ConfigureAwait(false);
+
+            await eventSender.SendAsync(clientToDelete, cancellationToken).ConfigureAwait(false);
+
+            return clientToDelete;
+
+        }
+
     }
 }

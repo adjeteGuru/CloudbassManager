@@ -71,5 +71,18 @@ namespace CloudbassManager.Mutations
 
         }
 
+        public async Task<County> DeleteCountyAsync(
+            [Service] ICountyRepository countyRepository,
+            [Service] ITopicEventSender eventSender,
+            DeleteCountyInput input, CancellationToken cancellationToken)
+        {
+            var countyToDelete = await countyRepository.GetCountyByIdAsync(input.Id);
+            await countyRepository.DeleteCountyAsync(countyToDelete, cancellationToken).ConfigureAwait(false);
+
+            await eventSender.SendAsync(countyToDelete, cancellationToken).ConfigureAwait(false);
+            return countyToDelete;
+
+        }
+
     }
 }

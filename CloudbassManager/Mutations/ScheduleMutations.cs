@@ -75,12 +75,6 @@ namespace CloudbassManager.Mutations
                 scheduleToUpdate.Description = input.Description;
             }
 
-            //if (!Guid(input.JobId))
-            //{
-            //    scheduleToUpdate.JobId = input.JobId;
-            //}
-
-
 
             if (!string.IsNullOrWhiteSpace(input.Status.ToString()))
             {
@@ -106,6 +100,24 @@ namespace CloudbassManager.Mutations
             return new UpdateSchedulePayload(scheduleToUpdate);
 
         }
+
+
+        //delete
+
+        public async Task<Schedule> DeleteScheduleAsync(
+           [Service] IScheduleRepository scheduleRepository,
+           [Service] ITopicEventSender eventSender,
+           DeleteScheduleInput input, CancellationToken cancellationToken)
+        {
+            var scheduleToDelete = await scheduleRepository.GetScheduleByIdAsync(input.Id);
+            await scheduleRepository.DeleteScheduleAsync(scheduleToDelete, cancellationToken).ConfigureAwait(false);
+
+            await eventSender.SendAsync(scheduleToDelete, cancellationToken).ConfigureAwait(false);
+
+            return scheduleToDelete;
+
+        }
+
 
     }
 }

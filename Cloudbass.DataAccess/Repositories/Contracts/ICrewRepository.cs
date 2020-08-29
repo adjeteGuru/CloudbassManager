@@ -14,10 +14,12 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 
         Task<Crew> CreateCrewAsync(Crew crew, CancellationToken cancellationToken);
 
-        Task<Crew> GetCrewMemberByIdAsync(Guid id);
+        Task<Crew> GetCrewMemberByIdAsync(Guid jobId, Guid employeeId);
 
         Task<IReadOnlyDictionary<Guid, Crew>> GetCrewMembersByIdAsync(
            IReadOnlyList<Guid> ids, CancellationToken cancellationToken);
+
+        Task<Crew> DeleteCrewAsync(Crew crew, CancellationToken cancellationToken);
 
     }
 }

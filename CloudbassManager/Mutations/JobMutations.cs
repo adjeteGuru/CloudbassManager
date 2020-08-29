@@ -140,5 +140,22 @@ namespace CloudbassManager.Mutations
 
         }
 
+        //delete
+
+        public async Task<Job> DeleteJobAsync(
+           [Service] IJobRepository jobRepository,
+           [Service] ITopicEventSender eventSender,
+           DeleteJobInput input, CancellationToken cancellationToken)
+        {
+            var jobToDelete = await jobRepository.GetJobByIdAsync(input.Id);
+
+            await jobRepository.DeleteJobAsync(jobToDelete, cancellationToken).ConfigureAwait(false);
+
+            await eventSender.SendAsync(jobToDelete, cancellationToken).ConfigureAwait(false);
+
+            return jobToDelete;
+
+        }
+
     }
 }

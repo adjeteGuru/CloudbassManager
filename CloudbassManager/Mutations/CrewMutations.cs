@@ -35,5 +35,22 @@ namespace CloudbassManager.Mutations
             return new CreateCrewPayload(addedCrew);
 
         }
+
+
+        //delete
+
+        public async Task<Crew> DeleteCrewAsync(
+           [Service] ICrewRepository crewRepository,
+           [Service] ITopicEventSender eventSender,
+           DeleteCrewInput input, CancellationToken cancellationToken)
+        {
+            var crewToDelete = await crewRepository.GetCrewMemberByIdAsync(input.EmployeeId, input.JobId);
+            await crewRepository.DeleteCrewAsync(crewToDelete, cancellationToken).ConfigureAwait(false);
+
+            await eventSender.SendAsync(crewToDelete, cancellationToken).ConfigureAwait(false);
+
+            return crewToDelete;
+
+        }
     }
 }
