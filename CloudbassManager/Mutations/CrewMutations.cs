@@ -15,6 +15,8 @@ namespace CloudbassManager.Mutations
     [ExtendObjectType(Name = "Mutation")]
     public class CrewMutations
     {
+
+        //CREATE
         public async Task<CreateCrewPayload> AddCrewAsync(
             [Service] ICrewRepository crewRepository,
            [Service] ITopicEventSender eventSender,

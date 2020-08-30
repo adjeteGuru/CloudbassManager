@@ -20,13 +20,6 @@ namespace CloudbassManager.Mutations
     [ExtendObjectType(Name = "Mutation")]
     public class UserMutations
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IEmployeeRepository _employeeRepository;
-        public UserMutations(IUserRepository userRepository, IEmployeeRepository employeeRepository)
-        {
-            _userRepository = userRepository;
-            _employeeRepository = employeeRepository;
-        }
 
         /// <summary>
         /// Creates a user.
@@ -34,11 +27,11 @@ namespace CloudbassManager.Mutations
         public async Task<CreateUserPayload> CreateUser(
             CreateUserInput input,
             //User use, Employee employe,
-            [Service] CloudbassContext db,
-            //[Service]IUserRepository userRepository,
-            //[Service]IEmployeeRepository employeeRepository,
-            [Service]ITopicEventSender eventSender
-            /*CancellationToken cancellationToken*/)
+            //[Service] CloudbassContext db,
+            [Service]IUserRepository userRepository,
+            [Service]IEmployeeRepository employeeRepository,
+            [Service]ITopicEventSender eventSender,
+            CancellationToken cancellationToken)
         {
             //create a variable for dupication name check
             //var nameCheck = await db.Users.FirstOrDefaultAsync(t => t.Name == input.Name);
@@ -139,18 +132,14 @@ namespace CloudbassManager.Mutations
                 user.IsAdmin = input.IsAdmin.Value ? true : false;
             }
 
+            //db.Users.Add(user);
 
-            db.Users.Add(user);
+            //db.Employees.Add(employee);
 
-            db.Employees.Add(employee);
+            await employeeRepository.CreateEmployeeAsync(employee, cancellationToken).ConfigureAwait(false);
 
-            //await employeeRepository.CreateEmployeeAsync(employee/*, cancellationToken*/).ConfigureAwait(false);
-
-            //await userRepository.CreateUserAsync(user).ConfigureAwait(false);
-            await db.SaveChangesAsync();
-
-
-
+            await userRepository.CreateUserAsync(user).ConfigureAwait(false);
+            //await db.SaveChangesAsync();
 
             await eventSender.SendAsync("CreateUser", user);
 
@@ -160,14 +149,19 @@ namespace CloudbassManager.Mutations
         /// <summary>
         /// Updates a user.
         /// </summary>
-        public async Task<UpdateUserPayload> UpdateUser(
-            int id,
-            UpdateUserInput input,
-            [Service] CloudbassContext db)
+        public async Task<UpdateUserPayload> UpdateUserAsync(
+            //int id,
+            //[Service] CloudbassContext db)
+            UpdateUserInput input, Guid id,
+            [Service]IUserRepository userRepository,
+            [Service]IEmployeeRepository employeeRepository,
+            [Service]ITopicEventSender eventSender,
+            CancellationToken cancellationToken)
         {
-            var user = await db.Users.FindAsync(id);
+            //var user = await db.Users.FindAsync(id);
+            var userToUpdate = await userRepository.GetUserByIdAsync(id);
 
-            if (user == null)
+            if (userToUpdate == null)
             {
                 throw new QueryException(
                     ErrorBuilder.New()
@@ -176,81 +170,110 @@ namespace CloudbassManager.Mutations
                         .Build());
             }
 
-            // update name if it has changed
-            if (!string.IsNullOrWhiteSpace(input.Name) && input.Name != user.Name)
+            if (!string.IsNullOrWhiteSpace(input.Name))
             {
-                // throw error if the new name is already taken
-                if (db.Users.Any(x => x.Name == input.Name))
-
-                    throw new QueryException(
-                        ErrorBuilder.New()
-                            .SetMessage("Name " + input.Name + " is already taken")
-                            .SetCode("NAME_EXIST")
-                            .Build());
-
-                user.Name = input.Name;
+                userToUpdate.Name = input.Name;
             }
-
-            // update password if provided
-            if (!string.IsNullOrWhiteSpace(input.Password))
-            {
-
-                using var sha = SHA512.Create();
-                byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(input.Password + user.Salt));
-                user.Password = Convert.ToBase64String(hash);
-            }
-
 
             if (!string.IsNullOrWhiteSpace(input.Email))
             {
-                user.Email = input.Email;
-
-                //create a variable for exiting email check
-                var updatedEmailCheck = await db.Users.FirstOrDefaultAsync(x => x.Email == input.Email);
-
-                //check dupication of the new entry
-                if (updatedEmailCheck != null)
-                {
-                    throw new QueryException(
-                        ErrorBuilder.New()
-                            .SetMessage("Email " + input.Email + " is already taken")
-                            .SetCode("EMAIL_EXIST")
-                            .Build());
-                }
+                userToUpdate.Email = input.Email;
             }
 
-            if (input.Active.HasValue)
+            if (!string.IsNullOrWhiteSpace(input.Password))
             {
-                user.Active = input.Active.Value ? true : false;
+                userToUpdate.Password = input.Password;
             }
 
-            if (input.IsAdmin.HasValue)
+            if (!string.IsNullOrWhiteSpace(input.Password))
             {
-                user.IsAdmin = input.IsAdmin.Value ? true : false;
+                userToUpdate.Password = input.Password;
+            }
+
+            bool? active = true;
+            if (active == false)
+            {
+                userToUpdate.Active = input.Active.HasValue;
             }
 
 
-            db.Users.Update(user);
+            await userRepository.UpdateUserAsync(userToUpdate, cancellationToken).ConfigureAwait(false);
 
-            await db.SaveChangesAsync();
+            await eventSender.SendAsync(userToUpdate, cancellationToken).ConfigureAwait(false);
+
+            return new UpdateUserPayload(userToUpdate);
+
+            //// update name if it has changed
+            //if (!string.IsNullOrWhiteSpace(input.Name) && input.Name != user.Name)
+            //{
+            //    // throw error if the new name is already taken
+            //    if (db.Users.Any(x => x.Name == input.Name))
+
+            //        throw new QueryException(
+            //            ErrorBuilder.New()
+            //                .SetMessage("Name " + input.Name + " is already taken")
+            //                .SetCode("NAME_EXIST")
+            //                .Build());
+
+            //    user.Name = input.Name;
+            //}
+
+            // update password if provided
+            //if (!string.IsNullOrWhiteSpace(input.Password))
+            //{
+
+            //    using var sha = SHA512.Create();
+            //    byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(input.Password + user.Salt));
+            //    user.Password = Convert.ToBase64String(hash);
+            //}
+
+
+            //if (!string.IsNullOrWhiteSpace(input.Email))
+            //{
+            //    user.Email = input.Email;
+
+            //    //create a variable for exiting email check
+            //    var updatedEmailCheck = await db.Users.FirstOrDefaultAsync(x => x.Email == input.Email);
+
+            //    //check dupication of the new entry
+            //    if (updatedEmailCheck != null)
+            //    {
+            //        throw new QueryException(
+            //            ErrorBuilder.New()
+            //                .SetMessage("Email " + input.Email + " is already taken")
+            //                .SetCode("EMAIL_EXIST")
+            //                .Build());
+            //    }
+            //}
+
+            //if (input.Active.HasValue)
+            //{
+            //    user.Active = input.Active.Value ? true : false;
+            //}
+
+            //if (input.IsAdmin.HasValue)
+            //{
+            //    user.IsAdmin = input.IsAdmin.Value ? true : false;
+            //}
+
+
+            //db.Users.Update(user);
+
+            //await db.SaveChangesAsync();
 
             // 
-            Serilog.Log
-                .ForContext("MutationName", "UpdateUser")
-                .ForContext("MutatedId", id)
-                .ForContext("UserId", user.Name)
-                .Information("{input}",
-                             JsonConvert.SerializeObject(input));
+            //Serilog.Log
+            //    .ForContext("MutationName", "UpdateUser")
+            //    .ForContext("MutatedId", id)
+            //    .ForContext("UserId", user.Name)
+            //    .Information("{input}",
+            //                 JsonConvert.SerializeObject(input));
 
-            return new UpdateUserPayload(user);
+            //return new UpdateUserPayload(user);
+
+
         }
 
-
-        //remove user
-        //public User DeleteUser(DeleteUserInput input)
-        //{
-        //    return _userRepository.Delete(input);
-        //}
 
     }
 }

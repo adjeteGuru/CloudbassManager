@@ -181,5 +181,25 @@ namespace Cloudbass.DataAccess.Repositories
             await _db.SaveChangesAsync();
             return userToDelete;
         }
+
+        public async Task<User> UpdateUserAsync(User user, CancellationToken cancellationToken)
+        {
+            var userToUpdate = await _db.Users.FindAsync(user.Id);
+
+            if (userToUpdate == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("User not found in database.")
+                       .SetCode("USER_NOT_FOUND")
+                       .Build());
+            }
+
+            var updatedUser = _db.Users.Update(userToUpdate);
+
+            await _db.SaveChangesAsync();
+
+            return updatedUser.Entity;
+        }
     }
 }

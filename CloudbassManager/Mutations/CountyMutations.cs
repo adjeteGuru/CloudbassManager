@@ -16,6 +16,8 @@ namespace CloudbassManager.Mutations
     [ExtendObjectType(Name = "Mutation")]
     public class CountyMutations
     {
+
+        //CREATE
         public async Task<CreateCountyPayload> AddCountyAsync(
              [Service] ICountyRepository countyRepository,
             [Service] ITopicEventSender eventSender,
@@ -71,6 +73,7 @@ namespace CloudbassManager.Mutations
 
         }
 
+        //DELETE
         public async Task<County> DeleteCountyAsync(
             [Service] ICountyRepository countyRepository,
             [Service] ITopicEventSender eventSender,

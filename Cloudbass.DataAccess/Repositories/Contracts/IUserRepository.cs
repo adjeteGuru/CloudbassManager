@@ -25,5 +25,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 
         Task<User> DeleteUserAsync(User user, CancellationToken cancellationToken);
 
+        Task<User> UpdateUserAsync(User user, CancellationToken cancellationToken);
+
     }
 }
