@@ -17,7 +17,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 
         Task<User> GetUserByIdAsync(Guid userId);
 
-        Task<User> GetUserAsync(string email, CancellationToken cancellationToken = default);
+        Task<User> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default);
 
         Task<User> CreateUserAsync(User user);
 

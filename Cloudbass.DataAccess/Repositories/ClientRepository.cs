@@ -149,9 +149,23 @@ namespace Cloudbass.DataAccess.Repositories
 
         public async Task<Client> CreateClientAsync(Client client, CancellationToken cancellationToken)
         {
-            var addedClient = await _db.Clients.AddAsync(client);
-            await _db.SaveChangesAsync()
-                .ConfigureAwait(false);
+            //check dupication of the new entry
+            var checkClient = await _db.Clients
+                .FirstOrDefaultAsync(x => x.Name == client.Name);
+
+            if (checkClient != null)
+            {
+                // throw error if the new name is already taken
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage("Name \"" + client.Name + "\" is already taken")
+                        .SetCode("NAME_EXIST")
+                        .Build());
+            }
+
+            var addedClient = await _db.Clients.AddAsync(client).ConfigureAwait(false);
+            await _db.SaveChangesAsync();
+
             return addedClient.Entity;
         }
 
@@ -161,6 +175,7 @@ namespace Cloudbass.DataAccess.Repositories
             var clientToUpdate = await _db.Clients.FindAsync(client.Id);
             var updatedClient = _db.Clients.Update(clientToUpdate);
             await _db.SaveChangesAsync();
+
             return updatedClient.Entity;
         }
 
@@ -180,6 +195,7 @@ namespace Cloudbass.DataAccess.Repositories
             _db.Clients.Remove(clientToDelete);
 
             await _db.SaveChangesAsync();
+
             return clientToDelete;
         }
     }

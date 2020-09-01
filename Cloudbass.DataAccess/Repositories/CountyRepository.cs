@@ -23,6 +23,20 @@ namespace Cloudbass.DataAccess.Repositories
 
         public async Task<County> CreateCountyAsync(County county, CancellationToken cancellationToken)
         {
+            //check dupication of the new entry
+            var checkCounty = await _db.Counties
+                .FirstOrDefaultAsync(x => x.Name == county.Name);
+
+            if (checkCounty != null)
+            {
+                // throw error if the new name is already taken
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage("Name \"" + county.Name + "\" is already taken")
+                        .SetCode("NAME_EXIST")
+                        .Build());
+            }
+
             var addedCounty = await _db.Counties.AddAsync(county)
                 .ConfigureAwait(false);
             await _db.SaveChangesAsync();

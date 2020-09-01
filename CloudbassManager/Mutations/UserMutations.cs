@@ -24,10 +24,8 @@ namespace CloudbassManager.Mutations
         /// <summary>
         /// Creates a user.
         /// </summary>
-        public async Task<CreateUserPayload> CreateUser(
+        public async Task<CreateUserPayload> CreateUserAsync(
             CreateUserInput input,
-            //User use, Employee employe,
-            //[Service] CloudbassContext db,
             [Service]IUserRepository userRepository,
             [Service]IEmployeeRepository employeeRepository,
             [Service]ITopicEventSender eventSender,
@@ -58,14 +56,14 @@ namespace CloudbassManager.Mutations
 
 
 
-            if (string.IsNullOrWhiteSpace(input.Password))
-            {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage("The password cannot be empty.")
-                        .SetCode("PASSWORD_EMPTY")
-                        .Build());
-            }
+            //if (string.IsNullOrWhiteSpace(input.Password))
+            //{
+            //    throw new QueryException(
+            //        ErrorBuilder.New()
+            //            .SetMessage("The password cannot be empty.")
+            //            .SetCode("PASSWORD_EMPTY")
+            //            .Build());
+            //}
 
             string salt = Guid.NewGuid().ToString("N");
 
@@ -104,42 +102,9 @@ namespace CloudbassManager.Mutations
 
 
 
-            //create a variable for exiting email check
-            //var emailCheck = await db.Users.FirstOrDefaultAsync(x => x.Email == input.Email);
-
-            //check dupication of the new entry
-            //if (emailCheck != null)
-            //{
-            //    throw new QueryException(
-            //        ErrorBuilder.New()
-            //            .SetMessage(input.Email + " is already been taken! Please chose different email.")
-            //            .SetCode("EMAIL_EXIST")
-            //            .Build());
-            //}
-
-            if (!string.IsNullOrWhiteSpace(input.Email))
-            {
-                user.Email = input.Email;
-            }
-
-            if (input.Active.HasValue)
-            {
-                user.Active = input.Active.Value ? true : false;
-            }
-
-            if (input.IsAdmin.HasValue)
-            {
-                user.IsAdmin = input.IsAdmin.Value ? true : false;
-            }
-
-            //db.Users.Add(user);
-
-            //db.Employees.Add(employee);
-
             await employeeRepository.CreateEmployeeAsync(employee, cancellationToken).ConfigureAwait(false);
 
             await userRepository.CreateUserAsync(user).ConfigureAwait(false);
-            //await db.SaveChangesAsync();
 
             await eventSender.SendAsync("CreateUser", user);
 
@@ -150,15 +115,12 @@ namespace CloudbassManager.Mutations
         /// Updates a user.
         /// </summary>
         public async Task<UpdateUserPayload> UpdateUserAsync(
-            //int id,
-            //[Service] CloudbassContext db)
             UpdateUserInput input, Guid id,
             [Service]IUserRepository userRepository,
             [Service]IEmployeeRepository employeeRepository,
             [Service]ITopicEventSender eventSender,
             CancellationToken cancellationToken)
         {
-            //var user = await db.Users.FindAsync(id);
             var userToUpdate = await userRepository.GetUserByIdAsync(id);
 
             if (userToUpdate == null)
@@ -182,24 +144,29 @@ namespace CloudbassManager.Mutations
 
             if (!string.IsNullOrWhiteSpace(input.Password))
             {
-                userToUpdate.Password = input.Password;
+                using var sha = SHA512.Create();
+                byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(input.Password + userToUpdate.Salt));
+                userToUpdate.Password = Convert.ToBase64String(hash);
             }
 
-            if (!string.IsNullOrWhiteSpace(input.Password))
-            {
-                userToUpdate.Password = input.Password;
-            }
 
-            bool? active = true;
-            if (active == false)
+            if (input.Active.HasValue)
             {
-                userToUpdate.Active = input.Active.HasValue;
+                userToUpdate.Active = input.Active.Value ? true : false;
             }
 
 
             await userRepository.UpdateUserAsync(userToUpdate, cancellationToken).ConfigureAwait(false);
 
             await eventSender.SendAsync(userToUpdate, cancellationToken).ConfigureAwait(false);
+
+            Serilog.Log
+                .ForContext("MutationName", "UpdateUser")
+                .ForContext("MutatedId", id)
+                .ForContext("UserId", userToUpdate.Name)
+                .Information("{input}",
+                             JsonConvert.SerializeObject(input));
+
 
             return new UpdateUserPayload(userToUpdate);
 

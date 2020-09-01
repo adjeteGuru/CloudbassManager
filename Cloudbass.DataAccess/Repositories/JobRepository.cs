@@ -38,7 +38,7 @@ namespace Cloudbass.DataAccess.Repositories
                        .Build());
             }
 
-            var addedJob = await _db.Jobs.AddAsync(job);
+            var addedJob = await _db.Jobs.AddAsync(job).ConfigureAwait(false);
             await _db.SaveChangesAsync();
             return addedJob.Entity;
         }

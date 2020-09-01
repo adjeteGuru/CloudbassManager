@@ -96,7 +96,7 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
 
-        public async Task<User> GetUserAsync(string email, CancellationToken cancellationToken)
+        public async Task<User> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
         {
             return await _db.Users.AsQueryable()
                 .FirstOrDefaultAsync(x => x.Email == email)
@@ -121,11 +121,11 @@ namespace Cloudbass.DataAccess.Repositories
        string email, string newPAsswordHash, string salt, CancellationToken cancellationToken)
         {
             var userToUpdate = await _db.Users
-                .Where(x => x.Email == email).FirstOrDefaultAsync();
-            //.ConfigureAwait(false);
+                .Where(x => x.Email == email).FirstOrDefaultAsync()
+                .ConfigureAwait(false);
             var updatedUser = _db.Users.Update(userToUpdate);
-            await _db.SaveChangesAsync()
-            .ConfigureAwait(false);
+            await _db.SaveChangesAsync();
+
             return updatedUser.Entity;
         }
 
@@ -156,10 +156,25 @@ namespace Cloudbass.DataAccess.Repositories
 
         public async Task<User> CreateUserAsync(User user)
         {
-            var addedUser = await _db.Users.AddAsync(user);
+            //check dupication of the new entry
+            var checkUser = await _db.Users
+                .FirstOrDefaultAsync(x => x.Email == user.Email);
 
-            await _db.SaveChangesAsync()
-            .ConfigureAwait(false);
+            if (checkUser != null)
+            {
+                // throw error if the new name is already taken
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage("Name \"" + user.Email + "\" is already taken")
+                        .SetCode("NAME_EXIST")
+                        .Build());
+            }
+
+            var addedUser = await _db.Users.AddAsync(user)
+                .ConfigureAwait(false);
+
+            await _db.SaveChangesAsync();
+
             return addedUser.Entity;
         }
 

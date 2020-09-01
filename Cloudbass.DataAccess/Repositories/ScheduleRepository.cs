@@ -24,8 +24,28 @@ namespace Cloudbass.DataAccess.Repositories
 
         public async Task<Schedule> CreateScheduleAsync(Schedule schedule, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            //check dupication of the new entry
+            var checkSchedule = await _db.Schedules
+                .FirstOrDefaultAsync(x => x.Name == schedule.Name && x.StartDate == schedule.StartDate);
+
+            if (checkSchedule != null)
+            {
+                // throw error if the new name is already taken
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage("Name \"" + schedule.Name + "\" is already taken")
+                        .SetCode("NAME_EXIST")
+                        .Build());
+            }
+
+
+            var addedSchedule = await _db.Schedules.AddAsync(schedule).ConfigureAwait(false);
+
+            await _db.SaveChangesAsync();
+
+            return addedSchedule.Entity;
         }
+
 
         public async Task<Schedule> DeleteScheduleAsync(Schedule schedule, CancellationToken cancellationToken)
         {
