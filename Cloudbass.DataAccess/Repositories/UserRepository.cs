@@ -35,10 +35,10 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
         //implement function Authenticate set in the base class user interface
-        public User Authenticate(string name, string password)
+        public User Authenticate(string email, string password)
         {
             //create a user instance and perform a quick search from db to match up exisiting name & pswd
-            var user = _db.Users.SingleOrDefault(x => x.Name == name && x.Password == password);
+            var user = _db.Users.SingleOrDefault(x => x.Email == email && x.Password == password);
 
             // return null if user not found
 
@@ -83,8 +83,8 @@ namespace Cloudbass.DataAccess.Repositories
             return await _db.Users.AsNoTracking().ToListAsync();
         }
 
-        //this method use linq "SingleOrDefault" statement with lambda function to compile the correct id
-        //which is going to be use in the UserQuery 
+        //this method use linq "SingleOrDefault" statement with lambda function to compile
+        // the correct id which is going to be use in the Query 
         //public User GetById(Guid id)
         //{
         //    return _db.Users.FirstOrDefault(x => x.Id == id);
@@ -107,58 +107,10 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
 
-
-        //public async Task<User> UpdatePasswordAsync(
-        //    string email, string newPAsswordHash, string salt, CancellationToken cancellationToken)
-        //{
-        //    var userToUpdate = await _db.Users.FindAsync(email);
-        //    var updatedUser = _db.Users.Update(userToUpdate);
-        //    await _db.SaveChangesAsync();
-        //    return updatedUser.Entity;
-        //}
-
-        public async Task<User> UpdatePasswordAsync(
-       string email, string newPAsswordHash, string salt, CancellationToken cancellationToken)
-        {
-            var userToUpdate = await _db.Users
-                .Where(x => x.Email == email).FirstOrDefaultAsync()
-                .ConfigureAwait(false);
-            var updatedUser = _db.Users.Update(userToUpdate);
-            await _db.SaveChangesAsync();
-
-            return updatedUser.Entity;
-        }
-
-
-
-
-        //public async Task<User> UpdatePasswordAsync(string email, string newPAsswordHash, string salt, CancellationToken cancellationToken)
-        //{
-        //    var userToUpdate = await _db.Users.AsQueryable()
-        //    .Where(x => x.Email == email || x.Password == newPAsswordHash || x.Salt == salt)
-        //    .FirstOrDefaultAsync(cancellationToken);
-        //    //.SingleOrDefault(x => x.Email == email || x.Password == newPAsswordHash || x.Salt == salt)
-
-        //    //var userToUpdate = await _db.Users.Where(x => x.Email == email || x.Password == newPAsswordHash || x.Salt == salt);
-        //    //.FirstOrDefaultAsync(cancellationToken);
-        //    var updatedUser = _db.Users.Update(userToUpdate.Password == newPAsswordHash, userToUpdate.Email==email);
-        //    // var updatedUser = _db.Users.Where(x => x.Password == newPAsswordHash && x.Salt == salt);
-
-
-        //    await _db.SaveChangesAsync()
-
-        //        .ConfigureAwait(false);
-
-        //    return updatedUser.Entity;
-
-
-        //}
-
         public async Task<User> CreateUserAsync(User user)
         {
             //check dupication of the new entry
-            var checkUser = await _db.Users
-                .FirstOrDefaultAsync(x => x.Email == user.Email);
+            var checkUser = await _db.Users.FirstOrDefaultAsync(x => x.Email == user.Email);
 
             if (checkUser != null)
             {
@@ -170,6 +122,16 @@ namespace Cloudbass.DataAccess.Repositories
                         .Build());
             }
 
+            // throw error if the new name is already taken
+            //    if (_db.Users.Any(x => x.Name == input.Name))
+
+            //        throw new QueryException(
+            //            ErrorBuilder.New()
+            //                .SetMessage("Name " + input.Name + " is already taken")
+            //                .SetCode("NAME_EXIST")
+            //                .Build());
+
+
             var addedUser = await _db.Users.AddAsync(user)
                 .ConfigureAwait(false);
 
@@ -177,6 +139,44 @@ namespace Cloudbass.DataAccess.Repositories
 
             return addedUser.Entity;
         }
+
+
+        public async Task<User> UpdateUserAsync(User user,/* Employee employee,*/ CancellationToken cancellationToken)
+        {
+            var userToUpdate = await _db.Users.FindAsync(user.Id);
+
+
+
+            if (userToUpdate == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("User not found in database.")
+                       .SetCode("USER_NOT_FOUND")
+                       .Build());
+            }
+
+            var updatedUser = _db.Users.Update(userToUpdate);
+
+
+
+            await _db.SaveChangesAsync();
+
+            return updatedUser.Entity;
+        }
+
+
+        //     public async Task<User> UpdatePasswordAsync(
+        //string email, string newPAsswordHash, string salt, CancellationToken cancellationToken)
+        //     {
+        //         var userToUpdate = await _db.Users
+        //             .Where(x => x.Email == email).FirstOrDefaultAsync()
+        //             .ConfigureAwait(false);
+        //         var updatedUser = _db.Users.Update(userToUpdate);
+        //         await _db.SaveChangesAsync();
+
+        //         return updatedUser.Entity;
+        //     }
 
 
         public async Task<User> DeleteUserAsync(User user, CancellationToken cancellationToken)
@@ -197,24 +197,5 @@ namespace Cloudbass.DataAccess.Repositories
             return userToDelete;
         }
 
-        public async Task<User> UpdateUserAsync(User user, CancellationToken cancellationToken)
-        {
-            var userToUpdate = await _db.Users.FindAsync(user.Id);
-
-            if (userToUpdate == null)
-            {
-                throw new QueryException(
-                   ErrorBuilder.New()
-                       .SetMessage("User not found in database.")
-                       .SetCode("USER_NOT_FOUND")
-                       .Build());
-            }
-
-            var updatedUser = _db.Users.Update(userToUpdate);
-
-            await _db.SaveChangesAsync();
-
-            return updatedUser.Entity;
-        }
     }
 }
