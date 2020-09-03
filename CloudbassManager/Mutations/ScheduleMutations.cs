@@ -33,7 +33,7 @@ namespace CloudbassManager.Mutations
                 StartDate = input.StartDate,
                 EndDate = input.EndDate,
                 Status = input.Status,
-                JobId = input.JobId
+                JobId = input.JobId,
             };
 
             await scheduleRepository.CreateScheduleAsync(addedSchedule, cancellationToken).ConfigureAwait(false);

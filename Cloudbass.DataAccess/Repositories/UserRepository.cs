@@ -57,7 +57,8 @@ namespace Cloudbass.DataAccess.Repositories
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    //new Claim(ClaimTypes.Name, user.Id.ToString())
+                     new Claim(ClaimTypes.Email, user.Id.ToString())
                 }),
 
                 Expires = DateTime.UtcNow.AddDays(7),

@@ -7,7 +7,7 @@ namespace Cloudbass.Types.Schedules
 {
     public class CreateScheduleInput
     {
-        public CreateScheduleInput(string name, string description, DateTime startDate, DateTime endDate, Guid jobId, Status status)
+        public CreateScheduleInput(string name, string description, DateTime? startDate, DateTime? endDate, Guid jobId, Status status)
         {
             Name = name;
             Description = description;

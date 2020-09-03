@@ -26,13 +26,13 @@ namespace CloudbassManager.Mutations
     {
 
         public async Task<LoginPayload> LoginAsync(
-          LoginInput input,
+          LoginInput input,/* Guid id,*/
           [Service] CloudbassContext db,
           [Service] EmployeeByEmailDataLoader employeeByEmail,
           [Service] ITopicEventSender eventSender,
-          CancellationToken cancellationToken
-            //[Service]IUserRepository userRepository,
-            //[Service] IEmployeeRepository employeeRepository
+          CancellationToken cancellationToken,
+            [Service]IUserRepository userRepository,
+            [Service] IEmployeeRepository employeeRepository
             )
         {
             //// Initialise the contact that is going to be returned
@@ -57,18 +57,19 @@ namespace CloudbassManager.Mutations
                         .Build());
             }
 
-            // User? user = await userRepository.GetUserAsync(x => x.input.).ConfigureAwait(false);
+
 
             //create a variable for dupication name check
             var user = await db.Users.FirstOrDefaultAsync(t => t.Email == input.Email);
 
+            //var user = await userRepository.GetUserByIdAsync(id).ConfigureAwait(false);
 
 
             if (user == null)
             {
                 throw new QueryException(
                     ErrorBuilder.New()
-                        .SetMessage("The specified username is invalid.")
+                        .SetMessage("The specified email is invalid.")
                         .SetCode("INVALID_CREDENTIALS")
                         .Build());
             }
@@ -85,15 +86,13 @@ namespace CloudbassManager.Mutations
                         .Build());
             }
 
-
-            Employee employee = await employeeByEmail.LoadAsync(input.Email, cancellationToken);
+            //var employee = await userRepository.LoadAsync(input.Email, cancellationToken);
+            var employee = await employeeByEmail.LoadAsync(input.Email, cancellationToken);
 
             var identity = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.Name, user.Email),
-                new Claim(ClaimTypes.Email, user.Email),
-
-               // new Claim(WellKnownClaimTypes.UserId, employee.Id.ToString()),
+                //new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.Email, user.Email)
 
             });
 
@@ -111,7 +110,7 @@ namespace CloudbassManager.Mutations
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
             string accessToken = tokenHandler.WriteToken(token);
 
-            await eventSender.SendAsync<string, Employee>("online", employee);
+            await eventSender.SendAsync("online", employee);
 
             return new LoginPayload(user, accessToken);
         }
