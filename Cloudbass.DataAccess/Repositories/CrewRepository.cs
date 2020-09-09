@@ -31,7 +31,8 @@ namespace Cloudbass.DataAccess.Repositories
 
         public async Task<Crew> DeleteCrewAsync(Crew crew, CancellationToken cancellationToken)
         {
-            var crewToDelete = await _db.Crews.FindAsync(crew.JobId, crew.EmployeeId);
+            //var crewToDelete = await _db.Crews.FindAsync(crew.JobId, crew.HasRoleId);
+            var crewToDelete = await _db.Crews.FirstOrDefaultAsync(x => x.HasRoleId == x.JobId).ConfigureAwait(false);
 
 
             if (crewToDelete == null)
@@ -56,10 +57,10 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
 
-        public async Task<Crew> GetCrewMemberByIdAsync(Guid jobId, Guid employeeId)
+        public async Task<Crew> GetCrewMemberByIdAsync(Guid jobId, Guid hasRoleId)
         {
             // return await _db.Crews.FindAsync(jobId, employeeId);
-            return await _db.Crews.SingleOrDefaultAsync(x => x.EmployeeId == x.JobId && x.JobId == x.EmployeeId);
+            return await _db.Crews.SingleOrDefaultAsync(x => x.HasRoleId == x.JobId && x.JobId == x.HasRoleId);
 
         }
 
@@ -67,9 +68,9 @@ namespace Cloudbass.DataAccess.Repositories
             IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
         {
             var list = await _db.Crews.AsQueryable()
-                .Where(x => ids.Contains(x.EmployeeId))
+                .Where(x => ids.Contains(x.HasRoleId))
                 .ToListAsync();
-            return list.ToDictionary(x => x.EmployeeId);
+            return list.ToDictionary(x => x.HasRoleId);
         }
     }
 }

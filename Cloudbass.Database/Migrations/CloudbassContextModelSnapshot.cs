@@ -64,12 +64,12 @@ namespace Cloudbass.Database.Migrations
                     b.Property<Guid>("JobId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("EmployeeId")
+                    b.Property<Guid>("HasRoleId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("JobId", "EmployeeId");
+                    b.HasKey("JobId", "HasRoleId");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex("HasRoleId");
 
                     b.ToTable("Crews");
                 });
@@ -104,14 +104,38 @@ namespace Cloudbass.Database.Migrations
                     b.Property<string>("PostNominals")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CountyId");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("Cloudbass.Database.Models.HasRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("Rate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("TotalDays")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("HasRoles");
                 });
 
             modelBuilder.Entity("Cloudbass.Database.Models.Job", b =>
@@ -167,6 +191,20 @@ namespace Cloudbass.Database.Migrations
                     b.HasIndex("ClientId");
 
                     b.ToTable("Jobs");
+                });
+
+            modelBuilder.Entity("Cloudbass.Database.Models.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Cloudbass.Database.Models.Schedule", b =>
@@ -245,14 +283,14 @@ namespace Cloudbass.Database.Migrations
 
             modelBuilder.Entity("Cloudbass.Database.Models.Crew", b =>
                 {
-                    b.HasOne("Cloudbass.Database.Models.Employee", "Employee")
-                        .WithMany("JobInvoledIn")
-                        .HasForeignKey("EmployeeId")
+                    b.HasOne("Cloudbass.Database.Models.HasRole", "HasRole")
+                        .WithMany("Crews")
+                        .HasForeignKey("HasRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Cloudbass.Database.Models.Job", "Job")
-                        .WithMany("CrewMembers")
+                        .WithMany("Crews")
                         .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -263,6 +301,21 @@ namespace Cloudbass.Database.Migrations
                     b.HasOne("Cloudbass.Database.Models.County", "County")
                         .WithMany("Employees")
                         .HasForeignKey("CountyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Cloudbass.Database.Models.HasRole", b =>
+                {
+                    b.HasOne("Cloudbass.Database.Models.Employee", "Employee")
+                        .WithMany("HasRoles")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cloudbass.Database.Models.Role", "Role")
+                        .WithMany("HasRoles")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

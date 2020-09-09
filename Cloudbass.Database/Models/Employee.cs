@@ -16,7 +16,7 @@ namespace Cloudbass.Database.Models
         public string Email { get; set; }
         public string FullName { get; set; }
 
-        public string Role { get; set; }
+
         public string PostNominals { get; set; }
 
         public string NextOfKin { get; set; }
@@ -32,10 +32,10 @@ namespace Cloudbass.Database.Models
 
         //[GraphQLIgnore]
         //public List<Crew> CrewMembers { get; } = new List<Crew>();
-        //public ICollection<HasRole> HasRoles { get; set; }
+        public ICollection<HasRole> HasRoles { get; set; }
 
-        [GraphQLIgnore]
-        public List<Crew> JobInvoledIn { get; } = new List<Crew>();
+        //[GraphQLIgnore]
+        //public List<Crew> JobInvoledIn { get; } = new List<Crew>();
         public ICollection<User> Users { get; set; }
 
         // public IReadOnlyList<Role> CanDo { get; set; }

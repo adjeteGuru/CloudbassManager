@@ -14,7 +14,7 @@ namespace Cloudbass.Database.Models
         //[GraphQLIgnore]
         //public List<HasRole> HasRoles { get; set; } = new List<HasRole>();
 
-        ////public ICollection<HasRole> HasRoles { get; set; }
+        public ICollection<HasRole> HasRoles { get; set; }
 
     }
 }

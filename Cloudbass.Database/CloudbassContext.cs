@@ -24,25 +24,43 @@ namespace Cloudbass.Database
         public DbSet<County> Counties { get; set; }
         public DbSet<Employee> Employees { get; set; }
 
-        //public DbSet<HasRole> HasRoles { get; set; }
+        public DbSet<HasRole> HasRoles { get; set; }
 
-        // public DbSet<Role> Roles { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         public DbSet<Crew> Crews { get; set; }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Crew>()
+        //        .HasKey(t => new { t.JobId, t.EmployeeId });
+
+        //    modelBuilder.Entity<Crew>()
+        //        .HasOne(pt => pt.Job)
+        //        .WithMany(p => p.CrewMembers)
+        //        .HasForeignKey(pt => pt.JobId);
+
+        //    modelBuilder.Entity<Crew>()
+        //        .HasOne(pt => pt.Employee)
+        //        .WithMany(t => t.JobInvoledIn)
+        //        .HasForeignKey(pt => pt.EmployeeId);
+        //}
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Crew>()
-                .HasKey(t => new { t.JobId, t.EmployeeId });
+                .HasKey(t => new { t.JobId, t.HasRoleId });
 
             modelBuilder.Entity<Crew>()
                 .HasOne(pt => pt.Job)
-                .WithMany(p => p.CrewMembers)
+                .WithMany(p => p.Crews)
+                //.WithMany(p => p.CrewMembers)
                 .HasForeignKey(pt => pt.JobId);
 
             modelBuilder.Entity<Crew>()
-                .HasOne(pt => pt.Employee)
-                .WithMany(t => t.JobInvoledIn)
-                .HasForeignKey(pt => pt.EmployeeId);
+                .HasOne(pt => pt.HasRole)
+                 .WithMany(t => t.Crews)
+                //.WithMany(t => t.JobInvoledIn)
+                .HasForeignKey(pt => pt.HasRoleId);
         }
 
         public override int SaveChanges()

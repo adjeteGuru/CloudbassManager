@@ -25,7 +25,7 @@ namespace CloudbassManager.Mutations
         {
             var addedCrew = new Crew
             {
-                EmployeeId = input.EmployeeId,
+                HasRoleId = input.HasRoleId,
                 JobId = input.JobId,
 
             };
@@ -46,7 +46,7 @@ namespace CloudbassManager.Mutations
            [Service] ITopicEventSender eventSender,
            DeleteCrewInput input, CancellationToken cancellationToken)
         {
-            var crewToDelete = await crewRepository.GetCrewMemberByIdAsync(input.EmployeeId, input.JobId);
+            var crewToDelete = await crewRepository.GetCrewMemberByIdAsync(input.HasRoleId, input.JobId);
             await crewRepository.DeleteCrewAsync(crewToDelete, cancellationToken).ConfigureAwait(false);
 
             await eventSender.SendAsync(crewToDelete, cancellationToken).ConfigureAwait(false);

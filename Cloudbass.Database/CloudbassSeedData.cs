@@ -11,7 +11,7 @@ namespace Cloudbass.Database
     {
         public static void EnsureSeedData(this CloudbassContext db)
         {
-            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any() || !db.Schedules.Any() || !db.Employees.Any() || !db.Counties.Any() /*|| !db.HasRoles.Any() || !db.Roles.Any()*/)
+            if (!db.Users.Any() || !db.Clients.Any() || !db.Jobs.Any() || !db.Schedules.Any() || !db.Employees.Any() || !db.Counties.Any() || !db.HasRoles.Any() || !db.Roles.Any())
             {
                 string salt = Guid.NewGuid().ToString("N");
 
@@ -19,7 +19,7 @@ namespace Cloudbass.Database
                 byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes("Cloudba55" + salt));
 
                 Guid employeeId = Guid.NewGuid();
-                Guid countyId = Guid.NewGuid();
+                //Guid countyId = Guid.NewGuid();
 
 
                 var counties = new List<County>
@@ -61,7 +61,12 @@ namespace Cloudbass.Database
                                            {
                                                FullName= "Ben Davies",
                                                Email ="ben.davies@cloudbass.com",
-                                                Role = "Sound Assistant",
+                                               Alergy = "Nut",
+                                               Bared = "BTCC",
+                                               NextOfKin ="DeSouza",
+                                               PostNominals = "MSc, BSc",
+
+
 
                                                Users= new List<User>
                                                {
@@ -85,23 +90,23 @@ namespace Cloudbass.Database
 
 
 
-                //var roles = new List<Role>
-                //{
-                //    new Role
-                //    {
-                //        Name = "Camera Operator"
+                var roles = new List<Role>
+                {
+                    new Role
+                    {
+                        Name = "Camera Operator"
 
-                //    },
+                    },
 
-                //    new Role
-                //    {
-                //        Name = "Rigger"
+                    new Role
+                    {
+                        Name = "Rigger"
 
-                //    }
-                //};
+                    }
+                };
 
-                //db.Roles.AddRange(roles);
-                //db.SaveChanges();
+                db.Roles.AddRange(roles);
+                db.SaveChanges();
 
 
 

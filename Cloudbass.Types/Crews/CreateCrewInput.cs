@@ -6,13 +6,13 @@ namespace Cloudbass.Types.Crews
 {
     public class CreateCrewInput
     {
-        public CreateCrewInput(Guid employeeId, Guid jobId)
+        public CreateCrewInput(Guid hasRoleId, Guid jobId)
         {
-            EmployeeId = employeeId;
+            HasRoleId = hasRoleId;
             JobId = jobId;
         }
 
-        public Guid EmployeeId { get; }
+        public Guid HasRoleId { get; }
         public Guid JobId { get; }
     }
 }

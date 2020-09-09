@@ -76,13 +76,13 @@ namespace CloudbassManager.Queries
         [UseFiltering]
         public Task<IEnumerable<County>> Counties => _countyRepository.GetAllCountyAsync();
 
-        //[UsePaging(SchemaType = typeof(RoleType))]
-        //[UseFiltering]
-        //public Task<IEnumerable<Role>> Roles => _roleRepository.GetAllRolesAsync();
+        [UsePaging(SchemaType = typeof(RoleType))]
+        [UseFiltering]
+        public Task<IEnumerable<Role>> Roles => _roleRepository.GetAllRolesAsync();
 
-        //[UsePaging(SchemaType = typeof(HasRoleType))]
-        //[UseFiltering]
-        //public Task<IEnumerable<HasRole>> HasRoles => _hasRoleRepository.GetAllHasRolesAsync();
+        [UsePaging(SchemaType = typeof(HasRoleType))]
+        [UseFiltering]
+        public Task<IEnumerable<HasRole>> HasRoles => _hasRoleRepository.GetAllHasRolesAsync();
 
         [UsePaging(SchemaType = typeof(CrewType))]
         [UseFiltering]

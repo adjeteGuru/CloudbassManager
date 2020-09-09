@@ -6,7 +6,7 @@ namespace Cloudbass.Types.Crews
 {
     public class DeleteCrewInput
     {
-        public Guid EmployeeId { get; set; }
+        public Guid HasRoleId { get; }
         public Guid JobId { get; set; }
     }
 }

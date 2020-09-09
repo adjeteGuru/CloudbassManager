@@ -10,7 +10,15 @@ namespace Cloudbass.Types.Users
            string name,
             string email,
             string password,
-            bool? active
+            bool? active,
+             string fullName,
+             Uri? photo,
+             string postNominals,
+            string nextOfKin,
+             string alergy,
+             string bared,
+             bool? isAdmin,
+             Guid countyId
 
             )
         {
@@ -18,16 +26,36 @@ namespace Cloudbass.Types.Users
             Email = email;
             Password = password;
             Active = active;
+            FullName = fullName;
+            Photo = photo;
+            PostNominals = postNominals;
+            NextOfKin = nextOfKin;
+            Alergy = alergy;
+            Bared = bared;
+            IsAdmin = isAdmin;
+            CountyId = countyId;
 
         }
 
         public string Name { get; }
 
+        public string FullName { get; }
+
+        //#nullable enable
+        public Uri? Photo { get; }
+
         public string Email { get; }
 
         public string Password { get; }
 
-        public bool? Active { get; set; }
+        public bool? Active { get; }
+        public bool? IsAdmin { get; set; }
+        public string PostNominals { get; }
+        public string NextOfKin { get; }
+        public string Bared { get; }
+        public string Alergy { get; }
+        public Guid CountyId { get; }
+
 
 
     }
