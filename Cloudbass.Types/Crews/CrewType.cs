@@ -34,16 +34,21 @@ namespace Cloudbass.Types.Crews
 
                     jobRepository.GetJobsByIdAsync);
 
-                return dataloader.LoadAsync(ctx.Parent<Job>().Id);
+                //return dataloader.LoadAsync(ctx.Parent<Job>().Id);
+                return dataloader.LoadAsync(ctx.Parent<Crew>().JobId);
             });
 
 
-            descriptor.Field("members").Type<NonNullType<HasRoleType>>().Resolver(ctx =>
+            descriptor.Field("member").Type<NonNullType<HasRoleType>>().Resolver(ctx =>
             {
                 var hasRoleRepository = ctx.Service<HasRoleRepository>();
+
                 IDataLoader dataloader = ctx.BatchDataLoader<Guid, HasRole>(
                     "EmployeeRoleById",
+
                     hasRoleRepository.GetHasRolesByIdAsync);
+
+                //return dataloader.LoadAsync(ctx.Parent<Crew>().HasRoleId);
 
                 return dataloader.LoadAsync(ctx.Parent<Crew>().HasRoleId);
             });
