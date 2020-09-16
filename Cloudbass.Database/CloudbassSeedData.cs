@@ -98,11 +98,11 @@ namespace Cloudbass.Database
 
                     },
 
-                    new Role
-                    {
-                        Name = "Rigger"
+                    //new Role
+                    //{
+                    //    Name = "Rigger"
 
-                    }
+                    //}
                 };
 
                 db.Roles.AddRange(roles);

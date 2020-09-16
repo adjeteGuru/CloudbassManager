@@ -52,23 +52,6 @@ namespace Cloudbass.Types
         }
     }
 
-    //public class JobResolver
-    //{
-    //    private readonly IJobRepository _jobRepository;
-    //    public JobResolver([Service] IJobRepository jobRepository)
-    //    {
-    //        _jobRepository = jobRepository;
-    //    }
 
-    //public IEnumerable<Job> GetJobs(Client client, IResolverContext ctx)
-    //{
-    //    return _jobRepository.GetAll().Where(x => x.ClientId == client.Id);
-    //}
-
-    //public IQueryable<Job> GetJob(Schedule schedule, IResolverContext ctx)
-    //{
-    //   /* yield*/ return _jobRepository.GetAll().Where(x => x.Id == schedule.JobId).FirstOrDefault();
-    //}
-    //}
 }
 

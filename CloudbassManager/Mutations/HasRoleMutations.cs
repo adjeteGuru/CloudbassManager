@@ -27,7 +27,7 @@ namespace CloudbassManager.Mutations
                 EmployeeId = input.EmployeeId,
                 RoleId = input.RoleId,
                 Rate = input.Rate,
-                TotalDays = input.TotalDays
+                //TotalDays = input.TotalDays
             };
 
             await hasRoleRepository.CreateHasRoleAsync(addedHasRole, cancellationToken).ConfigureAwait(false);

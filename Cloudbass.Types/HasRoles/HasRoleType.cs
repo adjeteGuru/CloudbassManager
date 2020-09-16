@@ -14,45 +14,6 @@ namespace Cloudbass.Types.HasRoles
 {
     public class HasRoleType : ObjectType<HasRole>
     {
-        //protected override void Configure(IObjectTypeDescriptor<HasRole> descriptor)
-        //{
-        //    base.Configure(descriptor);
-
-        // descriptor.Field(x => x.Id).Type<IdType>();
-        // descriptor.Field(x => x.Rate).Type<FloatType>();
-        // descriptor.Field(x => x.TotalDays).Type<FloatType>();
-
-        // //descriptor.Field(x => x.InvolvedIn)
-        // //    .Type<ListType<JobType>>();
-
-        // //invoke the resolver to allow data fetching with N+1 problems eradicated             
-        // descriptor.Field("employee").Type<NonNullType<EmployeeType>>().Resolver(ctx =>
-        // {
-        //     var employeeRepository = ctx.Service<EmployeeRepository>();
-        //     IDataLoader dataloader = ctx.BatchDataLoader<Guid, Employee>(
-        //         "EmployeeById",
-        //         employeeRepository.GetEmployeesByIdAsync);
-
-        //     return dataloader.LoadAsync(ctx.Parent<HasRole>().EmployeeId);
-        // });
-
-
-        // //role
-        // descriptor.Field("role").Type<NonNullType<RoleType>>().Resolver(ctx =>
-        //{
-        //    var roleRepository = ctx.Service<RoleRepository>();
-        //    IDataLoader dataLoader = ctx.BatchDataLoader<Guid, Role>(
-        //        "RoleById",
-        //        roleRepository.GetRolesByIdAsync);
-
-        //    return dataLoader.LoadAsync(ctx.Parent<HasRole>().RoleId);
-        //});
-
-        // descriptor.Ignore(t => t.EmployeeId);
-        // descriptor.Ignore(t => t.RoleId);
-        // descriptor.Ignore(t => t.Id);
-
-        //}
 
         //NEW
         protected override void Configure(IObjectTypeDescriptor<HasRole> descriptor)
@@ -61,25 +22,29 @@ namespace Cloudbass.Types.HasRoles
 
             descriptor.Field(x => x.Id).Type<IdType>();
             descriptor.Field(x => x.Rate).Type<FloatType>();
-            descriptor.Field(x => x.TotalDays).Type<FloatType>();
+            //descriptor.Field(x => x.TotalDays).Type<FloatType>();
 
             //invoke the resolver to eradicate data fetching N + 1 problems
             descriptor.Field("whoIsInvolved").Type<NonNullType<EmployeeType>>().Resolver(ctx =>
             {
                 var employeeRepository = ctx.Service<EmployeeRepository>();
 
+                //Idea behind BatchLoader is that it waits until all the Employee ids are queued
                 IDataLoader dataloader = ctx.BatchDataLoader<Guid, Employee>(
 
                     "GetEmployeeById",
 
+                    //Then it fires of the GetEmployeesByIdAsync method only when all the ids are collected
                     employeeRepository.GetEmployeesByIdAsync);
 
+                //Once the dictionary of Employees is returned with the passed in ids;
+                //an Employee that belongs to a particular HasRole is returned from the field
                 return dataloader.LoadAsync(ctx.Parent<HasRole>().EmployeeId);
             });
 
 
             //role
-            descriptor.Field("roleFulfill").Type<NonNullType<RoleType>>().Resolver(ctx =>
+            descriptor.Field("roleUndertaken").Type<NonNullType<RoleType>>().Resolver(ctx =>
             {
                 var roleRepository = ctx.Service<RoleRepository>();
 
