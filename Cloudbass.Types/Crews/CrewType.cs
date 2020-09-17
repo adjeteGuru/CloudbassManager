@@ -44,18 +44,18 @@ namespace Cloudbass.Types.Crews
                 var hasRoleRepository = ctx.Service<HasRoleRepository>();
 
                 IDataLoader dataloader = ctx.BatchDataLoader<Guid, HasRole>(
-                    "EmployeeRoleById",
+                    "GetEmployeeRoleById",
 
                     hasRoleRepository.GetHasRolesByIdAsync);
 
-                //return dataloader.LoadAsync(ctx.Parent<Crew>().HasRoleId);
+                //return dataloader.LoadAsync(ctx.Parent<HasRole>().Id);
 
                 return dataloader.LoadAsync(ctx.Parent<Crew>().HasRoleId);
             });
 
 
-            descriptor.Ignore(t => t.JobId);
-            descriptor.Ignore(t => t.HasRoleId);
+            //descriptor.Ignore(t => t.JobId);
+            //descriptor.Ignore(t => t.HasRoleId);
 
         }
         //END
