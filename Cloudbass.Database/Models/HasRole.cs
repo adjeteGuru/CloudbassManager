@@ -13,7 +13,7 @@ namespace Cloudbass.Database.Models
         public Employee Employee { get; set; }
         public Guid RoleId { get; set; }
         public Role Role { get; set; }
-        public Nullable<decimal> TotalDays { get; set; }
+        //public Nullable<decimal> TotalDays { get; set; }
         public Nullable<decimal> Rate { get; set; }
 
         public ICollection<Crew> Crews { get; set; }

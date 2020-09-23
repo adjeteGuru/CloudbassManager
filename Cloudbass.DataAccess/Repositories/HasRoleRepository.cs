@@ -2,6 +2,8 @@
 using Cloudbass.Database;
 using Cloudbass.Database.Models;
 using GreenDonut;
+using HotChocolate;
+using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -81,6 +83,31 @@ namespace Cloudbass.DataAccess.Repositories
             return filterEmployee.ToLookup(x => x.JobId);
         }
 
+        public async Task<HasRole> UpdateHasRoleAsync(HasRole hasRole, CancellationToken cancellationToken)
+        {
+            var hasRoleToUpdate = await _db.HasRoles.FindAsync(hasRole.Id);
+            var updatedHasRole = _db.HasRoles.Update(hasRoleToUpdate);
+            await _db.SaveChangesAsync();
+            return updatedHasRole.Entity;
+        }
 
+        public async Task<HasRole> DeleteHasRoleAsync(HasRole hasRole, CancellationToken cancellationToken)
+        {
+            var hasRoleToDelete = await _db.HasRoles.FirstOrDefaultAsync(x => x.Id == hasRole.Id);
+
+            if (hasRoleToDelete == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("HasRole not found in database.")
+                       .SetCode("HASROLE_NOT_FOUND")
+                       .Build());
+            }
+
+            _db.HasRoles.Remove(hasRoleToDelete);
+            await _db.SaveChangesAsync();
+
+            return hasRoleToDelete;
+        }
     }
 }

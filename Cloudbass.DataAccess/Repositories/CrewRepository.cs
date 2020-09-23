@@ -29,26 +29,26 @@ namespace Cloudbass.DataAccess.Repositories
             return addedCrew.Entity;
         }
 
-        public async Task<Crew> DeleteCrewAsync(Crew crew, CancellationToken cancellationToken)
-        {
-            //var crewToDelete = await _db.Crews.FindAsync(crew.JobId, crew.HasRoleId);
-            var crewToDelete = await _db.Crews.FirstOrDefaultAsync(x => x.HasRoleId == x.JobId).ConfigureAwait(false);
+        //public async Task<Crew> DeleteCrewAsync(Crew crew, CancellationToken cancellationToken)
+        //{
+        //    //var crewToDelete = await _db.Crews.FindAsync(crew.JobId, crew.HasRoleId);
+        //    var crewToDelete = await _db.Crews.FirstOrDefaultAsync(x => x.HasRoleId == x.JobId).ConfigureAwait(false);
 
 
-            if (crewToDelete == null)
-            {
-                throw new QueryException(
-                   ErrorBuilder.New()
-                       .SetMessage("Crew not found in database.")
-                       .SetCode("CREW_NOT_FOUND")
-                       .Build());
-            }
+        //    if (crewToDelete == null)
+        //    {
+        //        throw new QueryException(
+        //           ErrorBuilder.New()
+        //               .SetMessage("Crew not found in database.")
+        //               .SetCode("CREW_NOT_FOUND")
+        //               .Build());
+        //    }
 
-            _db.Crews.Remove(crewToDelete);
+        //    _db.Crews.Remove(crewToDelete);
 
-            await _db.SaveChangesAsync();
-            return crewToDelete;
-        }
+        //    await _db.SaveChangesAsync();
+        //    return crewToDelete;
+        //}
 
         public async Task<IEnumerable<Crew>> GetCrewAsync()
         {

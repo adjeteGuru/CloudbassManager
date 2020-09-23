@@ -11,5 +11,7 @@ namespace Cloudbass.Database.Models
         public HasRole HasRole { get; set; }
         public Guid JobId { get; set; }
         public Job Job { get; set; }
+
+        public Nullable<decimal> TotalDays { get; set; }
     }
 }

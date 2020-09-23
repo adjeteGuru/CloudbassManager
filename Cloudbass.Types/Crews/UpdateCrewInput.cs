@@ -6,13 +6,18 @@ namespace Cloudbass.Types.Crews
 {
     public class UpdateCrewInput
     {
-        public UpdateCrewInput(Guid hasRoleId, Guid jobId)
+
+        public UpdateCrewInput(Guid hasRoleId, Guid jobId, decimal totalDays)
         {
             HasRoleId = hasRoleId;
             JobId = jobId;
+            TotalDays = totalDays;
         }
 
         public Guid HasRoleId { get; }
         public Guid JobId { get; }
+        public decimal TotalDays { get; set; }
+
+
     }
 }

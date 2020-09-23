@@ -146,6 +146,8 @@ namespace CloudbassManager
                         .AddType<CountyMutations>()
                         .AddType<ScheduleMutations>()
                         .AddType<CrewMutations>()
+                        .AddType<HasRoleMutations>()
+                        .AddType<RoleMutations>()
 
                         .AddSubscriptionType(d => d.Name("Subscription"))
                         .AddType<UserSubscriptions>()

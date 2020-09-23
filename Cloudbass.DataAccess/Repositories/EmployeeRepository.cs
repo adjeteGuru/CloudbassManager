@@ -24,6 +24,21 @@ namespace Cloudbass.DataAccess.Repositories
         public async Task<Employee> CreateEmployeeAsync(
            Employee employee, CancellationToken cancellationToken)
         {
+            //check dupication of the new entry
+            var checkEmployee = await _db.Employees
+                .FirstOrDefaultAsync(x => x.FullName == employee.FullName);
+
+            if (checkEmployee != null)
+            {
+                // throw error if the new name is already taken
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage("Name \"" + employee.FullName + "\" is already taken")
+                        .SetCode("NAME_EXIST")
+                        .Build());
+            }
+
+
             var addedEmployee = await _db.Employees.AddAsync(employee)
                 .ConfigureAwait(false);
             await _db.SaveChangesAsync();

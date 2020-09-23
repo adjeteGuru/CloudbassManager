@@ -12,29 +12,29 @@ using System.Threading.Tasks;
 
 namespace CloudbassManager.Mutations
 {
-    //[ExtendObjectType(Name = "Mutation")]
+    [ExtendObjectType(Name = "Mutation")]
 
     //CREATE
-    //public class RoleMutations
-    //{
-    //    public async Task<CreateRolePayload> AddRoleAsync(
-    //         [Service] IRoleRepository roleRepository,
-    //        [Service] ITopicEventSender eventSender,
-    //        CreateRoleInput input,
-    //        CancellationToken cancellationToken)
-    //    {
-    //        var addedRole = new Role
-    //        {
-    //            Name = input.Name,
+    public class RoleMutations
+    {
+        public async Task<CreateRolePayload> AddRoleAsync(
+             [Service] IRoleRepository roleRepository,
+            [Service] ITopicEventSender eventSender,
+            CreateRoleInput input,
+            CancellationToken cancellationToken)
+        {
+            var addedRole = new Role
+            {
+                Name = input.Name,
 
-    //        };
+            };
 
-    //        await roleRepository.CreateRoleAsync(addedRole, cancellationToken).ConfigureAwait(false);
+            await roleRepository.CreateRoleAsync(addedRole, cancellationToken).ConfigureAwait(false);
 
-    //        await eventSender.SendAsync(addedRole, cancellationToken).ConfigureAwait(false);
+            await eventSender.SendAsync(addedRole, cancellationToken).ConfigureAwait(false);
 
-    //        return new CreateRolePayload(addedRole);
+            return new CreateRolePayload(addedRole);
 
-    //    }
-    //}
+        }
+    }
 }
