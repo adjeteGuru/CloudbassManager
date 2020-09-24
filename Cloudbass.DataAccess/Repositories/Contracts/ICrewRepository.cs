@@ -21,7 +21,7 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 
         Task<Crew> UpdateCrewAsync(Crew crew, CancellationToken cancellationToken);
 
-        //Task<Crew> DeleteCrewAsync(Crew crew, CancellationToken cancellationToken);
+        Task<Crew> DeleteCrewAsync(Crew crew, CancellationToken cancellationToken);
 
     }
 }

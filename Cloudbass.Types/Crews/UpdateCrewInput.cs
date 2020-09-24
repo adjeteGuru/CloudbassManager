@@ -7,7 +7,7 @@ namespace Cloudbass.Types.Crews
     public class UpdateCrewInput
     {
 
-        public UpdateCrewInput(Guid hasRoleId, Guid jobId, decimal totalDays)
+        public UpdateCrewInput(Guid hasRoleId, Guid jobId, decimal? totalDays)
         {
             HasRoleId = hasRoleId;
             JobId = jobId;
@@ -16,7 +16,7 @@ namespace Cloudbass.Types.Crews
 
         public Guid HasRoleId { get; }
         public Guid JobId { get; }
-        public decimal TotalDays { get; set; }
+        public decimal? TotalDays { get; set; }
 
 
     }

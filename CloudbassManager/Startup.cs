@@ -151,6 +151,13 @@ namespace CloudbassManager
 
                         .AddSubscriptionType(d => d.Name("Subscription"))
                         .AddType<UserSubscriptions>()
+                        .AddType<ClientSubscriptions>()
+                        .AddType<CountySubscriptions>()
+                        .AddType<CrewSubscriptions>()
+                        .AddType<EmployeeSubscriptions>()
+                        .AddType<RoleSubscriptions>()
+                        .AddType<ScheduleSubscriptions>()
+                        .AddType<HasRoleSubscriptions>()
                         .AddAuthorizeDirectiveType()
                         .Create(),
 

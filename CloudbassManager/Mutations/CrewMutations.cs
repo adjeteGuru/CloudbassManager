@@ -77,21 +77,21 @@ namespace CloudbassManager.Mutations
         }
 
 
-        ////delete
+        //delete
 
-        //public async Task<Crew> DeleteCrewAsync(
-        //   [Service] ICrewRepository crewRepository,
-        //   [Service] ITopicEventSender eventSender,
-        //   DeleteCrewInput input, CancellationToken cancellationToken)
-        //{
-        //    var crewToDelete = await crewRepository.GetCrewMemberByIdAsync(input.HasRoleId, input.JobId);
+        public async Task<Crew> DeleteCrewAsync(
+           [Service] ICrewRepository crewRepository,
+           [Service] ITopicEventSender eventSender,
+           DeleteCrewInput input, CancellationToken cancellationToken)
+        {
+            var crewToDelete = await crewRepository.GetCrewMemberByIdAsync(input.HasRoleId, input.JobId);
 
-        //    await crewRepository.DeleteCrewAsync(crewToDelete, cancellationToken).ConfigureAwait(false);
+            await crewRepository.DeleteCrewAsync(crewToDelete, cancellationToken).ConfigureAwait(false);
 
-        //    await eventSender.SendAsync(crewToDelete, cancellationToken).ConfigureAwait(false);
+            await eventSender.SendAsync(crewToDelete, cancellationToken).ConfigureAwait(false);
 
-        //    return crewToDelete;
+            return crewToDelete;
 
-        //}
+        }
     }
 }

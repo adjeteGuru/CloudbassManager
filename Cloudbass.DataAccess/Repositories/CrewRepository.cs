@@ -64,25 +64,25 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
 
-        ////delete function
-        //public async Task<Crew> DeleteCrewAsync(Crew crew, CancellationToken cancellationToken)
-        //{
-        //    var crewToDelete = await _db.Crews.FindAsync(crew.JobId, crew.HasRoleId);
+        //delete function
+        public async Task<Crew> DeleteCrewAsync(Crew crew, CancellationToken cancellationToken)
+        {
+            var crewToDelete = await _db.Crews.FindAsync(crew.JobId, crew.HasRoleId);
 
-        //    if (crewToDelete.HasRoleId == null || crewToDelete.JobId == null)
-        //    {
-        //        throw new QueryException(
-        //           ErrorBuilder.New()
-        //               .SetMessage("Crew not found in database.")
-        //               .SetCode("CREW_NOT_FOUND")
-        //               .Build());
-        //    }
+            if (crewToDelete.HasRoleId == null || crewToDelete.JobId == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("Crew not found in database.")
+                       .SetCode("CREW_NOT_FOUND")
+                       .Build());
+            }
 
-        //    _db.Crews.Remove(crewToDelete);
+            _db.Crews.Remove(crewToDelete);
 
-        //    await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
 
-        //    return crewToDelete;
-        //}
+            return crewToDelete;
+        }
     }
 }

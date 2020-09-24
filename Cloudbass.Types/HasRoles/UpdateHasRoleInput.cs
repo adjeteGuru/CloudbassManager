@@ -6,7 +6,7 @@ namespace Cloudbass.Types.HasRoles
 {
     public class UpdateHasRoleInput
     {
-        public UpdateHasRoleInput(Guid employeeId, Guid roleId, decimal rate)
+        public UpdateHasRoleInput(Guid employeeId, Guid roleId, decimal? rate)
         {
             EmployeeId = employeeId;
             RoleId = roleId;
@@ -14,9 +14,9 @@ namespace Cloudbass.Types.HasRoles
             //SetRate(rate);
         }
 
-        public Guid EmployeeId { get; set; }
-        public Guid RoleId { get; set; }
-        public decimal? Rate { get; set; }
+        public Guid EmployeeId { get; }
+        public Guid RoleId { get; }
+        public decimal? Rate { get; }
 
         //private decimal? rate;
 
