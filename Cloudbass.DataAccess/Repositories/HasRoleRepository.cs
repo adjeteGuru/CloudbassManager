@@ -27,8 +27,9 @@ namespace Cloudbass.DataAccess.Repositories
             var addedHasRole = await _db.HasRoles.AddAsync(hasRole)
 
                 .ConfigureAwait(false);
+
             await _db.SaveChangesAsync();
-            //_db.SaveChangesAsync();
+
             return addedHasRole.Entity;
         }
 
