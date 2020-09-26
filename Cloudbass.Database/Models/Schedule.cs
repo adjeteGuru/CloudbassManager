@@ -13,6 +13,7 @@ namespace Cloudbass.Database.Models
         public DateTime? StartDate { get; set; } = null;
         public DateTime? EndDate { get; set; } = null;
         public Guid JobId { get; set; }
+        public string JobRef { get; set; }
         public Status Status { get; set; }
         public Job Job { get; set; }
 

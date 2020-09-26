@@ -24,12 +24,27 @@ namespace Cloudbass.Types.Crews
 
 
 
+            ////invoke the resolver to eradicate data fetching N+1 problems             
+            //descriptor.Field("job").Type<NonNullType<JobType>>().Resolver(ctx =>
+            //{
+            //    var jobRepository = ctx.Service<JobRepository>();
+
+            //    IDataLoader dataloader = ctx.BatchDataLoader<Guid, Job>(
+            //        "GetJobsById",
+
+            //        jobRepository.GetJobsByIdAsync);
+
+            //    //return dataloader.LoadAsync(ctx.Parent<Job>().Id);
+            //    return dataloader.LoadAsync(ctx.Parent<Crew>().JobId);
+            //});
+
+
             //invoke the resolver to eradicate data fetching N+1 problems             
             descriptor.Field("job").Type<NonNullType<JobType>>().Resolver(ctx =>
             {
                 var jobRepository = ctx.Service<JobRepository>();
 
-                IDataLoader dataloader = ctx.BatchDataLoader<Guid, Job>(
+                IDataLoader dataloader = ctx.BatchDataLoader<string, Job>(
                     "GetJobsById",
 
                     jobRepository.GetJobsByIdAsync);

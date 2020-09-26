@@ -32,6 +32,7 @@ namespace Cloudbass.Types.Jobs
             descriptor.Field(x => x.Coordinator).Type<StringType>();
             descriptor.Field(x => x.Paid).Type<BooleanType>();
             descriptor.Field(x => x.CommercialLead).Type<StringType>();
+            descriptor.Field(x => x.JobRef).Type<StringType>();
             //descriptor.Field(x => x.CreatedBy).Type<StringType>();
             descriptor.Field(x => x.Status).Type<EnumType<Status>>();
 
@@ -52,21 +53,37 @@ namespace Cloudbass.Types.Jobs
 
 
             //schedule
+            //descriptor.Field("schedules")
+            //  .Argument("jobRef", a => a.Type<NonNullType<IdType>>())
+            //  .Type<NonNullType<ListType<NonNullType<ScheduleType>>>>()
+            //  .Resolver(ctx =>
+            //  {
+            //      var scheduleRepository = ctx.Service<ScheduleRepository>();
+
+            //      IDataLoader userDataLoader =
+            //          ctx.GroupDataLoader<Guid, Schedule>(
+            //              "GetSchedulesByJobId",
+
+            //              scheduleRepository.GetSchedulesByJobIdAsync);
+
+            //      return userDataLoader.LoadAsync(ctx.Argument<Guid>("jobRef"));
+            //  });
+
             descriptor.Field("schedules")
-              .Argument("jobId", a => a.Type<NonNullType<IdType>>())
-              .Type<NonNullType<ListType<NonNullType<ScheduleType>>>>()
-              .Resolver(ctx =>
-              {
-                  var scheduleRepository = ctx.Service<ScheduleRepository>();
+             .Argument("jobRef", a => a.Type<NonNullType<StringType>>())
+             .Type<NonNullType<ListType<NonNullType<ScheduleType>>>>()
+             .Resolver(ctx =>
+             {
+                 var scheduleRepository = ctx.Service<ScheduleRepository>();
 
-                  IDataLoader userDataLoader =
-                      ctx.GroupDataLoader<Guid, Schedule>(
-                          "GetSchedulesByJobId",
+                 IDataLoader userDataLoader =
+                     ctx.GroupDataLoader<string, Schedule>(
+                         "GetSchedulesByJobId",
 
-                          scheduleRepository.GetSchedulesByJobIdAsync);
+                         scheduleRepository.GetSchedulesByJobIdAsync);
 
-                  return userDataLoader.LoadAsync(ctx.Argument<Guid>("jobId"));
-              });
+                 return userDataLoader.LoadAsync(ctx.Argument<string>("jobRef"));
+             });
 
 
 

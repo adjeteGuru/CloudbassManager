@@ -56,14 +56,24 @@ namespace Cloudbass.DataAccess.Repositories
 
         // this GetJobsAsync method takes a list of job ids and returns a dictionary of jobs
         //with their ids as keys.
-        public async Task<IReadOnlyDictionary<Guid, Job>> GetJobsByIdAsync(
-            IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
+        //public async Task<IReadOnlyDictionary<Guid, Job>> GetJobsByIdAsync(
+        //    IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
+        //{
+        //    var list = await _db.Jobs.AsQueryable()
+        //        .Where(x => ids.Contains(x.Id))
+        //        .ToListAsync(cancellationToken)
+        //        .ConfigureAwait(false);
+        //    return list.ToDictionary(x => x.Id);
+        //}
+
+        public async Task<IReadOnlyDictionary<string, Job>> GetJobsByIdAsync(
+      IReadOnlyList<string> ids, CancellationToken cancellationToken)
         {
             var list = await _db.Jobs.AsQueryable()
-                .Where(x => ids.Contains(x.Id))
+                .Where(x => ids.Contains(x.JobRef))
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
-            return list.ToDictionary(x => x.Id);
+            return list.ToDictionary(x => x.JobRef);
         }
 
         public async Task<IEnumerable<Job>> GetJobByClientIdAsync(Guid clientId)

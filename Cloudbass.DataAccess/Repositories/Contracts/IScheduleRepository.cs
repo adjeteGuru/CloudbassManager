@@ -17,8 +17,11 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
            IReadOnlyList<Guid> ids,
            CancellationToken cancellationToken);
 
-        Task<ILookup<Guid, Schedule>> GetSchedulesByJobIdAsync(
-       IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken);
+        // Task<ILookup<Guid, Schedule>> GetSchedulesByJobIdAsync(
+        //IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken);
+
+        Task<ILookup<string, Schedule>> GetSchedulesByJobIdAsync(
+   IReadOnlyList<string> jobIds, CancellationToken cancellationToken);
 
         Task<Schedule> CreateScheduleAsync(Schedule schedule, CancellationToken cancellationToken);
         Task<Schedule> UpdateScheduleAsync(Schedule schedule, CancellationToken cancellationToken);
