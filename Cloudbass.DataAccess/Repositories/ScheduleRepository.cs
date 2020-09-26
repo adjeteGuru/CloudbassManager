@@ -87,15 +87,23 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
 
-        public async Task<ILookup<Guid, Schedule>> GetSchedulesByJobIdAsync(
-            IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken)
+        //public async Task<ILookup<Guid, Schedule>> GetSchedulesByJobIdAsync(
+        //    IReadOnlyList<Guid> jobIds, CancellationToken cancellationToken)
+        //{
+        //    var schedule = await _db.Schedules
+        //         .Where(x => jobIds.Contains(x.JobId))
+        //         .ToListAsync(cancellationToken);
+        //    return schedule.ToLookup(x => x.JobId);
+        //}
+
+        public async Task<ILookup<string, Schedule>> GetSchedulesByJobIdAsync(
+       IReadOnlyList<string> jobIds, CancellationToken cancellationToken)
         {
             var schedule = await _db.Schedules
-                 .Where(x => jobIds.Contains(x.JobId))
+                 .Where(x => jobIds.Contains(x.JobRef))
                  .ToListAsync(cancellationToken);
-            return schedule.ToLookup(x => x.JobId);
+            return schedule.ToLookup(x => x.JobRef);
         }
-
 
         public async Task<Schedule> UpdateScheduleAsync(Schedule schedule, CancellationToken cancellationToken)
         {

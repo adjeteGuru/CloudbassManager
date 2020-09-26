@@ -20,26 +20,41 @@ namespace Cloudbass.Types.Schedules
             descriptor.Field(x => x.Description).Type<StringType>();
             descriptor.Field(x => x.StartDate).Type<DateTimeType>();
             descriptor.Field(x => x.EndDate).Type<DateTimeType>();
+            descriptor.Field(x => x.JobRef).Type<StringType>();
             //descriptor.Field(x => x.Status).Type<StringType>();
             descriptor.Field(x => x.Status).Type<EnumType<Status>>();
 
             //this resolver allows to fetch Employee who has logged the job (with N+1 problems eradicated) 
+            //descriptor.Field("jobs").Type<NonNullType<JobType>>().Resolver(ctx =>
+
+            //{
+            //    var jobRepository = ctx.Service<JobRepository>();
+
+            //    IDataLoader dataloader = ctx.BatchDataLoader<Guid, Job>(
+            //        "GetJobById",
+
+            //        jobRepository.GetJobsByIdAsync);
+
+            //    return dataloader.LoadAsync(ctx.Parent<Schedule>().JobId);
+
+            //});
+
             descriptor.Field("jobs").Type<NonNullType<JobType>>().Resolver(ctx =>
 
             {
                 var jobRepository = ctx.Service<JobRepository>();
 
-                IDataLoader dataloader = ctx.BatchDataLoader<Guid, Job>(
+                IDataLoader dataloader = ctx.BatchDataLoader<string, Job>(
                     "GetJobById",
 
                     jobRepository.GetJobsByIdAsync);
 
-                return dataloader.LoadAsync(ctx.Parent<Schedule>().JobId);
+                return dataloader.LoadAsync(ctx.Parent<Schedule>().JobRef);
 
             });
 
 
-            //descriptor.Field<JobResolver>(x => x.GetJobOnSched(default, default));
+
 
 
 

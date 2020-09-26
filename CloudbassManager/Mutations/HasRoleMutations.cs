@@ -26,8 +26,9 @@ namespace CloudbassManager.Mutations
             {
                 EmployeeId = input.EmployeeId,
                 RoleId = input.RoleId,
-                Rate = input.Rate,
-                //TotalDays = input.TotalDays
+                Rate = input.Rate
+                //Rate = input.GetRate(),
+
             };
 
             await hasRoleRepository.CreateHasRoleAsync(addedHasRole, cancellationToken).ConfigureAwait(false);
@@ -38,7 +39,8 @@ namespace CloudbassManager.Mutations
 
         //UPDATE
 
-        public async Task<UpdateHasRolePayload> UpdateHasRoleAsync(UpdateHasRoleInput input, Guid id,
+        public async Task<UpdateHasRolePayload> UpdateHasRoleAsync(
+            UpdateHasRoleInput input, Guid id,
             [Service] IHasRoleRepository hasRoleRepository,
             [Service] ITopicEventSender eventSender,
             CancellationToken cancellationToken)
@@ -54,10 +56,16 @@ namespace CloudbassManager.Mutations
             }
 
 
-            if (input.Rate != null)
+            if (input.Rate.HasValue)
             {
                 hasRoleToUpdate.Rate = input.Rate;
             }
+
+
+            //if (input.GetRate().HasValue)
+            //{
+            //    hasRoleToUpdate.Rate = input.GetRate();
+            //}
 
             await hasRoleRepository.UpdateHasRoleAsync(hasRoleToUpdate, cancellationToken).ConfigureAwait(false);
 

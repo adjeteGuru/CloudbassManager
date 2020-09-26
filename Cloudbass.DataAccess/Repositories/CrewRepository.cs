@@ -29,26 +29,6 @@ namespace Cloudbass.DataAccess.Repositories
             return addedCrew.Entity;
         }
 
-        //public async Task<Crew> DeleteCrewAsync(Crew crew, CancellationToken cancellationToken)
-        //{
-        //    //var crewToDelete = await _db.Crews.FindAsync(crew.JobId, crew.HasRoleId);
-        //    var crewToDelete = await _db.Crews.FirstOrDefaultAsync(x => x.HasRoleId == x.JobId).ConfigureAwait(false);
-
-
-        //    if (crewToDelete == null)
-        //    {
-        //        throw new QueryException(
-        //           ErrorBuilder.New()
-        //               .SetMessage("Crew not found in database.")
-        //               .SetCode("CREW_NOT_FOUND")
-        //               .Build());
-        //    }
-
-        //    _db.Crews.Remove(crewToDelete);
-
-        //    await _db.SaveChangesAsync();
-        //    return crewToDelete;
-        //}
 
         public async Task<IEnumerable<Crew>> GetCrewAsync()
         {
@@ -59,8 +39,8 @@ namespace Cloudbass.DataAccess.Repositories
 
         public async Task<Crew> GetCrewMemberByIdAsync(Guid jobId, Guid hasRoleId)
         {
-            // return await _db.Crews.FindAsync(jobId, employeeId);
-            return await _db.Crews.SingleOrDefaultAsync(x => x.HasRoleId == x.JobId && x.JobId == x.HasRoleId);
+            // return 
+            return await _db.Crews.FindAsync(jobId, hasRoleId);
 
         }
 
@@ -71,6 +51,38 @@ namespace Cloudbass.DataAccess.Repositories
                 .Where(x => ids.Contains(x.HasRoleId))
                 .ToListAsync();
             return list.ToDictionary(x => x.HasRoleId);
+        }
+
+
+        //delete method
+        public async Task<Crew> UpdateCrewAsync(Crew crew, CancellationToken cancellationToken)
+        {
+            var crewToUpdate = await _db.Crews.FindAsync(crew.HasRoleId, crew.JobId);
+            var updatedCrew = _db.Crews.Update(crewToUpdate);
+            await _db.SaveChangesAsync();
+            return updatedCrew.Entity;
+        }
+
+
+        //delete function
+        public async Task<Crew> DeleteCrewAsync(Crew crew, CancellationToken cancellationToken)
+        {
+            var crewToDelete = await _db.Crews.FindAsync(crew.JobId, crew.HasRoleId);
+
+            if (crewToDelete.HasRoleId == null || crewToDelete.JobId == null)
+            {
+                throw new QueryException(
+                   ErrorBuilder.New()
+                       .SetMessage("Crew not found in database.")
+                       .SetCode("CREW_NOT_FOUND")
+                       .Build());
+            }
+
+            _db.Crews.Remove(crewToDelete);
+
+            await _db.SaveChangesAsync();
+
+            return crewToDelete;
         }
     }
 }

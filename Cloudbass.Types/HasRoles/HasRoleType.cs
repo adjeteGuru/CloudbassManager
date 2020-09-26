@@ -22,7 +22,7 @@ namespace Cloudbass.Types.HasRoles
 
             descriptor.Field(x => x.Id).Type<IdType>();
             descriptor.Field(x => x.Rate).Type<FloatType>();
-            //descriptor.Field(x => x.TotalDays).Type<FloatType>();
+
 
             //invoke the resolver to eradicate data fetching N + 1 problems
             descriptor.Field("whoIsInvolved").Type<NonNullType<EmployeeType>>().Resolver(ctx =>

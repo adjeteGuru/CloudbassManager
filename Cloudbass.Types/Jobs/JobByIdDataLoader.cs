@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace Cloudbass.Types.Jobs
 {
-    public class JobByIdDataLoader : BatchDataLoader<Guid, Job>
+    //public class JobByIdDataLoader : BatchDataLoader<Guid, Job>
+    public class JobByIdDataLoader : BatchDataLoader<string, Job>
     {
 
         private readonly IJobRepository _jobRepository;
@@ -20,8 +21,16 @@ namespace Cloudbass.Types.Jobs
         }
 
 
-        protected override async Task<IReadOnlyDictionary<Guid, Job>> LoadBatchAsync(
-        IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
+        //protected override async Task<IReadOnlyDictionary<Guid, Job>> LoadBatchAsync(
+        //IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
+        //{
+        //    return await _jobRepository
+        //    .GetJobsByIdAsync(keys, cancellationToken)
+        //    .ConfigureAwait(false);
+        //}
+
+        protected override async Task<IReadOnlyDictionary<string, Job>> LoadBatchAsync(
+       IReadOnlyList<string> keys, CancellationToken cancellationToken)
         {
             return await _jobRepository
             .GetJobsByIdAsync(keys, cancellationToken)

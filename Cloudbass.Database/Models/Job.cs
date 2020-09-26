@@ -13,6 +13,7 @@ namespace Cloudbass.Database.Models
     {
         //[BsonId]
         public Guid Id { get; set; }
+        public string JobRef { get; set; }
 
         public string Name { get; set; }
 
