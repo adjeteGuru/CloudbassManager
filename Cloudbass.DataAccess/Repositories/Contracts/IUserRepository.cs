@@ -10,14 +10,14 @@ namespace Cloudbass.DataAccess.Repositories.Contracts
 {
     public interface IUserRepository
     {
-        User Authenticate(string email, string password);
+        //User Authenticate(string email, string password);
 
         //this will return the collection of users as ienumerable
         Task<IEnumerable<User>> GetAllUsersAsync();
 
         Task<User> GetUserByIdAsync(Guid userId);
 
-        Task<User> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default);
+        Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default);
 
         Task<User> CreateUserAsync(User user);
 

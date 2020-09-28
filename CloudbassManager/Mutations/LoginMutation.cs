@@ -26,18 +26,15 @@ namespace CloudbassManager.Mutations
     {
 
         public async Task<LoginPayload> LoginAsync(
-          LoginInput input,/* Guid id,*/
-          [Service] CloudbassContext db,
+          LoginInput input,
+          //[Service] CloudbassContext db,
           [Service] EmployeeByEmailDataLoader employeeByEmail,
           [Service] ITopicEventSender eventSender,
           CancellationToken cancellationToken,
-            [Service]IUserRepository userRepository,
-            [Service] IEmployeeRepository employeeRepository
+            [Service]IUserRepository userRepository
+
             )
         {
-            //// Initialise the contact that is going to be returned
-            //User user = null;
-
 
             if (string.IsNullOrEmpty(input.Email))
             {
@@ -58,11 +55,16 @@ namespace CloudbassManager.Mutations
             }
 
 
+            //new
 
-            //create a variable for dupication name check
-            var user = await db.Users.FirstOrDefaultAsync(t => t.Email == input.Email);
+            var user = await userRepository.GetUserByEmailAsync(
+               input.Email, cancellationToken)
+               .ConfigureAwait(false);
 
-            //var user = await userRepository.GetUserByIdAsync(id).ConfigureAwait(false);
+
+            ////create a variable for dupication name check
+            //var user = await db.Users.FirstOrDefaultAsync(t => t.Email == input.Email);
+
 
 
             if (user == null)
@@ -73,6 +75,8 @@ namespace CloudbassManager.Mutations
                         .SetCode("INVALID_CREDENTIALS")
                         .Build());
             }
+
+
 
             using var sha = SHA512.Create();
             byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(input.Password + user.Salt));
@@ -86,12 +90,14 @@ namespace CloudbassManager.Mutations
                         .Build());
             }
 
-            //var employee = await userRepository.LoadAsync(input.Email, cancellationToken);
-            var employee = await employeeByEmail.LoadAsync(input.Email, cancellationToken);
+
+            var employee = await employeeByEmail.LoadAsync(
+                input.Email, cancellationToken)
+                 .ConfigureAwait(false);
 
             var identity = new ClaimsIdentity(new Claim[]
             {
-                //new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.Name, user.Email),
                 new Claim(ClaimTypes.Email, user.Email)
 
             });

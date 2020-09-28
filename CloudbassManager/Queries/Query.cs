@@ -9,6 +9,7 @@ using Cloudbass.Types.Jobs;
 using Cloudbass.Types.Roles;
 using Cloudbass.Types.Schedules;
 using Cloudbass.Types.Users;
+using HotChocolate;
 using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
@@ -16,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CloudbassManager.Queries
@@ -96,5 +98,26 @@ namespace CloudbassManager.Queries
         [UsePaging(SchemaType = typeof(UserType))]
         [UseFiltering]
         public Task<IEnumerable<User>> Users => _userRepository.GetAllUsersAsync();
+
+
+
+        [UseFiltering]
+        [UseSorting]
+        public Task<Employee> GetEmployeeByEmailAsync(
+                   string email,
+                   EmployeeByEmailDataLoader employeeByEmail,
+                   CancellationToken cancellationToken) =>
+            employeeByEmail.LoadAsync(email, cancellationToken);
+
+
+
+        [UseFiltering]
+        [UseSorting]
+        public Task<Employee> GetEmployeeByIdAsync(
+            Guid id,
+            EmployeeByIdDataLoader employeeById,
+            CancellationToken cancellationToken) =>
+            employeeById.LoadAsync(id, cancellationToken);
+
     }
 }

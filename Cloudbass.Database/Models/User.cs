@@ -27,7 +27,8 @@ namespace Cloudbass.Database.Models
         public Employee Employee { get; set; }
 
         [GraphQLNonNullType]
-        public string Name { get; set; }
+        //public string Name { get; set; }
+        public string PermisionLevel { get; set; }
 
 
         [GraphQLIgnore]

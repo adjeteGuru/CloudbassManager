@@ -19,7 +19,6 @@ namespace Cloudbass.Database
                 byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes("Cloudba55" + salt));
 
                 Guid employeeId = Guid.NewGuid();
-                //Guid countyId = Guid.NewGuid();
 
 
                 var counties = new List<County>
@@ -72,7 +71,7 @@ namespace Cloudbass.Database
                                                {
                                                    new User
                                                    {
-                                                       Name = "Admin",
+                                                       PermisionLevel = "Admin",
                                                        Password= Convert.ToBase64String(hash),
                                                        Salt = salt,
                                                    }

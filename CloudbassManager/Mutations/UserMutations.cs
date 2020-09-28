@@ -51,6 +51,7 @@ namespace CloudbassManager.Mutations
                 Email = input.Email,
                 FullName = input.FullName,
                 Photo = input.Photo
+
             };
 
 
@@ -58,7 +59,8 @@ namespace CloudbassManager.Mutations
             {
                 Id = Guid.NewGuid(),
                 EmployeeId = employeeId,
-                Name = input.Name,
+                //Name = input.Name,
+                PermisionLevel = input.PermisionLevel,
                 Email = input.Email,
                 Password = Convert.ToBase64String(hash),
                 Salt = salt
@@ -95,9 +97,9 @@ namespace CloudbassManager.Mutations
                         .Build());
             }
 
-            if (!string.IsNullOrWhiteSpace(input.Name))
+            if (!string.IsNullOrWhiteSpace(input.PermisionLevel))
             {
-                userToUpdate.Name = input.Name;
+                userToUpdate.PermisionLevel = input.PermisionLevel;
             }
 
             // update emai if it has changed

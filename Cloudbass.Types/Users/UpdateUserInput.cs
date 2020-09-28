@@ -7,7 +7,8 @@ namespace Cloudbass.Types.Users
     public class UpdateUserInput
     {
         public UpdateUserInput(
-           string name,
+            //string name,
+            string permisionLevel,
             string email,
             string password,
             bool? active,
@@ -22,7 +23,8 @@ namespace Cloudbass.Types.Users
 
             )
         {
-            Name = name;
+            //Name = name;
+            PermisionLevel = permisionLevel;
             Email = email;
             Password = password;
             Active = active;
@@ -37,7 +39,8 @@ namespace Cloudbass.Types.Users
 
         }
 
-        public string Name { get; }
+        //public string Name { get; }
+        public string PermisionLevel { get; }
 
         public string FullName { get; }
 

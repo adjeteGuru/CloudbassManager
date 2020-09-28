@@ -34,48 +34,48 @@ namespace Cloudbass.DataAccess.Repositories
 
         }
 
-        //implement function Authenticate set in the base class user interface
-        public User Authenticate(string email, string password)
-        {
-            //create a user instance and perform a quick search from db to match up exisiting name & pswd
-            var user = _db.Users.SingleOrDefault(x => x.Email == email && x.Password == password);
+        ////implement function Authenticate set in the base class user interface
+        //public User Authenticate(string email, string password)
+        //{
+        //    //create a user instance and perform a quick search from db to match up exisiting name & pswd
+        //    var user = _db.Users.SingleOrDefault(x => x.Email == email && x.Password == password);
 
-            // return null if user not found
+        //    // return null if user not found
 
-            if (user == null)
+        //    if (user == null)
 
-                return null;
+        //        return null;
 
-            // then create new user authentication will be successful so generate jwt token
+        //    // then create new user authentication will be successful so generate jwt token
 
-            var tokenHandler = new JwtSecurityTokenHandler();
+        //    var tokenHandler = new JwtSecurityTokenHandler();
 
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+        //    var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
 
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    //new Claim(ClaimTypes.Name, user.Id.ToString())
-                     new Claim(ClaimTypes.Email, user.Id.ToString())
-                }),
+        //    var tokenDescriptor = new SecurityTokenDescriptor
+        //    {
+        //        Subject = new ClaimsIdentity(new Claim[]
+        //        {
+        //            new Claim(ClaimTypes.Name, user.Id.ToString()),
+        //             new Claim(ClaimTypes.Email, user.Id.ToString())
+        //        }),
 
-                Expires = DateTime.UtcNow.AddDays(7),
+        //        Expires = DateTime.UtcNow.AddDays(7),
 
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
 
-            };
+        //    };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+        //    var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            //token was created as string..so I applied the int convert.
+        //    //token was created as string..so I applied the int convert.
 
-            user.TokenVersion = Convert.ToInt32(tokenHandler.WriteToken(token));
+        //    user.TokenVersion = Convert.ToInt32(tokenHandler.WriteToken(token));
 
-            return user.WithoutPassword();
+        //    return user.WithoutPassword();
 
-        }
+        //}
 
         //this implement the interface member Repository User GetAll()
         public async Task<IEnumerable<User>> GetAllUsersAsync()
@@ -84,12 +84,6 @@ namespace Cloudbass.DataAccess.Repositories
             return await _db.Users.AsNoTracking().ToListAsync();
         }
 
-        //this method use linq "SingleOrDefault" statement with lambda function to compile
-        // the correct id which is going to be use in the Query 
-        //public User GetById(Guid id)
-        //{
-        //    return _db.Users.FirstOrDefault(x => x.Id == id);
-        //}
 
         public async Task<User> GetUserByIdAsync(Guid userId)
         {
@@ -97,7 +91,7 @@ namespace Cloudbass.DataAccess.Repositories
         }
 
 
-        public async Task<User> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
+        public async Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
         {
             return await _db.Users.AsQueryable()
                 .FirstOrDefaultAsync(x => x.Email == email)

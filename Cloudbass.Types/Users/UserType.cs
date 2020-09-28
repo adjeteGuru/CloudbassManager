@@ -12,7 +12,7 @@ namespace Cloudbass.Types.Users
         {
             descriptor.Field(u => u.Id).Type<NonNullType<IdType>>();
 
-            descriptor.Field(u => u.Name).Type<NonNullType<StringType>>();
+            descriptor.Field(u => u.PermisionLevel).Type<NonNullType<StringType>>();
 
 
             descriptor.Field(u => u.Password).Ignore();
